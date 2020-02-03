@@ -10,7 +10,6 @@
 
 function LshMy(my) {
   my.p       = 2
-  my.start   = 5
   my.samples = 100
   my.poles   = 10
   my.trim    = 0.95
@@ -27,49 +26,45 @@ function Lsh(f,   data, my,a,n,poles,r,dims) {
   LshPoles(my,data,poles)
   LshDump(my,data,poles)
 }
-function LshDump(my,data,poles,       dims,r ) { 
-  print(cat(data.cols.names) "," LshNames(my)",%poles")
-  for(r in data.rows) {
-    LshCols(my,data,poles,r,dims)
-    print(cat(data.rows[r])","cat(dims,",")","cat(dims,"-")) }
-}
-function LshNames(my,   j,a) {
-  for(j=1; j<=my.poles; j++) a[j]= "%pole" j
-  return cat(a)
-}
-function Pole(i,zero,one,d) {
-  i.zero = zero
-  i.one = one
+function LshPole(i,a,b,d) {
+  i.a = a
+  i.b = b
   i.d =  d
 }
-function LshCols(my,d,poles,r,a,
-                  p,r0,r1,d0,d1) {
-  for(p in poles) {
-    r0  = poles[p].zero
-    r1  = poles[p].one
-    d0  = DataDist(d, d.rows[r], d.rows[r0], my.p)
-    d1  = DataDist(d, d.rows[r], d.rows[r1], my.p)
-    a[p]= d0 < d1 }
-}
 function LshPoles(my,d,poles,
-                  m,r0,r1,n,used) {
+                  s,r0,r1,n,used) {
   n=length(d.rows)
-  for(m=1; m<=my.samples; m++) {
+  for(s=1; s<=my.samples; s++) {
     r0 = int(n*rand())+1
     r1 = int(n*rand())+1
     if(r0 != r1)
       if(used[r0,r1]++ == 0)  
-         hassss(poles,length(poles)+1, 
-                "Pole",r0,r1,
-                DataDist(d, d.rows[r0], d.rows[r1], my.p)) }
-  LshPolesBest(my,poles)
-}
-function LshPolesBest(my,poles,  hi,lo,p) {
+         hassss(poles,s,"LshPole",r0,r1,LshDist(my,d,r0,r1)) }
   ksort(poles,"d")
+}
+function LshDist(my,d,r1,r2) {
+  return DataDist(d, d.rows[r1], d.rows[r2], my.p)
+}
+function LshDump(my,data,poles,       lo,hi,r ) { 
   hi = int(length(poles)*my.trim) 
   lo = hi - my.poles
   if (lo<1) lo = 1
-  for(p in poles) 
-    if ((p>= hi) || (p <= lo)) 
-      delete poles[p]  
+  print(cat(data.cols.names) "," LshNames(my,lo,hi)",%poles")
+  for(r in data.rows) 
+    LshDump1(my,data,poles,r,lo,hi)
+}
+function LshDump1(my,data,poles,r,lo,hi,      dims) {
+  LshCols(my,data,poles,r,lo,hi,dims)
+  print(cat(data.rows[r])","\
+        cat(dims,",")","\
+        cat(dims,":"))
+}
+function LshNames(my,lo,hi,   p,na,a) {
+  for(p=lo; p<=hi; p++) a[++na]= "%pole" na
+  return cat(a)
+}
+function LshCols(my,d,poles,r,lo,hi,dims,   p) {
+  for(p=lo;p<=hi;p++)
+    dims[p]= LshDist(my,d,r,poles[p].a) < \
+             LshDist(my,d,r,poles[p].b)
 }

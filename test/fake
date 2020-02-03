@@ -6,7 +6,9 @@ FAKE=make -f $(HERE)
 shell=bash
 PATH:=$(PATH):$(PWD)
 
-all :;@ pwd
+.PHONY: all
+all:
+	@$(foreach f,$(shell ls *.gold),  ../gold $f make;)
 
 nb1 :;@ cat ../data/weathered.csv | nb.gold
 
