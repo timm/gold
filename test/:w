@@ -1,0 +1,11 @@
+#!/usr/bin/env make -f
+
+all :;@ pwd
+
+nb1 :;@ cat ../data/weathered.csv | ./nb.gold
+
+lsh1 :;@ cat ../data/weathered.csv | ./lsh.gold
+lsh2 :;@ cat ../data/poi3-0.csv | ./lsh.gold
+
+dbScan1 :
+	$(MAKE) lsh1 | ./dbscan.gold
