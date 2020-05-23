@@ -3,7 +3,12 @@ language: C
 sudo: true
 
 install:
-  - sudo apt-get update && sudo apt-get upgrade gawk
+  - wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-$V.tar.gz
+  - tar xzf gawk.tar.gz
+  - cd gawk-5.1.0
+  - ./configure; sudo make; sudo make install
+  - cd ..
+
 
 script:
   - gawk -W version | head -1
