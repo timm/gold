@@ -1,5 +1,10 @@
+.PHONY: test help install mac inmac inbase headers
+
 help: ## help
 	@bash etc/help.sh $(MAKEFILE_LIST)
+
+test: ## run unit tests
+	@cd test; sh all.sh
 
 install: mac chmod ## install
 

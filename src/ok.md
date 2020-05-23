@@ -17,67 +17,35 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
     src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a></p><br clear=all>
 
 
+# Unit test functions
+
 ```awk
-@include "ok"
-@include "str"
-@include "num"
-
-BEGIN {  tests("numok","_like") }
-
-function _like(f,  m,n) {
-  print(1)
-  srand(1)
-  Num(n)
-  oo(n)
-  m=100
-  while(m--) inc(n,rand())
-  ok(f, NumLike(n,0.1) < NumLike(n,0.5))
+function rogues(    s) {
+  for(s in SYMTAB) 
+    if (s ~ /^[A-Z][a-z]/) 
+      print "#W> Global " s>"/dev/stderr"
+  for(s in SYMTAB) 
+    if (s ~ /^[_a-z]/    ) 
+      print "#W> Rogue: " s>"/dev/stderr"
 }
-```
 
-Walk up a list of random numbers, adding to a `Num`
-counter. Then walk down, removing numbers. Check
-that we get to the same mu and standard deviation
-both ways.
-
-```awk
-function _num(f,     n,a,i,mu,sd) {
-  print(2)
-  srand()
-  Num(n,"c","v")
-  List(a)
-  for(i=1;i<=100;i+= 1) 
-    push(a,rand()^2) 
-  for(i=1;i<=100;i+= 1) { 
-    add(n,a[i])
-    if((i%10)==0) { 
-     sd[i]=n.sd
-     mu[i]=n.mu }}
-  for(i=100;i>=1; i-= 1) {
-    if((i%10)==0) {
-      ok(f, n.mu, mu[i])
-      ok(f, n.sd, sd[i])  }
-    sub(n,a[i]) }
-}
-```
-
-Check that it we pull from some initial Gaussian distribution,
-we can sample it to find the same means and standard deviation.
-
-```awk
-function _any(f,     max,n,a,i,mu,sd,n0,n1,x) {
-  srand(1)
-  Num(n0)
-  Num(n1)
-  List(a)
-  max=300
-  for(i=1;i<=max;i+= 1) {
-    x=sqrt(-2*log(rand()))*cos(6.2831853*rand())
-    Num1(n0,x)
-    push(a, x) 
+function tests(what, all,   f,a,i,n) {
+  n = split(all,a,",")
+  print "\n#--- " what " -----------------------"
+  for(i=1;i<=n;i++) { 
+    f = a[i]; 
+    @f(f) 
   }
-  for(i=1;i<=max;i+= 1) Num1(n1, NumAny(n0))
-  ok(f,n0.sd, n1.sd,0.05)
-  ok(f, (n0.mu-n1.mu)< 0.05,1 )
+  rogues()
+}
+
+function near(got,want,     epsilon) {
+   epsilon = epsilon ? epsilon : 0.001
+   return abs(want - got)/(want + 10^-32)  < epsilon
+}
+
+function ok(f,yes,    msg) {
+  msg = yes ? "PASSED!" : "FAILED!"
+  print "#TEST:\t" msg "\t" f
 }
 ```

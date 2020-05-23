@@ -19,10 +19,11 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 
 ```awk
 @include "csv"
+@include "str"
 
 function main(  n,raw,f,s) {
-  raw= DOT DOT "/test/data/raw/" 
-  f  = raw "weather" DOT "csv"
+  raw= AU.up  "/test/data/raw/" 
+  f  = raw "weather" AU.dot "csv"
   while(csv(a,f))  {
     if(! n++) {oo(a) } else {print(length(a))}
   }
