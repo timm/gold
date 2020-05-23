@@ -16,8 +16,11 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 <a href="https://zenodo.org/badge/latestdoi/263210595"><img src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a>
 
 
-<button class="button button1"><a href="/gold/index">home</a></button>   <button class="button button2"><a href="/gold/INSTALL">install</a></button>   <button class="button button1"><a href="/gold/ABOUT">doc</a></button>   <button class="button button2"><a href="http://github.com/timm/gold/issues">discuss</a></button>    <button class="button button1"><a href="/gold/LICENSE">license</a></button> <br />
+```awk
 
-# hello
-
-hello
+function Row(i) {
+  Object(i)
+  i.is = "Row"
+  has(i,"cells")
+}
+```

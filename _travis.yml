@@ -1,0 +1,16 @@
+language: C
+
+sudo: true
+
+install:
+  - wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-$V.tar.gz
+  - tar xzf gawk.tar.gz
+  - cd gawk-5.1.0
+  - ./configure; make; make install
+  - cd ..
+
+script:
+  - ls
+  - cd test
+  - pwd
+  - bash all.sh

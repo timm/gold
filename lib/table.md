@@ -16,8 +16,43 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 <a href="https://zenodo.org/badge/latestdoi/263210595"><img src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a>
 
 
-<button class="button button1"><a href="/gold/index">home</a></button>   <button class="button button2"><a href="/gold/INSTALL">install</a></button>   <button class="button button1"><a href="/gold/ABOUT">doc</a></button>   <button class="button button2"><a href="http://github.com/timm/gold/issues">discuss</a></button>    <button class="button button1"><a href="/gold/LICENSE">license</a></button> <br />
+# `Table` = Tables of Data
 
-# hello
+```awk
+@include "col"
+@include "num"
+@include "sym"
+@include "row"
 
-hello
+function Table(i,headers) {
+  Object(i)
+  i.is = "Table"
+  has(i,"cols")
+  has(i,"rows")
+  for(j in headers)
+    TableCol(i,headers[j],j)
+}
+
+function TableCol(i,txt,pos,   s,k) {
+  ColSymbols(s)
+  k = txt ~ s.num ? "Num" : "Sym"
+  hasss(i.cols,,k, txt, pos)
+}
+
+function TableClone(i,j,rows,   c,tmp) {
+  for(c in i.cols) 
+    tmp[c] = i.cols[c].txt
+  Table(j, tmp)  
+  for(r in rows)
+    TableAdd(j,rows[r])
+}
+
+function TableAdd(i,row,      r,c) {
+  if ("cells" in row)
+    TableAdd(i, row.cells)
+  else {
+    r = has(i.rows,,"Row")
+    for(c in i.cols.all) 
+      i.rows[r].cells[c] = add(i.cols.all[c], row[c]) }
+}
+```

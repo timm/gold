@@ -16,8 +16,52 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 <a href="https://zenodo.org/badge/latestdoi/263210595"><img src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a>
 
 
-<button class="button button1"><a href="/gold/index">home</a></button>   <button class="button button2"><a href="/gold/INSTALL">install</a></button>   <button class="button button1"><a href="/gold/ABOUT">doc</a></button>   <button class="button button2"><a href="http://github.com/timm/gold/issues">discuss</a></button>    <button class="button button1"><a href="/gold/LICENSE">license</a></button> <br />
+# `Sym` = Symbolic Columns
 
-# hello
+```awk
+@include "col"
 
-hello
+function Sym(i,txt,pos) {
+  Col(i,txt,pos)
+  i.is ="Sym"
+  has(i,"all")
+  i.mode = i.ent=  ""
+  i.most = 0
+}  
+
+function SymVar(i) { return SymEnt(i) }
+function SymMid(i) { return i.mode }
+
+function SymInc(i,v) {
+  if (v=="?"p) return v
+  i.ent=""
+  i.n++
+  i.all[v]++
+  if (i.all[v] > i.most) {
+    i.most = i.all[v]
+    i.mode = v }
+  return v
+}
+
+function SymDec(i,v) {
+  if (v=="?"p) return v
+  i.ent=""
+  i.n++
+  i.all[v]++
+  if (i.all[v] > i.most) {
+    i.most = i.all[v]
+    i.mode = v }
+  return v
+}
+
+function SymEnt(i,    k,p,n) {
+  if (i.ent == "")
+    i.ent = 0
+    for (k in i.all) {
+      n = i.all[k]
+      if (n>0) {      
+        p = n / i.n
+        i.ent -= p*log(p)/log(2) }}
+  return i.ent
+}
+```

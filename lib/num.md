@@ -16,8 +16,52 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 <a href="https://zenodo.org/badge/latestdoi/263210595"><img src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a>
 
 
-<button class="button button1"><a href="/gold/index">home</a></button>   <button class="button button2"><a href="/gold/INSTALL">install</a></button>   <button class="button button1"><a href="/gold/ABOUT">doc</a></button>   <button class="button button2"><a href="http://github.com/timm/gold/issues">discuss</a></button>    <button class="button button1"><a href="/gold/LICENSE">license</a></button> <br />
+# `Num` = Numeric Columns
 
-# hello
+Class for keeping  summaries of numbers.
 
-hello
+```awk
+@include "col"
+
+function Num(i,txt,pos) {
+  Col(i,txt,pos)
+  i.is = "Num"
+  i.mu = i.m2 = i.sd = 0
+  i.lo = 10^32
+  i.hi = -1*i.lo
+  i.mu = i.m2 = i.sd = i.n = 0
+}
+
+function NumVar(i) { return i.sd }
+function NumMid(i) { return i.mu }
+
+function NumInc(i,v,    d) {
+  if (v=="?") return v
+  v += 0
+  i.n++
+  i.lo  = v < i.lo ? v : i.lo
+  i.hi  = v > i.hi ? v : i.hi
+  d     = v - i.mu
+  i.mu += d/i.n
+  i.m2 += d*(v - i.mu)
+  NumSd(i)
+  return v
+}
+function NumDec(i,v,    d)  {
+  if (v == "?") return v 
+  if (i.n == 0) return v 
+  i.n  -= 1
+  d     = v - i.mu
+  i.mu -= d/i.n
+  i.m2 -= d*(v- i.mu)
+  NumSd(i)
+  return v
+}
+
+function NumSd(i) {
+  if (i.m2 < 0) return 0
+  if (i.n < 2)  return 0
+  i.sd = (i.m2/(i.n - 1))^0.5
+  return i.sd
+}
+```

@@ -16,8 +16,49 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 <a href="https://zenodo.org/badge/latestdoi/263210595"><img src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a>
 
 
-<button class="button button1"><a href="/gold/index">home</a></button>   <button class="button button2"><a href="/gold/INSTALL">install</a></button>   <button class="button button1"><a href="/gold/ABOUT">doc</a></button>   <button class="button button2"><a href="http://github.com/timm/gold/issues">discuss</a></button>    <button class="button button1"><a href="/gold/LICENSE">license</a></button> <br />
+# `Col` = Columns
 
-# hello
+`Col`s are superclasses for column headers
 
-hello
+Columns have a default weight `w` 
+of 1 (but  if their name includes 
+`<`", then that weight is -1).
+
+```awk
+function Col(i,txt,pos) {
+  Object(i)
+  i.w   = txt ~ /</ ? -1 : 1
+  i.txt = txt
+  i.pos = pos
+  i.n   = 0
+  i.get = pos
+}
+```
+
+Apart from "`<`" there are various other magic symbols
+on columns names, For example, "`>`" means "maximize this
+and "`?` " means "skip this data"
+and "`!`" is a symbolic class and
+and "`!<>`" denote classes or goals.
+
+```awk
+function ColSymbols(a) { 
+  List(a)
+  # category = pattern
+  a["skip"]  = "\\?"
+  a["num"]   = "[<>\\$]"
+  a["goal"]  = "[<>!]"
+  a["less"]  = "<"
+}
+```
+
+Given a list of columns, we can extract the column indexes
+of particular categories of patterns  using `of`.
+
+```awk
+function of(a,b,  cat,  cats) {
+  ColSymbols(cats)
+  for(i in a)
+    if ( cats[cat] ~ a[i].txt ) b[i]
+}
+```

@@ -16,8 +16,36 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 <a href="https://zenodo.org/badge/latestdoi/263210595"><img src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a>
 
 
-<button class="button button1"><a href="/gold/index">home</a></button>   <button class="button button2"><a href="/gold/INSTALL">install</a></button>   <button class="button button1"><a href="/gold/ABOUT">doc</a></button>   <button class="button button2"><a href="http://github.com/timm/gold/issues">discuss</a></button>    <button class="button button1"><a href="/gold/LICENSE">license</a></button> <br />
+# CSV Reader
 
-# hello
+1. Defaults to standard input
+2. Complains on missing input
+3. At end of file, close this stream
+4. If file ends in ",", combine this line with the next.
+   Else....    
+5. Kill whitespace and comments
+6. Skip blank lines
+7. Split line on "," into the array "a"
 
-hello
+```awk   
+function csv(a,file,     b4, status,line) {
+  file   = file ? file : "-"           # [1]
+  status = getline < file
+  if (status<0) {   
+    print "#E> Missing file ["file"]"  # [2]
+    exit 1 
+  }
+  if (status==0) {
+    close(file) 
+    return 0
+  }                                    # [3]
+  line = b4 $0                         # [4]
+  gsub(/([ \t]*|#.*$)/, "", line)      # [5]
+  if (!line)       
+    return csv(a,file, line)           # [6]
+  if (line ~ /,$/) 
+    return csv(a,file, line)           # [4]
+  split(line, a, ",")                  # [7]
+  return 1
+}
+```
