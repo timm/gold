@@ -22,7 +22,7 @@ href="$r/CONTACT.md#top">contact</a> </p><p align=left>
 <img src="$b/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
-<a href="https://zenodo.org/badge/latestdoi/3841466"><img i
+<a href="https://zenodo.org/badge/latestdoi/3841466"><img 
    src="https://zenodo.org/badge/3841466.svg" alt="DOI"></a>
 </p><br clear=all>
 EOF
