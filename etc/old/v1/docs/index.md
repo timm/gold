@@ -13,8 +13,9 @@ href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a> </p><
 <img src="https://img.shields.io/badge/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
-<a href="https://zenodo.org/badge/latestdoi/263210595"><img 
-    src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a></p><br clear=all>
+<a href="https://zenodo.org/badge/latestdoi/237838701"><img i
+   src="https://zenodo.org/badge/237838701.svg" alt="DOI"></a>
+</p><br clear=all>
 
 
 <button class="button button1"><a href="/gold/index">home</a></button>   <button class="button button2"><a href="/gold/INSTALL">install</a></button>   <button class="button button1"><a href="/gold/ABOUT">doc</a></button>   <button class="button button2"><a href="http://github.com/timm/gold/issues">discuss</a></button>    <button class="button button1"><a href="/gold/LICENSE">license</a></button> <br />
