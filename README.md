@@ -17,21 +17,22 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
     src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a></p><br clear=all>
 
 
-# awk10/src
 
-We like GAWK. A lot. The simplicity and power of GAWK 
-often make it
-just the right tool for the job.  
+We like GAWK. A lot. The simplicity and power of GAWK often make
+it just the right tool for the job.
 
 <img align="right" src="http://murphymac.com/slib/images/your-first-shell-script.jpg">
-Off-the-shelf GAWK  is  a procedural
-language. 
-GOLD extends that language to support:
+
+Off-the-shelf GAWK  is  a procedural language.  GOLD extends that
+language to support:
 
 - objects and nested objects;
     - and simple access to nested structures;
 - polymorphism;
 - unit tests;
 - literate programming.
+
+A little GAWK goes a long way.  For example, one interesting feature
+of GOLD was just how easy it was to implement those extensions.
 
 Share and enjoy.
