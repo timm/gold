@@ -49,7 +49,6 @@ function NumSd(i) {
   i.sd = (i.m2/(i.n - 1))^0.5
   return i.sd
 }
-
 function NumLike(i,x,      var,denom,num) {
   if (x < (i.mu - 4*i.sd)) return 0
   if (x > (i.mu + 4*i.sd)) return 0

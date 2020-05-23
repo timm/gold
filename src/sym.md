@@ -48,7 +48,6 @@ function SymEnt(i,    k,p,n) {
         i.ent -= p*log(p)/log(2) }}
   return i.ent
 }
-
 ```
 
 Updating the numbers
@@ -64,8 +63,6 @@ function SymInc(i,v) {
     i.mode = v }
   return v
 }
-```
-```awk
 function SymDec(i,v) {
   if (v=="?"p) return v
   i.ent=""
