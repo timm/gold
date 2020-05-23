@@ -24,7 +24,9 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 <img align=left src="../etc/img/binoculars.png" width=100>
 The "binoculars" function.
 Recursively prints a list, indenting at each new level.
+
 If `prefix` is supplied, print that string first.
+
 List contents are sorted either numerically or
 alphanumerically, depending on the list's keys.
 
