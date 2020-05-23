@@ -59,7 +59,7 @@ function _num(f,     n,a,i,mu,sd) {
 }
 ```
 
-Check that it we pull from some initial gaussian distribution,
+Check that it we pull from some initial Gaussian distribution,
 we can sample it to find the same means and standard deviation.
 
 ```awk

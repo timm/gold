@@ -1,4 +1,10 @@
+function nN(   i,j) {
+  for(i=1;i<=10^6;i++) j+= i
+  return i
+}
 BEGIN {
-  split("a,b,v",a,",")
-  for(i in a) print a[i]
+  for(i=1;i<=10;i++) {
+      f= "n" "N"
+      @f()
+  }
 }

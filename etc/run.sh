@@ -33,7 +33,8 @@ for i in *.${Ext}; do
   #fi
 done
 
-j=$Bin/${1%.*}.awk
-
-shift
-AWKPATH="$AWKPATH:$Bin" gawk -f $Lib -f $j $*
+if [ -n "$1" ]; then
+  j=$Bin/${1%.*}.awk
+  shift
+  AWKPATH="$AWKPATH:$Bin" gawk -f $Lib -f $j $*
+fi
