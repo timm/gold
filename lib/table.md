@@ -14,7 +14,7 @@ href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a> </p><
 <a href="https://travis-ci.org/github/timm/gold"><img 
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 <a href="https://zenodo.org/badge/latestdoi/263210595"><img 
-    src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a></p>
+    src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a></p><br clear=all>
 
 
 # `Table` = Tables of Data
