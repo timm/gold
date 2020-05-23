@@ -10,7 +10,7 @@ cat <<EOF>/tmp/head$$
 <a name=top><img align=left width=300 src="$i">
 <h1 align=right><a href="$f/README.md#top">$t</a></h1> 
 <p align=right> <a
-href="$r/LICENSE">license</a> :: <a
+href="$r/LICENSE.md#top">license</a> :: <a
 href="$r/INSTALL.md#top">install</a> :: <a
 href="$r/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
 href="$u/issues">issues</a> :: <a
