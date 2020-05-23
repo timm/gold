@@ -21,7 +21,6 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 We like GAWK. A lot. The simplicity and power of GAWK often make
 it just the right tool for the job.
 
-<img align="right" src="http://murphymac.com/slib/images/your-first-shell-script.jpg">
 
 Off-the-shelf GAWK is a procedural language.  GOLD extends that
 language to support:
@@ -36,3 +35,5 @@ A little GAWK goes a long way.  For example, one interesting feature
 of GOLD was just how easy it was to implement those extensions.
 
 Share and enjoy.
+
+![](http://murphymac.com/slib/images/your-first-shell-script.jpg)
