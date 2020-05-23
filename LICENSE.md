@@ -18,9 +18,7 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 </p><br clear=all>
 
 
-# Copyright
-
-(c) 2020, Tim Menzies
+# Copyright (c) 2020, Tim Menzies
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
