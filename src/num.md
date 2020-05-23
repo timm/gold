@@ -22,6 +22,7 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 Class for keeping  summaries of numbers.
 
 ```awk
+
 @include "col"
 @include "poly"
 
@@ -75,4 +76,5 @@ function NumLike(i,x,      var,denom,num) {
   num   =  2.71828^(-(x-i.mu)^2/(2*var+0.0001))
   return num/(denom + 10^-64)
 }
+BEGIN {rogues() }
 ```

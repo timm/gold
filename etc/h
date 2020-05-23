@@ -14,7 +14,7 @@ alias gold="bash $Gold/etc/run.sh "
 alias tmux="$(which tmux) -f $Gold/etc/tmuxrc "
 
 ok() {
-  bash $Gold/etc/run.sh ${i}ok.md
+  bash $Gold/etc/run.sh ${1}ok.md
 }
 
 # --------------------------

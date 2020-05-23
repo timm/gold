@@ -33,16 +33,13 @@ function tests(what, all,   one,a,i,n) {
   rogues()
 }
 
-function ok(f,got,want,   epsilon,     near) {
-  if (typeof(want) == "number") {
-     epsilon = epsilon ? epsilon : 0.001
-     near = abs(want - got)/(want + 10^-32)  < epsilon
-  } else
-     near = want == got
-  if (near)
-    print "#TEST:\tPASSED\t" f "\t" want "\t" got
-  else
-    print "#TEST:\tFAILED\t" f "\t" want "\t" got
+function near(got,want,     epsilon) {
+   epsilon = epsilon ? epsilon : 0.001
+   return abs(want - got)/(want + 10^-32)  < epsilon
+}
+function ok(f,yes,    msg) {
+  msg = yes ? "PASSED" : "FAILED"
+  print "#TEST:\t" msg "\t" f
 }
 
 function zap(i,k)  { k = k?k:length(i)+1; i[k][0]; List(i[k]); return k } 

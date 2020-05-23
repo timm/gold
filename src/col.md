@@ -26,7 +26,7 @@ of 1 (but  if their name includes
 `<`", then that weight is -1).
 
 ```awk
-func Col(i,txt,pos) {
+function Col(i,txt,pos) {
   Object(i)
   i.w   = txt ~ /</ ? -1 : 1
   i.txt = txt
@@ -42,7 +42,7 @@ and "`!`" is a symbolic class and
 and "`!<>`" denote classes or goals.
 
 ```awk
-func ColSymbols(a) { 
+function ColSymbols(a) { 
   List(a)
   # category = pattern
   a["skip"]  = "\\?"
@@ -56,7 +56,7 @@ Given a list of columns, we can extract the column indexes
 of particular categories of patterns  using `of`.
 
 ```awk
-func of(a,b,  cat,  cats) {
+function of(a,b,  cat,  i,cats) {
   ColSymbols(cats)
   for(i in a)
     if ( cats[cat] ~ a[i].txt ) b[i]

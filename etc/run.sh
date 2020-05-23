@@ -28,13 +28,15 @@ gen() { gawk '
 
 for i in *.${Ext}; do
   j=$Bin/${i%.*}.awk
-  #if [ "$i" -nt "$j" ]; then 
-  cat $i | parse | gen > $j
-  #fi
+  if [ "$1" =  "--reset" -o "$i" -nt "$j" ]; then 
+    cat $i | parse | gen > $j
+  fi
 done
 
-if [ -n "$1" ]; then
-  j=$Bin/${1%.*}.awk
+if [ "$1" = "--reset" ]; then shift; fi
+
+j=$Bin/${1%.*}.awk
+if [ -f "$j" ]; then
   shift
   AWKPATH="$AWKPATH:$Bin" gawk -f $Lib -f $j $*
 fi

@@ -29,7 +29,7 @@ function _like(f,  m,n) {
   oo(n)
   m=100
   while(m--) inc(n,rand())
-  for(m=0;m<=1;m+=0.1)  print(m,NumLike(n,m))
+  ok(f, NumLike(n,0.1) < NumLike(n,0.5))
 }
 ```
 
