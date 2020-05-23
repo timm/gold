@@ -3,7 +3,7 @@ language: C
 sudo: true
 
 install:
-  - apt-get update && apt-get upgrade gawk
+  - sudo apt-get update && sudo apt-get upgrade gawk
 
 script:
   - gawk -W version | head -1
