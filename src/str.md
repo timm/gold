@@ -19,11 +19,10 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 
 # String functions
 
-## oo(lst,[prefix])
+## oo(lst, [prefix] )
 
-<img align=right src="../etc/img/binoculars.png" width=100>
+<img align=left src="../etc/img/binoculars.png" width=100>
 The "binoculars" function.
-
 Recursively prints a list, indenting at each new level.
 If `prefix` is supplied, print that string first.
 List contents are sorted either numerically or
