@@ -21,6 +21,8 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 # Unit test functions
 
 ```awk
+@include "maths"
+
 function rogues(    s) {
   for(s in SYMTAB) 
     if (s ~ /^[A-Z][a-z]/) 

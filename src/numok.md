@@ -22,17 +22,18 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 @include "ok"
 @include "str"
 @include "num"
+@include "poly"
+@include "list"
 
-BEGIN {  tests("numok","_like") }
+BEGIN {  tests("numok","_like,_num") }
 
 function _like(f,  m,n) {
-  print(1)
   srand(1)
   Num(n)
-  oo(n)
   m=100
   while(m--) inc(n,rand())
-  ok(f, NumLike(n,0.1) < NumLike(n,0.5))
+  ok(f 1, NumLike(n,0.1) < NumLike(n,0.5))
+  ok(f 2, NumLike(n,0.9) < NumLike(n,0.5))
 }
 ```
 
@@ -43,22 +44,21 @@ both ways.
 
 ```awk
 function _num(f,     n,a,i,mu,sd) {
-  print(2)
   srand()
   Num(n,"c","v")
   List(a)
   for(i=1;i<=100;i+= 1) 
     push(a,rand()^2) 
   for(i=1;i<=100;i+= 1) { 
-    add(n,a[i])
+    inc(n,a[i])
     if((i%10)==0) { 
-     sd[i]=n.sd
-     mu[i]=n.mu }}
+     sd[i] = n.sd
+     mu[i] = n.mu }}
   for(i=100;i>=1; i-= 1) {
     if((i%10)==0) {
-      ok(f, n.mu, mu[i])
-      ok(f, n.sd, sd[i])  }
-    sub(n,a[i]) }
+      ok(f "_mu" i, near(n.mu, mu[i]))
+      ok(f "_sd" i, near(n.sd, sd[i]))  }
+    dec(n,a[i]) }
 }
 ```
 

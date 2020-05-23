@@ -31,7 +31,7 @@ If `prefix` is supplied, print that string first.
 
 ```awk
 function oo(a,prefix,    indent,   i,txt) {
-  txt = indent ? pre : (prefix AU.dot)
+  txt = indent ? prefix : (prefix AU.dot)
   ooSortOrder(a)
   for(i in a)  {
     if (isarray(a[i]))   {
