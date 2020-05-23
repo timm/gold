@@ -7,22 +7,23 @@ i='https://i2.wp.com/auk-ward.co.uk/wp-content/uploads/2017/02/auk-ward-icon.png
 i="$r/etc/img/coins.png"
 
 cat <<EOF>/tmp/head$$
-<a name=top><img align=right width=300 src="$i">
-<h1><a href="$f/README.md#top">$t</a></h1> 
-<p> <a
+<a name=top><img align=left width=300 src="$i">
+<h1 align=right><a href="$f/README.md#top">$t</a></h1> 
+<p align=right> <a
 href="$r/LICENSE">license</a> :: <a
 href="$r/INSTALL.md#top">install</a> :: <a
 href="$r/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
 href="$u/issues">issues</a> :: <a
 href="$r/CITATION.md#top">cite</a> :: <a
-href="$r/CONTACT.md#top">contact</a> </p><p> 
+href="$r/CONTACT.md#top">contact</a> </p><p align=right> 
 <img src="$b/license-mit-red">   
 <img src="$b/language-gawk-orange">    
 <img src="$b/purpose-ai,se-blueviolet">
 <img src="$b/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
-<a href="https://zenodo.org/badge/latestdoi/263210595"><img src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a>
+<a href="https://zenodo.org/badge/latestdoi/263210595"><img 
+    src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a></p>
 EOF
 
 one() {
