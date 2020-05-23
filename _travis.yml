@@ -2,12 +2,8 @@ language: C
 
 sudo: true
 
-xinstall:
-  - wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-$V.tar.gz
-  - tar xzf gawk.tar.gz
-  - cd gawk-5.1.0
-  - ./configure; make; make install
-  - cd ..
+install:
+  - echo hello
 
 script:
   - ls
