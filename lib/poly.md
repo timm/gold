@@ -20,8 +20,8 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 # Polymorphism
 
 ```awk
-function inc(i,x, f) {f=i.is "Inc"; @f(x,f) }
-function dec(i,x, f) {f=i.is "Dec"; @f(x,f) }
+function inc(i,x, f) {f=i.is "Inc"; @f(i,x) }
+function dec(i,x, f) {f=i.is "Dec"; @f(i,x) }
 function mid(i,   f) {f=i.is "Mid"; @f(x) }
 function var(i,   f) {f=i.is "Var"; @f(x) }
 ```

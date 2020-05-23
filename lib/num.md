@@ -23,6 +23,7 @@ Class for keeping  summaries of numbers.
 
 ```awk
 @include "col"
+@include "poly"
 
 function Num(i,txt,pos) {
   Col(i,txt,pos)
@@ -64,5 +65,14 @@ function NumSd(i) {
   if (i.n < 2)  return 0
   i.sd = (i.m2/(i.n - 1))^0.5
   return i.sd
+}
+
+function NumLike(i,x,      var,denom,num) {
+  if (x < (i.mu - 4*i.sd)) return 0
+  if (x > (i.mu + 4*i.sd)) return 0
+  var   = i.sd^2
+  denom = (3.14159*2*var)^.5
+  num   =  2.71828^(-(x-i.mu)^2/(2*var+0.0001))
+  return num/(denom + 10^-64)
 }
 ```

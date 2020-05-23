@@ -10,7 +10,7 @@ alias gs="git status"
 alias gp="git commit -am 'saving'; git push; git status"
 
 alias vi="vim -u $Gold/etc/vimrc "
-alias run="bash $Gold/etc/run.sh "
+alias gold="bash $Gold/etc/run.sh "
 alias tmux="$(which tmux) -f $Gold/etc/tmuxrc "
 
 here() { cd $1; basename `pwd`; }

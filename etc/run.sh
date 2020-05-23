@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-AwkTen=${AwkTen:-`git rev-parse --show-toplevel`}
+Gold=${Gold:-`git rev-parse --show-toplevel`}
 
-Ext=${AwkTenExt:-md}
-Lib=${AwkTenLib:-$AwkTen/etc/lib.awk}
-Bin=${AwkTenBin:-$HOME/tmp/md/lib}
+Ext=${GoldExt:-md}
+Lib=${GoldLib:-$Gold/etc/lib.awk}
+Bin=${GoldBin:-$HOME/opt/gold}
 
 mkdir -p $Bin
 
@@ -28,12 +28,12 @@ gen() { gawk '
 
 for i in *.${Ext}; do
   j=$Bin/${i%.*}.awk
-  if [ "$i" -nt "$j" ]; then 
-    cat $i | parse | gen > $j
-  fi
+  #if [ "$i" -nt "$j" ]; then 
+  cat $i | parse | gen > $j
+  #fi
 done
 
 j=$Bin/${1%.*}.awk
 
 shift
-AWKPATH="$AWKPATH:$Bin" gawk -f $Lib -f $j
+AWKPATH="$AWKPATH:$Bin" gawk -f $Lib -f $j $*

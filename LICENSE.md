@@ -17,7 +17,7 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
     src="https://zenodo.org/badge/263210595.svg" alt="DOI"></a></p><br clear=all>
 
 
-## Copyright
+# Copyright
 
 (c) 2020, Tim Menzies
 

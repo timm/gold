@@ -32,7 +32,6 @@ function Col(i,txt,pos) {
   i.txt = txt
   i.pos = pos
   i.n   = 0
-  i.get = pos
 }
 ```
 

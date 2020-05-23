@@ -20,22 +20,27 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 ```awk
 @include "num"
 
-BEGIN {  tests("numok","_like,_num,_any") }
+BEGIN {  tests("numok","_like") }
 
 function _like(f,  m,n) {
+  print(1)
   srand(1)
   Num(n)
+  oo(n)
   m=100
-  while(m--) Num1(n,rand())
+  while(m--) inc(n,rand())
   for(m=0;m<=1;m+=0.1)  print(m,NumLike(n,m))
 }
+```
 
 Walk up a list of random numbers, adding to a `Num`
 counter. Then walk down, removing numbers. Check
 that we get to the same mu and standard deviation
 both ways.
 
+```awk
 function _num(f,     n,a,i,mu,sd) {
+  print(2)
   srand()
   Num(n,"c","v")
   List(a)
@@ -52,10 +57,12 @@ function _num(f,     n,a,i,mu,sd) {
       ok(f, n.sd, sd[i])  }
     sub(n,a[i]) }
 }
+```
 
 Check that it we pull from some initial gaussian distribution,
 we can sample it to find the same means and standard deviation.
 
+```awk
 function _any(f,     max,n,a,i,mu,sd,n0,n1,x) {
   srand(1)
   Num(n0)
