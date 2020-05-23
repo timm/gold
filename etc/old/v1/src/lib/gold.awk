@@ -21,8 +21,8 @@ function rogues(    s) {
     if (s ~ /^[A-Z][a-z]/) print "Global " s
     if (s ~ /^[_a-z]/    ) print "Rogue: " s }
 }
-function how(i,f,    k,m) {
- k = i["isa"]
+function method(i,f,    k,m) {
+ k = i["ISA"]
  while(k) {
    m=k f
    if (m in FUNCTAB) return m
@@ -33,5 +33,5 @@ function how(i,f,    k,m) {
 }
 function isa(i,this,parent) {
   i["ISA"] = this
-  GOLD["ISA"][this] = parent
+  GOLD["ISA"][this] = parent?parent: "Object"
 }

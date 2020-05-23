@@ -49,19 +49,19 @@ function LshDump(my,data,poles,       lo,hi,r ) {
   hi = int(length(poles)*my.trim) 
   lo = hi - my.poles
   if (lo<1) lo = 1
-  print(cat(data.cols.names) "," LshNames(my,lo,hi)",%poles")
+  print(cat(data.cols.names,",") "," LshNames(my,lo,hi)",%poles")
   for(r in data.rows) 
     LshDump1(my,data,poles,r,lo,hi)
 }
 function LshDump1(my,data,poles,r,lo,hi,      dims) {
   LshCols(my,data,poles,r,lo,hi,dims)
-  print(cat(data.rows[r])","\
+  print(cat(data.rows[r],",")","\
         cat(dims,",")","\
-        cat(dims,":"))
+        cat(dims,""))
 }
 function LshNames(my,lo,hi,   p,na,a) {
   for(p=lo; p<=hi; p++) a[++na]= "%pole" na
-  return cat(a)
+  return cat(a,",")
 }
 function LshCols(my,d,poles,r,lo,hi,dims,   p) {
   for(p=lo;p<=hi;p++)
