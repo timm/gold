@@ -20,34 +20,34 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 
 # String functions
 
-## oo(lst, [prefix] )
+## oo(array, [prefix] )
 
 <img align=left src="../etc/img/binoculars.png" width=100>
 The "binoculars" function. Used for looking at things (nested
-GAWK lists).
-Recursively prints a list, indenting at each new level.
+GAWK arrays).
+Recursively prints am array, indenting at each new level.
 
 If `prefix` is supplied, print that string first.
 
 ```awk
-function oo(x,p,    pre,   i,txt) {
-  txt = pre ? pre : (p AU.dot)
-  ooSortOrder(x)
-  for(i in x)  {
-    if (isarray(x[i]))   {
+function oo(a,prefix,    indent,   i,txt) {
+  txt = indent ? pre : (prefix AU.dot)
+  ooSortOrder(a)
+  for(i in a)  {
+    if (isarray(a[i]))   {
       print(txt i"" )
-      oo(x[i],"","|  " pre)
+      oo(a[i],"","|  " indent)
     } else
-      print(txt i (x[i]==""?"": ": " x[i])) }
+      print(txt i (a[i]==""?"": ": " a[i])) }
 }
 ```
 
-List contents are sorted either numerically or
-alphanumerically, depending on the list's keys.
+Array contents are displayed either numerically or
+alphanumerically, depending on the array's keys.
 
 ```awk
-function ooSortOrder(x, i) {
-  for (i in x)
+function ooSortOrder(a, i) {
+  for (i in a)
    return PROCINFO["sorted_in"] =\
      typeof(i+1)=="number" ? "@ind_num_asc" : "@ind_str_asc"
 }
