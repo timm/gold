@@ -30,10 +30,30 @@ function Sym(i,txt,pos) {
   i.mode = i.ent=  ""
   i.most = 0
 }  
+```
 
+Reports on the numbers
+
+```awk
 function SymVar(i) { return SymEnt(i) }
 function SymMid(i) { return i.mode }
 
+function SymEnt(i,    k,p,n) {
+  if (i.ent == "")
+    i.ent = 0
+    for (k in i.all) {
+      n = i.all[k]
+      if (n>0) {      
+        p = n / i.n
+        i.ent -= p*log(p)/log(2) }}
+  return i.ent
+}
+
+```
+
+Updating the numbers
+
+```awk
 function SymInc(i,v) {
   if (v=="?"p) return v
   i.ent=""
@@ -56,14 +76,4 @@ function SymDec(i,v) {
   return v
 }
 
-function SymEnt(i,    k,p,n) {
-  if (i.ent == "")
-    i.ent = 0
-    for (k in i.all) {
-      n = i.all[k]
-      if (n>0) {      
-        p = n / i.n
-        i.ent -= p*log(p)/log(2) }}
-  return i.ent
-}
 ```
