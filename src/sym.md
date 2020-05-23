@@ -64,7 +64,8 @@ function SymInc(i,v) {
     i.mode = v }
   return v
 }
-
+```
+```awk
 function SymDec(i,v) {
   if (v=="?"p) return v
   i.ent=""
