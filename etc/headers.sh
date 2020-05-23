@@ -9,7 +9,7 @@ i="$r/etc/img/coins.png"
 cat <<EOF>/tmp/head$$
 <a name=top><img align=right width=400 src="$i">
 <h1 align=left><a href="$f/README.md#top">$t</a></h1> 
-<p align=right> <a
+<p align=left> <a
 href="$r/LICENSE.md#top">license</a> :: <a
 href="$r/INSTALL.md#top">install</a> :: <a
 href="$r/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
