@@ -1,4 +1,4 @@
-<a name=top><img align=left width=300 src="https://github.com/timm/gold/blob/master/etc/img/coins.png">
+<a name=top><img align=left width=400 src="https://github.com/timm/gold/blob/master/etc/img/coins.png">
 <h1 align=right><a href="/README.md#top">GOLD: the Gawk object layer</a></h1> 
 <p align=right> <a
 href="https://github.com/timm/gold/blob/master/LICENSE.md#top">license</a> :: <a
