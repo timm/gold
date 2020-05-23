@@ -35,10 +35,34 @@ function Num(i,txt,pos) {
   i.hi = -1*i.lo
   i.mu = i.m2 = i.sd = i.n = 0
 }
+```
 
+Reports on the numbers
+
+```awk
 function NumVar(i) { return i.sd }
 function NumMid(i) { return i.mu }
 
+function NumSd(i) {
+  if (i.m2 < 0) return 0
+  if (i.n < 2)  return 0
+  i.sd = (i.m2/(i.n - 1))^0.5
+  return i.sd
+}
+
+function NumLike(i,x,      var,denom,num) {
+  if (x < (i.mu - 4*i.sd)) return 0
+  if (x > (i.mu + 4*i.sd)) return 0
+  var   = i.sd^2
+  denom = (3.14159*2*var)^.5
+  num   =  2.71828^(-(x-i.mu)^2/(2*var+0.0001))
+  return num/(denom + 10^-64)
+}
+```
+
+Updating the numbers
+
+```awk
 function NumInc(i,v,    d) {
   if (v=="?") return v
   v += 0
@@ -63,21 +87,5 @@ function NumDec(i,v,    d)  {
   i.m2 -= d*(v- i.mu)
   NumSd(i)
   return v
-}
-
-function NumSd(i) {
-  if (i.m2 < 0) return 0
-  if (i.n < 2)  return 0
-  i.sd = (i.m2/(i.n - 1))^0.5
-  return i.sd
-}
-
-function NumLike(i,x,      var,denom,num) {
-  if (x < (i.mu - 4*i.sd)) return 0
-  if (x > (i.mu + 4*i.sd)) return 0
-  var   = i.sd^2
-  denom = (3.14159*2*var)^.5
-  num   =  2.71828^(-(x-i.mu)^2/(2*var+0.0001))
-  return num/(denom + 10^-64)
 }
 ```
