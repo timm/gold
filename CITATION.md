@@ -13,8 +13,8 @@ href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a> </p><
 <img src="https://img.shields.io/badge/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
-<a href="https://zenodo.org/badge/latestdoi/237838701"><img i
-   src="https://zenodo.org/badge/237838701.svg" alt="DOI"></a>
+<a href="https://zenodo.org/badge/latestdoi/3841466"><img i
+   src="https://zenodo.org/badge/3841466.svg" alt="DOI"></a>
 </p><br clear=all>
 
 
@@ -37,4 +37,3 @@ https://doi.org/10.5281/zenodo.3841465.
   url          = {https://github.com/timm/gold}
 }
 ```
-
