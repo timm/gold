@@ -40,5 +40,5 @@ make gawk
 However you install, after installation:
 
 ```
-make install
+make test
 ```
