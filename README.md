@@ -23,7 +23,7 @@ it just the right tool for the job.
 
 <img align="right" src="http://murphymac.com/slib/images/your-first-shell-script.jpg">
 
-Off-the-shelf GAWK  is  a procedural language.  GOLD extends that
+Off-the-shelf GAWK is a procedural language.  GOLD extends that
 language to support:
 
 - objects and nested objects;
