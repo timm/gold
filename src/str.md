@@ -23,13 +23,11 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 ## oo(lst, [prefix] )
 
 <img align=left src="../etc/img/binoculars.png" width=100>
-The "binoculars" function.
+The "binoculars" function. Used for looking at things (nested
+GAWK lists).
 Recursively prints a list, indenting at each new level.
 
 If `prefix` is supplied, print that string first.
-
-List contents are sorted either numerically or
-alphanumerically, depending on the list's keys.
 
 ```awk
 function oo(x,p,    pre,   i,txt) {
@@ -42,6 +40,12 @@ function oo(x,p,    pre,   i,txt) {
     } else
       print(txt i (x[i]==""?"": ": " x[i])) }
 }
+```
+
+List contents are sorted either numerically or
+alphanumerically, depending on the list's keys.
+
+```awk
 function ooSortOrder(x, i) {
   for (i in x)
    return PROCINFO["sorted_in"] =\
