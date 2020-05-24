@@ -79,7 +79,6 @@ function csv(a,file,     b4, status,line) {
 ```
 Example usage:
 
-     ```awk
      function lintcsv(file,    a,n,want) 
         while(csv(record,file)) 
           if (++n == 1) 
@@ -87,4 +86,3 @@ Example usage:
           else if (want != length(record)) 
              print "#E> record " n " wrong number of fields" 
      }
-     ```
