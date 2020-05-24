@@ -31,8 +31,10 @@ function Table(i, headers,rows,c,r) {
   has(i, "cols")
   has(i, "rows")
   has(i, "headers")
-  for(c in headers) TableIncCol(i, headers[c],c)
-  for(r in rows)    TableInc(i, rows[r] )
+  has(i, "class")
+  # if headers or rows are empty, these 2 lines do nothing
+  for(c in headers) TableHeader(i, headers[c],c)
+  for(r in rows)    TableRow(i, rows[r] )
 }
 ```
 
@@ -40,29 +42,54 @@ Updates.
 
 ```awk
 function TableInc(i,row,      c) {
-  if (row.is == "Row")
-    TableAdd(i, row.cells)
-  else {
-    if (length(i.cols)) 
-      TableIncRow(i,row)
-    else
-      for(c in row) 
-        TableIncCol(i, row[c], c) }
-}
-function TableIncCol(i,txt,pos,   s,k) {
-  ColSymbols(s)
-  if (txt ~ s.skip) return
-  k = txt ~ s.num ? "Num" : "Sym"
-  hass(i.cols,,k, txt, pos)
-  if (txt ~ s.klass) i.klass=pos
-  i.headers[pos] = txt
-}
-function TableIncRow(i,row,  r,c) {
-  r = has(i.rows,,"Row")
-  for(c in i.cols.all)  
-    TableIncCell(i,row, i.rows[r].cells, i.cols.all[c])
-}
-function TableInCell(i,row, cells, col)
-  cells[col.pos] = add(col, row[col.pos]) 
+  if (row.is == "Row") # for rows, use on cell values
+    return TableAdd(i, row.cells)
+  if (length(i.cols))   # if we have the header row
+    TableRow(i,row)     # then add a data row
+  else                  # else
+    for(c in row)       # add the header row
+      TableHeader(i, row[c], c) 
 }
 ```
+This variant updates not only the table,
+but also separate tables for each class or each row.
+
+```awk
+function TableIncs(i,row,     k) {
+  if (row.is == "Row") # for rows, use on cell values
+    return TableIncs(i, row.cells)
+ if (length(i.cols)) {  # we are reading data
+   k = row[i.theClass]  # then update the "k" class
+   if ( ! (k in i.class) )
+     has(i.class,k,"Table",i.headers)
+   TableInc(i.class[k],row) 
+ } 
+ TableInc(i,row) # don't forget to update the master class
+}
+```
+
+Low-level workers. Just update the header of a single column,
+or a single row.
+
+```awk
+function TableHeader(i,txt,pos) {
+  i.headers[pos] = txt
+  if (txt ~ AU.ch.klass) i.theClass=pos
+  hass(i.cols,
+       "",
+       txt ~ AU.ch.numeric ? "Num" : "Sym"
+       txt, 
+       pos)
+}
+function TableRow(i,row,  r,c) {
+  r = has(i.rows,"","Row")
+  for(c in i.cols.all)  
+    i.rows[r].cells[c] = add(i.cols.all[c], row[c]) 
+}
+```
+Note that we update `cells[c]` with whatever is
+returned after `add`ing the value to the column header. 
+With this approach,
+column headers can pre-process by
+(e.g.) coercing strings to numbers
+(in `Num` columns).

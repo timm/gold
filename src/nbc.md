@@ -34,25 +34,22 @@ function var(i,   f) {f=i.is "Var"; @f(x) }
 
 ```awk
 @include "poly.md"
-@include "num.md"
-@include "sym.md"
+@include "table.md"
 @include "abcd.md"
 @include "csv.md"
 
-function Nbc(f,       t,abcd,,a,t,rpw,n,n.ts) {
+function Nbc(f,       t,abcd,n) {
   Table(t)
   Abcd(abcd)
-  n = -1
-  while(csv(f,a)) {
-    n++
-    inc(t,row)
-    if (n==0) continue
-    k = row[t.klass]
-    NbcKlass(k,t,ts)
-    inc(ts[k], row) 
-}}
+  while(csv(f,row)) {
+    if (n++ > 20) 
+      inc(abcd, row[t.theClass], NbcGuess(t,row))
+    TableIncs(t,row)
+ }
+ show(abcd)
+}
 
-function NbcKlass(k,t,ts) {
+function NbcGuess(t,row) {
   if (!(k in ts))
     hass(ts,k,"Table",t.headers)
 }
