@@ -1,5 +1,5 @@
 <a name=top><img align=right width=400 src="https://github.com/timm/gold/blob/master/etc/img/coins.png">
-<h1 align=left><a href="/README.md#top"></a></h1> 
+<h1 align=left><a href="/README.md#top">GOLD: the GAWK object layer</a></h1> 
 <p align=left> <a
 href="https://github.com/timm/gold/blob/master/LICENSE.md#top">license</a> :: <a
 href="https://github.com/timm/gold/blob/master/INSTALL.md#top">install</a> :: <a
