@@ -8,13 +8,23 @@ i="$r/etc/img/coins.png"
 
 cat <<EOF>/tmp/head$$
 <a name=top><p align=center><a
+href="$r/doc/01tour.md#top">tour</a> :: <a
+href="$u/doc/02doco.md#top">doco</a> :: <a
+href="$r/doc/03testing.md#top">testing</a> :: <a
+href="$r/doc/04functions.md#top">functions</a> :: <a
+href="$r/doc/05classes.md#top">classes</a> :: <a
+href="$r/doc/06methods.md#top">methods</a> :: <a
+href="$r/doc/07tips.md#top">tips</a> :: <a
+href="$r/doc/08examples.md#top">egs</a> <br>
+<img src="$i"></p>
+<a
 href="$r/LICENSE.md#top">license</a> :: <a
 href="$r/INSTALL.md#top">install</a> :: <a
 href="$r/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
 href="$u/issues">issues</a> :: <a
 href="$r/CITATION.md#top">cite</a> :: <a
-href="$r/CONTACT.md#top">contact</a><br>
-<img src="$i"></p>
+href="$r/CONTACT.md#top">contact</a>
+
 <h1 align=center><a href="$f/README.md#top">$t</a></h1>
 <p align=center><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
@@ -24,15 +34,9 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="$b/purpose-ai,se-blueviolet">
 <img src="$b/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
-src="https://travis-ci.org/timm/gold.svg?branch=master"></a> <br> <a
-href="$r/doc/01tour.md#top">tour</a> :: <a
-href="$u/doc/02doco.md#top">doco</a> :: <a
-href="$r/doc/03testing.md#top">testing</a> :: <a
-href="$r/doc/04functions.md#top">functions</a> :: <a
-href="$r/doc/05classes.md#top">classes</a> :: <a
-href="$r/doc/06methods.md#top">methods</a> :: <a
-href="$r/doc/07tips.md#top">tips</a> :: <a
-href="$r/doc/08examples.md#top">egs</a></p>
+src="https://travis-ci.org/timm/gold.svg?branch=master"></a> <br>
+
+/p>
 EOF
 
 one() {
