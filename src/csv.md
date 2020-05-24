@@ -41,19 +41,8 @@ and new lines and white space to ignore, and the last record is split over multi
         sarah,
                14,  101
 
-
 As shown by this code, explaining how all that is handled actually takes more
 space than the code itself.
-
-
-1. Defaults to standard input
-2. Complains on missing input
-3. At end of file, close this stream
-4. If line ends in ",", combine this line with the next.
-   Else....    
-5. Kill whitespace and comments
-6. Skip blank lines
-7. Split line on "," into the array "a"
 
 ```awk   
 function csv(a,file,     b4, status,line) {
@@ -77,6 +66,17 @@ function csv(a,file,     b4, status,line) {
   return 1
 }
 ```
+Notes:
+
+1. Defaults to standard input
+2. Complains on missing input
+3. At end of file, close this stream
+4. If line ends in ",", combine this line with the next.
+   Else....    
+5. Kill whitespace and comments
+6. Skip blank lines
+7. Split line on "," into the array "a"
+
 Example usage:
 
      function lintcsv(file,    a,n,want) 
