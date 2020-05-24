@@ -1,6 +1,5 @@
 <a name=top><p align=center><img src="https://github.com/timm/gold/blob/master/etc/img/coins.png"></p>
 <h1 align=center><a href="/README.md#top">GOLD: the GAWK object layer</a></h1>
-
 <p align=center> <a
 href="https://github.com/timm/gold/blob/master/doc/01tour.md#top">tour</a> :: <a
 href="https://github.com/timm/gold/doc/02doco.md#top">doco</a> :: <a
@@ -25,10 +24,6 @@ href="https://github.com/timm/gold/issues">issues</a> :: <a
 href="https://github.com/timm/gold/blob/master/CITATION.md#top">cite</a> :: <a
 href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a></p>
 
-
-</p><br clear=all>
-
-</p><br clear=all>
 
 ## Contributor Covenant Code of Conduct
 

@@ -9,7 +9,6 @@ i="$r/etc/img/coins.png"
 cat <<EOF>/tmp/head$$
 <a name=top><p align=center><img src="$i"></p>
 <h1 align=center><a href="$f/README.md#top">$t</a></h1>
-
 <p align=center> <a
 href="$r/doc/01tour.md#top">tour</a> :: <a
 href="$u/doc/02doco.md#top">doco</a> :: <a
