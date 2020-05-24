@@ -17,27 +17,15 @@ href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a> </p><
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 
 
-# Example
-
-Define polymorphic verbs
-
-```awk
-function add(i,x, f) {f=i.is "Add"; @f(x,f) }
-function mid(i,   f) {f=i.is "Mid"; @f(x) }
-function var(i,   f) {f=i.is "Var"; @f(x) }
-```
-
 ## Table
-
-## Columns
-### Column Ulities
-
 ```awk
 @include "poly.md"
 @include "table.md"
 @include "abcd.md"
 @include "csv.md"
+```
 
+```awk
 function Nbc(f,       t,abcd,n) {
   Table(t)
   Abcd(abcd)

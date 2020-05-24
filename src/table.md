@@ -51,8 +51,10 @@ function TableInc(i,row,      c) {
       TableHeader(i, row[c], c) 
 }
 ```
-This variant updates not only the table,
-but also separate tables for each class or each row.
+`TableIncs`
+keeps  separate statistics for each
+class of row within the data (as well as updating
+stats on all the data). 
 
 ```awk
 function TableIncs(i,row,     k) {
@@ -64,7 +66,7 @@ function TableIncs(i,row,     k) {
      has(i.class,k,"Table",i.headers)
    TableInc(i.class[k],row) 
  } 
- TableInc(i,row) # don't forget to update the master class
+ TableInc(i,row) # update statistics on all the data
 }
 ```
 
@@ -87,9 +89,10 @@ function TableRow(i,row,  r,c) {
     i.rows[r].cells[c] = add(i.cols.all[c], row[c]) 
 }
 ```
-Note that we update `cells[c]` with whatever is
+Note one trick in `TableRow`:
+we update `cells[c]` with whatever is
 returned after `add`ing the value to the column header. 
 With this approach,
-column headers can pre-process by
+column headers can be used to pre-process data to
 (e.g.) coercing strings to numbers
 (in `Num` columns).
