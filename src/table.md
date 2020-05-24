@@ -99,6 +99,7 @@ Note one trick in `TableRow`:
 we update `cells[c]` with whatever is
 returned after `add`ing the value to the column header. 
 With this approach,
-column headers can be used to pre-process data to
+column headers can not only summarize they data, they can also
+be used to pre-process data to
 (e.g.) coercing strings to numbers
 (in `Num` columns).
