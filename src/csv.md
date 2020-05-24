@@ -79,10 +79,10 @@ Notes:
 
 Example usage:
 
-     function lintcsv(file,    a,n,want) 
-        while(csv(record,file)) 
+     function lintcsv(file,    row,n,want) 
+        while(csv(row,file)) 
           if (++n == 1) 
-             want = length(record)
-          else if (want != length(record)) 
-             print "#E> record " n " wrong number of fields" 
+             want = length(row)
+          else if (want != length(row)) 
+             print "#E> row " n " wrong number of fields" 
      }
