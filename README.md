@@ -36,4 +36,6 @@ of GOLD was just how easy it was to implement those extensions.
 
 Share and enjoy.
 
-<img align=center width=700 src-"https://zertios.com/images/jobs-noc-ninja.png">
+<img src-"https://zertios.com/images/jobs-noc-ninja.png" align=center width=700>
+
+
