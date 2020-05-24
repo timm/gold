@@ -17,10 +17,7 @@ href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a> </p><
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 </p><br clear=all>
 
-
-</p><br clear=all>
-
-</p><br clear=all>
+# Welcome to GOLD
 
 We like GAWK. A lot. The simplicity and power of GAWK often make
 it just the right tool for the job.
