@@ -83,7 +83,7 @@ Example usage:
      function lintcsv(file,    row,n,want) 
         while(csv(row,file)) 
           if (++n == 1) 
-             want = length(row)
+            want = length(row) # row1 defines what we `want`
           else if (want != length(row)) 
-             print "#E> row " n " wrong number of fields" 
+            print "#E> row " n " wrong number of fields" 
      }
