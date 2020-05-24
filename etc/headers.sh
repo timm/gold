@@ -15,9 +15,9 @@ href="$r/INSTALL.md#top">install</a> :: <a
 href="$r/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
 href="$u/issues">issues</a> :: <a
 href="$r/CITATION.md#top">cite</a> :: <a
-href="$r/CONTACT.md#top">contact</a> </p><p align=left> 
-<a href="https://doi.org/10.5281/zenodo.3841466"><img 
-   src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
+href="$r/CONTACT.md#top">contact</a><br><a 
+href="https://doi.org/10.5281/zenodo.3841466"><img 
+src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="$b/license-mit-red">   
 <img src="$b/language-gawk-orange">    
 <img src="$b/purpose-ai,se-blueviolet">

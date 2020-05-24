@@ -1,5 +1,5 @@
-        set list
-        set listchars=tab:>-
+set list
+set listchars=tab:>-
 set backupdir-=.
 set backupdir^=~/tmp,/tmp
 set nocompatible              
@@ -124,4 +124,4 @@ set formatoptions-=t
 set nowrap 
 
 " Markdown
-let g:markdown_fenced_languages = ['awk','awk=awk']
+let g:markdown_fenced_languages = ['awk']

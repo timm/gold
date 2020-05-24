@@ -6,16 +6,15 @@ href="https://github.com/timm/gold/blob/master/INSTALL.md#top">install</a> :: <a
 href="https://github.com/timm/gold/blob/master/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
 href="https://github.com/timm/gold/issues">issues</a> :: <a
 href="https://github.com/timm/gold/blob/master/CITATION.md#top">cite</a> :: <a
-href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a> </p><p align=left> 
-<a href="https://doi.org/10.5281/zenodo.3841466"><img 
-   src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
+href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a><br><a 
+href="https://doi.org/10.5281/zenodo.3841466"><img 
+src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="https://img.shields.io/badge/license-mit-red">   
 <img src="https://img.shields.io/badge/language-gawk-orange">    
 <img src="https://img.shields.io/badge/purpose-ai,se-blueviolet">
 <img src="https://img.shields.io/badge/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
-
 
 
 # Superheros!
@@ -46,7 +45,6 @@ Go on, you tell them they are not heroes. See how far that gets you.
 Finally, the word 
 "hero" is shorter than nearly all the other options.
 So congrats: you are a hero!
-
 
 ## Superheros make Great Stories
 
@@ -86,5 +84,3 @@ day then fly away. The stories you write must go on, even when you are not there
 So  super heroes write code as simply and as clearly as they can,
 so others
 can extend your stores once you go.
-
-
