@@ -2,8 +2,6 @@
 
 gawk -W version | head -1
 
-cd ../src
-
 for i in  *ok.md; do
   bash ../etc/run.sh $i
 done  |  gawk ' 
