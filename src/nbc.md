@@ -7,7 +7,7 @@ href="https://github.com/timm/gold/blob/master/CITATION.md#top">cite</a> :: <a
 href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a><br>
 <img src="https://github.com/timm/gold/blob/master/etc/img/coins.png"></p>
 <h1 align=center><a href="/README.md#top">GOLD: the GAWK object layer</a></h1>
-<p align=center><p><a 
+<p align=center><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
 src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="https://img.shields.io/badge/license-mit-red">   
