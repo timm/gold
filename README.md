@@ -36,4 +36,4 @@ of GOLD was just how easy it was to implement those extensions.
 
 Share and enjoy.
 
-![](http://murphymac.com/slib/images/your-first-shell-script.jpg)
+<img align=center width=700 src-"https://zertios.com/images/jobs-noc-ninja.png">
