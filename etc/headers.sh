@@ -24,12 +24,14 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="$b/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a><br> <a
-href="$r/doc/11classes.md#top">classes</a> :: <a
-href="$r/doc/12methods.md#top">methods</a> :: <a
-href="$r/doc/13testing.md#top">testing</a> :: <a
-href="$u/doc/14doco.md#top">doco</a> :: <a
-href="$r/doc/15tips.md#top">tips</a> :: <a
-href="$r/doc/16examples.md#top">egs</a></p><br clear=all>
+href="$r/doc/01tour.md#top">tour</a> :: <a
+href="$r/doc/02functions.md#top">functions</a> :: <a
+href="$r/doc/03classes.md#top">classes</a> :: <a
+href="$r/doc/04methods.md#top">methods</a> :: <a
+href="$r/doc/05testing.md#top">testing</a> :: <a
+href="$u/doc/06doco.md#top">doco</a> :: <a
+href="$r/doc/07tips.md#top">tips</a> :: <a
+href="$r/doc/08examples.md#top">egs</a></p><br clear=all>
 EOF
 
 one() {
