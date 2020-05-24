@@ -25,7 +25,8 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 T. Menzies. 
 _GOLD: the Gawk Object Layer_
 May, 2020, 
-https://doi.org/10.5281/zenodo.3841465.
+https://doi.org/10.5281/zenodo.237838701.
+
 
 ```bibtex
 @software{goldgawk,
@@ -34,8 +35,7 @@ https://doi.org/10.5281/zenodo.3841465.
   month        = May,
   year         = 2020,
   publisher    = {Zenodo},
-  version      = {three},
-  doi          = {10.5281/zenodo.3841465},
+  doi          = {10.5281/zenodo.237838701},
   url          = {https://github.com/timm/gold}
 }
 ```
