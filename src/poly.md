@@ -20,9 +20,9 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 # Polymorphism
 
 ```awk
-function inc(i,x, f) {f=i.is "Inc";  @f(i,x) }
-function dec(i,x, f) {f=i.is "Dec";  @f(i,x) }
-function show(i,  f) {f=i.is "Show"; @f(i)   }
-function mid(i,   f) {f=i.is "Mid";  @f(i)   }
-function var(i,   f) {f=i.is "Var";  @f(i)   }
+function inc(i,x, f) {f=i.is "Inc";  return @f(i,x) }
+function dec(i,x, f) {f=i.is "Dec";  return @f(i,x) }
+function show(i,  f) {f=i.is "Show"; return @f(i)   }
+function mid(i,   f) {f=i.is "Mid";  return @f(i)   }
+function var(i,   f) {f=i.is "Var";  return @f(i)   }
 ```

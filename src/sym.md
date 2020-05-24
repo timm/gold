@@ -27,7 +27,8 @@ function Sym(i,txt,pos) {
   i.is ="Sym"
   has(i,"all")
   i.mode = i.ent=  ""
-  i.most = 0
+  i.most = i.nk = 0
+
 }  
 ```
 
@@ -53,23 +54,24 @@ Updating the numbers
 
 ```awk
 function SymInc(i,v) {
-  if (v=="?"p) return v
+  if (v=="?") return v
   i.ent=""
   i.n++
   i.all[v]++
+  if (i.all[v] == 1) i.nk++
   if (i.all[v] > i.most) {
     i.most = i.all[v]
     i.mode = v }
   return v
 }
 function SymDec(i,v) {
-  if (v=="?"p) return v
-  i.ent=""
-  i.n++
-  i.all[v]++
-  if (i.all[v] > i.most) {
-    i.most = i.all[v]
-    i.mode = v }
+  if (v=="?") return v
+  if (v in i.all) 
+    if (i.all[v] > 0)  {
+      i.ent=""
+      i.all[v]--
+      i.n--
+  }
   return v
 }
 

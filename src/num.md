@@ -57,6 +57,24 @@ function NumLike(i,x,      var,denom,num) {
   return num/(denom + 10^-64)
 }
 ```
+From a [Stackoverflow](https://stackoverflow.com/questions/52021422/finding-the-intersection-of-gaussian-distributions)
+discussion:
+```awk
+function NumChop(i,j,     a,b,c,d,x1,x2) {
+  if (i.mu > j.mu)              return NumChop(j,i)
+  if ((j.mu - 0.3*j.sd) < i.mu) return
+  if ((i.mu + 0.3*i.sd) > j.mu) return
+  if (i.sd == 0)                return
+  if (j.sd == 0)                return
+  a  = 1/(2*i.sd^2) - 1/(2*j.sd^2)
+  b  = j.mu/(j.sd^2) - i.mu/(i.sd^2)
+  c  = i.mu^2/(2*i.sd^2) - j.mu^2/(2*j.sd^2) - math.log(j.sd/i.sd)
+  d  = b^2 - 4 * a * c
+  x1 = (-b + math.sqrt(d))/(2*a)
+  x2 = (-b - math.sqrt(d))/(2*a)
+  return (i.mu <= x1 && x1 <= j.mu) ? x1 : x2
+} 
+```
 
 Updating the numbers
 

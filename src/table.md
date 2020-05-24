@@ -25,35 +25,44 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 @include "sym"
 @include "row"
 
-function Table(i,headers) {
+function Table(i, headers,rows,c,r) {
   Object(i)
   i.is = "Table"
-  has(i,"cols")
-  has(i,"rows")
-  for(j in headers)
-    TableCol(i,headers[j],j)
+  has(i, "cols")
+  has(i, "rows")
+  has(i, "headers")
+  for(c in headers) TableInc(i, headers[c],c)
+  for(r in rows)    TableInc(i, rows[r] )
 }
+```
 
-function TableCol(i,txt,pos,   s,k) {
-  ColSymbols(s)
-  k = txt ~ s.num ? "Num" : "Sym"
-  hasss(i.cols,,k, txt, pos)
-}
+Updates.
 
-function TableClone(i,j,rows,   c,tmp) {
-  for(c in i.cols) 
-    tmp[c] = i.cols[c].txt
-  Table(j, tmp)  
-  for(r in rows)
-    TableAdd(j,rows[r])
-}
-
-function TableAdd(i,row,      r,c) {
+```awk
+function TableInc(i,row,      c) {
   if ("cells" in row)
     TableAdd(i, row.cells)
   else {
-    r = has(i.rows,,"Row")
-    for(c in i.cols.all) 
-      i.rows[r].cells[c] = add(i.cols.all[c], row[c]) }
+    if (length(i.cols)) 
+      TableIncRow(i,row)
+    else
+      for(c in row) 
+        TableIncCol(i, row[c], c) }
+}
+function TableIncCol(i,txt,pos,   s,k) {
+  ColSymbols(s)
+  if (txt ~ s.skip) return
+  k = txt ~ s.num ? "Num" : "Sym"
+  hass(i.cols,,k, txt, pos)
+  if (txt ~ s.klass) i.klass=pos
+  i.headers[pos] = txt
+}
+function TableIncRow(i,row,  r,c) {
+  r = has(i.rows,,"Row")
+  for(c in i.cols.all)  
+    TableIncCell(i,row, i.rows[r].cells, i.cols.all[c])
+}
+function TableInCell(i,row, cells, col)
+  cells[col.pos] = add(col, row[col.pos]) 
 }
 ```

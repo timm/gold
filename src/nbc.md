@@ -39,4 +39,21 @@ function var(i,   f) {f=i.is "Var"; @f(x) }
 @include "abcd.md"
 @include "csv.md"
 
+function Nbc(f,       t,abcd,,a,t,rpw,n,n.ts) {
+  Table(t)
+  Abcd(abcd)
+  n = -1
+  while(csv(f,a)) {
+    n++
+    inc(t,row)
+    if (n==0) continue
+    k = row[t.klass]
+    NbcKlass(k,t,ts)
+    inc(ts[k], row) 
+}}
+
+function NbcKlass(k,t,ts) {
+  if (!(k in ts))
+    hass(ts,k,"Table",t.headers)
+}
 ```

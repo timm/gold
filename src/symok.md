@@ -24,7 +24,7 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 @include "poly"
 @include "list"
 
-BEGIN {  tests("symbol","_like") }
+BEGIN {  tests("symbol","_like,_sym") }
 
 function _like(f,    s,a,m) {
   srand(1)
@@ -32,31 +32,32 @@ function _like(f,    s,a,m) {
   Sym(s)
   m=1000
   while(m--) inc(s,any(a))
-  oo(s.all)
+  ok(f, s.all.a < s.all.d)
 }
 ```
 
-Walk up a list of random numbers, adding to a `Num`
-counter. Then walk down, removing numbers. Check
-that we get to the same mu and standard deviation
-both ways.
+Walk up a list of random symbols, adding to a `Sym`
+counter. Then walk down, removing symbols. Check
+that we get to the same entropy, both ways.
 
 ```awk
-function _num(f,     n,a,i,mu,sd) {
+function _sym(f,     s,a,i,e,sym) {
   srand()
-  Num(n,"c","v")
-  List(a)
-  for(i=1;i<=100;i+= 1) 
-    push(a,rand()^2) 
-  for(i=1;i<=100;i+= 1) { 
-    inc(n,a[i])
-    if((i%10)==0) { 
-     sd[i] = n.sd
-     mu[i] = n.mu }}
-  for(i=100;i>=1; i-= 1) {
-    if((i%10)==0) {
-      ok(f "_mu" i, near(n.mu, mu[i]))
-      ok(f "_sd" i, near(n.sd, sd[i]))  }
-    dec(n,a[i]) }
+  s= "abbccccdddddddd"
+  s= s s s s s
+  s= s s s s s
+  print(length(s))
+  split(s,a,"")
+  Sym(sym)
+  for(i=1;i<=length(a);i += 1) { 
+    inc(sym,a[i])
+    if((i%10)==0)  
+      e[i] = var(sym)  
+  }
+  for(i=length(a);i>=1; i-= 1) {
+    if((i%10)==0)  
+       ok(f i, near(var(sym), e[i])) 
+    dec(sym,a[i]) 
+  }
 }
 ```
