@@ -20,14 +20,13 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 # `Table` = Tables of Data
 
 ```awk
-@include "col"
 @include "num"
 @include "sym"
 @include "row"
 ```
-Tables have `Row`s and `Col`umns.
+Tables have `Row`s and columns (which can be `Num`eric or `Sym`bolic(..
 `Row`s store example data
-and `Col`umns store summaries on a vertical slice of that data.
+and columns store summaries on a vertical slice of that data.
 
 ```awk
 function Table(i, headers,rows,c,r) {
@@ -43,8 +42,8 @@ function Table(i, headers,rows,c,r) {
 }
 ```
 
-Updating tables means updating the `Row`s and `Col`umns. The first how
-is the `headers` list which is a list of names from the `Col`umns.
+Updating tables means updating the `Row`s and columns. The first how
+is the `headers` list which is a list of names from the columns.
 
 ```awk
 function TableInc(i,row,      c) {
