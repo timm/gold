@@ -19,12 +19,12 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 
 # `Table` = Tables of Data
 
+Tables have `Row`s and columns (which can be `Num`eric or `Sym`bolic).
 ```awk
 @include "num"
 @include "sym"
 @include "row"
 ```
-Tables have `Row`s and columns (which can be `Num`eric or `Sym`bolic(..
 `Row`s store example data
 and columns store summaries on a vertical slice of that data.
 
