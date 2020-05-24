@@ -1,4 +1,3 @@
-t="GOLD: the Gawk object layer"
 
 b="https://img.shields.io/badge"
 u='https://github.com/timm/gold'
@@ -24,10 +23,6 @@ href="$r/CONTACT.md#top">contact</a> </p><p align=left>
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 <a href="https://doi.org/10.5281/zenodo.3841466"><img 
    src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
-<a href="https://zenodo.org/badge/latestdoi/237838701"><img 
-   src="https://zenodo.org/badge/237838701.svg" alt="DOI"></a>
-
-
 </p><br clear=all>
 EOF
 
