@@ -39,9 +39,26 @@ So congrats: you are a hero!
 
 ## Superheros make Great Stories
 
-Superheroes tell a great story-- in their code.
-They know that reading code should be insight and  inspiring and
-make you race to grab a keyboard (so you can try out that idea for yourself).
+Superheroes:
+
+- Use document to explain their code.
+- Use test cases to let other people check, maintain, and extend their code.
+  Also, some (small) subset of the tests
+  are actually "demos" that show off an insightful and exciting feature of the code.
+- Use on-line version control systems so everyone can access their work, then 
+  update it with better versions.
+
+Why?
+
+Well, superheroes make for great stories.
+While superheroes rarely boast, other people eagerly tell the story
+of their accomplishments.
+The story of a software superhero is written into code.
+People are most eager to
+share code that  tells a  super-heroic story
+of defeating some hard problem, in an elegant and inspiring manner.
+Reading code is be insight and  inspiring and
+makes you race to grab a keyboard (so you can try out that idea for yourself).
 
 These stories-in-code are exciting stories. They have a purpose, a mission.
 They attack a problem,  clearly show were that attack fails or succeeds,
@@ -60,11 +77,4 @@ So  super heroes write code as simply and as clearly as they can,
 so others
 can extend your stores once you go.
 
-So superheroes:
 
-- Use document to explain their code.
-- Use test cases to let other people check, maintain, and extend their code.
-  Also, some (small) subset of the tests
-  are actually "demos" that show off an insightful and exciting feature of the code.
-- Use on-line version control systems so everyone can access their work, then 
-  update it with better versions.
