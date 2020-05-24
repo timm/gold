@@ -31,7 +31,7 @@ function Table(i, headers,rows,c,r) {
   has(i, "cols")
   has(i, "rows")
   has(i, "headers")
-  for(c in headers) TableInc(i, headers[c],c)
+  for(c in headers) TableIncCol(i, headers[c],c)
   for(r in rows)    TableInc(i, rows[r] )
 }
 ```
@@ -40,7 +40,7 @@ Updates.
 
 ```awk
 function TableInc(i,row,      c) {
-  if ("cells" in row)
+  if (row.is == "Row")
     TableAdd(i, row.cells)
   else {
     if (length(i.cols)) 
