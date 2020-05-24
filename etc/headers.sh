@@ -16,7 +16,7 @@ href="$r/CITATION.md#top">cite</a> :: <a
 href="$r/CONTACT.md#top">contact</a><br>
 <img src="$i"></p>
 <h1 align=center><a href="$f/README.md#top">$t</a></h1>
-<p align=center><p> 
+<p align=center><p><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
 src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="$b/license-mit-red">   
