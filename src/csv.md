@@ -27,7 +27,8 @@ with
 - spurious white space, that should be deleted?
 - records that break over multiple lines?
 
-For example, int he following, the first record is `name,age,shoesize`, there are comments
+For example, here is a csv file where
+the first record is really `name,age,shoesize`, there are comments
 and new lines and white space to ignore, and the last record is split over multiple lines.
 
         name,     # clients name
@@ -48,7 +49,7 @@ space than the code itself.
 1. Defaults to standard input
 2. Complains on missing input
 3. At end of file, close this stream
-4. If file ends in ",", combine this line with the next.
+4. If line ends in ",", combine this line with the next.
    Else....    
 5. Kill whitespace and comments
 6. Skip blank lines
@@ -76,3 +77,12 @@ function csv(a,file,     b4, status,line) {
   return 1
 }
 ```
+Example usage:
+
+     function lintcsv(f,    n,want) 
+        while(csv(a,file)) {
+          if (++n == 1) 
+             want = length(a)
+          if (want != length(a)) 
+             print "#E> record " n " wrong number of fields" }
+     }
