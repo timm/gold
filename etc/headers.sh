@@ -8,14 +8,14 @@ i="$r/etc/img/coins.png"
 
 cat <<EOF>/tmp/head$$
 <a name=top><img align=right width=400 src="$i">
-<h1 align=left><a href="$f/README.md#top">$t</a></h1> 
-<p align=left> <a
+<h1><a href="$f/README.md#top">$t</a></h1> 
+<p><a
 href="$r/LICENSE.md#top">license</a> :: <a
 href="$r/INSTALL.md#top">install</a> :: <a
 href="$r/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
 href="$u/issues">issues</a> :: <a
 href="$r/CITATION.md#top">cite</a> :: <a
-href="$r/CONTACT.md#top">contact</a><br><a 
+href="$r/CONTACT.md#top">contact</a></p><p><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
 src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="$b/license-mit-red">   
