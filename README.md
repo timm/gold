@@ -17,6 +17,7 @@ href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a> </p><
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 </p><br clear=all>
 
+
 # Welcome to GOLD
 
 We like GAWK. A lot. The simplicity and power of GAWK often make
@@ -37,5 +38,3 @@ of GOLD was just how easy it was to implement those extensions.
 Share and enjoy.
 
 <p align=center><img src="etc/img/ninja.png" width=700></p>
-
-

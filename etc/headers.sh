@@ -28,19 +28,21 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 EOF
 
 one() {
-  >&2 echo "# $1 ..."
-  cat $1 | gawk '
-    BEGIN { RS = "^$"
-            f  = "'/tmp/head$$'"
-            getline top < f
-            close(f)
-            FS="\n"
-            RS="" }
-    NR==1 { print top 
-            if($0 ~ /name=top>/) next  }
-    1     { print ""; print $0 }
-    ' > /tmp/$$new
-  cp /tmp/$$new $1
+  if [ "$0" -nt "$1" ]; then
+    >&2 echo "# $1 ..."
+    cat $1 | gawk '
+       BEGIN { RS = "^$"
+               f  = "'/tmp/head$$'"
+               getline top < f
+               close(f)
+               FS="\n"
+               RS="" }
+       NR==1 { print top 
+               if($0 ~ /name=top>/) next  }
+       1     { print ""; print $0 }
+       ' > /tmp/$$new
+    cp /tmp/$$new $1
+   fi
 }
 
 while read x ; do
