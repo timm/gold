@@ -23,8 +23,7 @@ href="$r/CONTACT.md#top">contact</a> </p><p align=left>
 <img src="$b/purpose-ai,se-blueviolet">
 <img src="$b/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
-src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
-</p><br clear=all>
+src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 EOF
 
 one() {

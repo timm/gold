@@ -14,16 +14,12 @@ href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a> </p><
 <img src="https://img.shields.io/badge/purpose-ai,se-blueviolet">
 <img src="https://img.shields.io/badge/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
-src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
-</p><br clear=all>
+src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 
-
-</p><br clear=all>
-
-</p><br clear=all>
 
 # List Functions
   
-```auk
-function push(lst,i) { lst[length(lst)+1] = i; return i } 
+```awk
+function push(a,i) { a[length(a)+1] = i; return i } 
+function any(a, i) { return a[1+int(rand()*length(a))]}
 ```

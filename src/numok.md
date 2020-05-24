@@ -14,13 +14,8 @@ href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a> </p><
 <img src="https://img.shields.io/badge/purpose-ai,se-blueviolet">
 <img src="https://img.shields.io/badge/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
-src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
-</p><br clear=all>
+src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 
-
-</p><br clear=all>
-
-</p><br clear=all>
 
 ```awk
 @include "ok"
@@ -63,26 +58,5 @@ function _num(f,     n,a,i,mu,sd) {
       ok(f "_mu" i, near(n.mu, mu[i]))
       ok(f "_sd" i, near(n.sd, sd[i]))  }
     dec(n,a[i]) }
-}
-```
-
-Check that it we pull from some initial Gaussian distribution,
-we can sample it to find the same means and standard deviation.
-
-```awk
-function _any(f,     max,n,a,i,mu,sd,n0,n1,x) {
-  srand(1)
-  Num(n0)
-  Num(n1)
-  List(a)
-  max=300
-  for(i=1;i<=max;i+= 1) {
-    x=sqrt(-2*log(rand()))*cos(6.2831853*rand())
-    Num1(n0,x)
-    push(a, x) 
-  }
-  for(i=1;i<=max;i+= 1) Num1(n1, NumAny(n0))
-  ok(f,n0.sd, n1.sd,0.05)
-  ok(f, (n0.mu-n1.mu)< 0.05,1 )
 }
 ```
