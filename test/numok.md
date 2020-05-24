@@ -16,11 +16,11 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <a href="https://travis-ci.org/github/timm/gold"><img 
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a><br> <a
 href="https://github.com/timm/gold/blob/master/doc/01tour.md#top">tour</a> :: <a
-href="https://github.com/timm/gold/blob/master/doc/02functions.md#top">functions</a> :: <a
-href="https://github.com/timm/gold/blob/master/doc/03classes.md#top">classes</a> :: <a
-href="https://github.com/timm/gold/blob/master/doc/04methods.md#top">methods</a> :: <a
-href="https://github.com/timm/gold/blob/master/doc/05testing.md#top">testing</a> :: <a
-href="https://github.com/timm/gold/doc/06doco.md#top">doco</a> :: <a
+href="https://github.com/timm/gold/doc/02doco.md#top">doco</a> :: <a
+href="https://github.com/timm/gold/blob/master/doc/03testing.md#top">testing</a> :: <a
+href="https://github.com/timm/gold/blob/master/doc/04functions.md#top">functions</a> :: <a
+href="https://github.com/timm/gold/blob/master/doc/05classes.md#top">classes</a> :: <a
+href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">methods</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/07tips.md#top">tips</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">egs</a></p><br clear=all>
 

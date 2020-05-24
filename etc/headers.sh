@@ -25,11 +25,11 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <a href="https://travis-ci.org/github/timm/gold"><img 
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a><br> <a
 href="$r/doc/01tour.md#top">tour</a> :: <a
-href="$r/doc/02functions.md#top">functions</a> :: <a
-href="$r/doc/03classes.md#top">classes</a> :: <a
-href="$r/doc/04methods.md#top">methods</a> :: <a
-href="$r/doc/05testing.md#top">testing</a> :: <a
-href="$u/doc/06doco.md#top">doco</a> :: <a
+href="$u/doc/02doco.md#top">doco</a> :: <a
+href="$r/doc/03testing.md#top">testing</a> :: <a
+href="$r/doc/04functions.md#top">functions</a> :: <a
+href="$r/doc/05classes.md#top">classes</a> :: <a
+href="$r/doc/06methods.md#top">methods</a> :: <a
 href="$r/doc/07tips.md#top">tips</a> :: <a
 href="$r/doc/08examples.md#top">egs</a></p><br clear=all>
 EOF
