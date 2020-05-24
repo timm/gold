@@ -19,17 +19,17 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 
 # CSV Reader
 
-Standard GAWK can read simple comma seperated files. But what about CSV files
-with
+Standard GAWK can read simple comma seperated files. 
+But what about CSV files with:
 
 - comments, that should be stripped away?
 - blank lines, that should be skipped?
 - spurious white space, that should be deleted?
 - records that break over multiple lines?
 
-For example, here is a csv file where
-the first record is really `name,age,shoesize`, there are comments
-and new lines and white space to ignore, and the last record is split over multiple lines.
+For example, here is a csv file where the first record is really
+`name,age,shoesize`, there are comments and new lines and white
+space to ignore, and the last record is split over multiple lines.
 
         name,     # clients name
         age,      # posint, 0..120
@@ -41,8 +41,9 @@ and new lines and white space to ignore, and the last record is split over multi
         sarah,
                14,  101
 
-As shown by this code, explaining how all that is handled actually takes more
-space than the code itself.
+This `csv` function can handle all that. Note that the second `file`
+argument is optional and, if omitted, this code will read from
+standard input.
 
 ```awk   
 function csv(a,file,     b4, status,line) {
