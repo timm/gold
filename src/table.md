@@ -65,13 +65,14 @@ stats on all the data).
 function TableIncs(i,row,     k) {
   if (row.is == "Row") # for rows, use on cell values
     return TableIncs(i, row.cells)
- if (length(i.cols)) {  # we are reading data
-   k = row[i.theClass]  # then update the "k" class
-   if ( ! (k in i.class) )
-     has(i.class,k,"Table",i.headers)
-   TableInc(i.class[k],row) 
- } 
- TableInc(i,row) # update statistics on all the data
+  if (length(i.cols))     # we are reading data
+  {
+    k = row[i.theClass]  # then update the "k" class
+    if ( ! (k in i.class) )
+      has(i.class,k,"Table",i.headers)
+    TableInc(i.class[k],row) 
+  } 
+  TableInc(i,row) # update statistics on all the data
 }
 ```
 

@@ -19,6 +19,32 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 
 # CSV Reader
 
+Standard GAWK can read simple comma seperated files. But what about CSV files
+with
+
+- comments, that should be stripped away?
+- blank lines, that should be skipped?
+- spurious white space, that should be deleted?
+- records that break over multiple lines?
+
+For example, int he following, the first record is `name,age,shoesize`, there are comments
+and new lines and white space to ignore, and the last record is split over multiple lines.
+
+        name,     # clients name
+        age,      # posint, 0..120
+        shoesize
+        #-------------------------
+ 
+        tim,   21,  12
+        susan, 22,  2132
+        sarah,
+               14,  101
+
+
+As shown by this code, explaining how all that is handled actually takes more
+space than the code itself.
+
+
 1. Defaults to standard input
 2. Complains on missing input
 3. At end of file, close this stream
