@@ -7,7 +7,7 @@ i='https://i2.wp.com/auk-ward.co.uk/wp-content/uploads/2017/02/auk-ward-icon.png
 i="$r/etc/img/coins.png"
 
 cat <<EOF>/tmp/head$$
-<a name=top><p align=center><img  width=400 src="$i"></p>
+<a name=top><p align=center><img src="$i"></p>
 <h1 align=center><a href="$f/README.md#top">$t</a></h1> 
 <p align=center><a
 href="$r/LICENSE.md#top">license</a> :: <a
