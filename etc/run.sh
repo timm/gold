@@ -36,7 +36,7 @@ done
 
 if [ "$1" = "--reset" ]; then shift; fi
 
-j=$Bin/$(basename $i .${Ext}).awk
+j=$Bin/$(basename $1 .${Ext}).awk
 if [ -f "$j" ]; then
   shift
   AWKPATH="$AWKPATH:$Bin" gawk -f $Lib -f $j $*
