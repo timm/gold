@@ -84,7 +84,7 @@ function TableHeader(i,txt,pos) {
   if (txt ~ AU.ch.klass) i.theClass=pos
   hass(i.cols,
        "",
-       txt ~ AU.ch.numeric ? "Num" : "Sym"
+       txt ~ AU.ch.numeric ? "Num" : "Sym",
        txt, 
        pos)
 }

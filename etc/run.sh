@@ -26,8 +26,9 @@ gen() { gawk '
                                { print "# " $0  }'
 }
 
-for i in *.${Ext}; do
-  j=$Bin/${i%.*}.awk
+
+for i in $Gold/src/*.${Ext}; do
+  j=$Bin/$(basename $i .${Ext}).awk
   if [ "$1" =  "--reset" -o "$i" -nt "$j" ]; then 
     cat $i | parse | gen > $j
   fi
@@ -35,7 +36,7 @@ done
 
 if [ "$1" = "--reset" ]; then shift; fi
 
-j=$Bin/${1%.*}.awk
+j=$Bin/$(basename $i .${Ext}).awk
 if [ -f "$j" ]; then
   shift
   AWKPATH="$AWKPATH:$Bin" gawk -f $Lib -f $j $*
