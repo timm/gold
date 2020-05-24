@@ -20,22 +20,33 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 
 # Superheros!
 
+## Why acknowledge software heroes?
+
+Research results
+
+## But is it wrong to call you "hero"?
 
 There are many things we could have called you (rockstar, champion,
  leader, maniac,
 evangelist, martyr, visionary, god...)  but those words came with
-too many other connotations.  And we thought about a more gender-neutral
+too many other connotations.  
+
+And we thought about a more gender-neutral
 term but then found [numerous recent publications](http://bit.ly/2UhJCek)
-that use it to denote admired people of all genders.  Also, truth
+that use it to denote admired people of all genders.  
+
+Also, truth
 to tell,  we got worried about being beaten up
 by 
 of Shuri,
 Gamora, Storm, Wonder Woman, the Wasp, Jean Grey, Spider Gwen, Captain
 Marvel, Supergirl, Black Widow, Scarlet Witch, Jessica Jones,... 
+Go on, you tell them they are not heroes. See how far that gets you.
 
-Finally, we saw that 
-"hero" was shorter than nearly all the other options.
+Finally, the word 
+"hero" is shorter than nearly all the other options.
 So congrats: you are a hero!
+
 
 ## Superheros make Great Stories
 
@@ -50,20 +61,19 @@ Superheroes:
 
 Why?
 
-Well, superheroes make for great stories.
-While superheroes rarely boast, other people eagerly tell the story
+Well, here's the thing about superheroes--
+other people eagerly tell the story
 of their accomplishments.
-The story of a software superhero is written into code.
-People are most eager to
+Now the story of a software superhero is written into code
+and people are most eager to
 share code that  tells a  super-heroic story
 of defeating some hard problem, in an elegant and inspiring manner.
-Reading code is be insight and  inspiring and
+Reading such code is be insight and  inspiring and
 makes you race to grab a keyboard (so you can try out that idea for yourself).
 
 These stories-in-code are exciting stories. They have a purpose, a mission.
 They attack a problem,  clearly show were that attack fails or succeeds,
 and leaves you begging for more. 
-
 The results you obtain from today's
 code should suggest all manner of new possibilities (for the future).
 As Susan Sontag said 
