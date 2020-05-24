@@ -62,10 +62,9 @@ can extend your stores once you go.
 
 So superheroes:
 
-- Use encapsulation, so related concepts are together and separate concepts do not conflate each other. 
 - Use document to explain their code.
 - Use test cases to let other people check, maintain, and extend their code.
   Also, some (small) subset of the tests
   are actually "demos" that show off an insightful and exciting feature of the code.
-- Use on-line version control systems so everyone can access their work, then post back better versions
-  of their code.
+- Use on-line version control systems so everyone can access their work, then 
+  update it with better versions.
