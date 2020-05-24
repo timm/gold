@@ -24,7 +24,12 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a></p><br clear=all>
 @include "num"
 @include "sym"
 @include "row"
+```
+Tables have `Row`s and `Col`umns.
+`Row`s store example data
+and `Col`umns store summaries on a vertical slice of that data.
 
+```awk
 function Table(i, headers,rows,c,r) {
   Object(i)
   i.is = "Table"
@@ -38,7 +43,8 @@ function Table(i, headers,rows,c,r) {
 }
 ```
 
-Updates.
+Updating tables means updating the `Row`s and `Col`umns. The first how
+is the `headers` list which is a list of names from the `Col`umns.
 
 ```awk
 function TableInc(i,row,      c) {
