@@ -14,7 +14,7 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="https://img.shields.io/badge/purpose-ai,se-blueviolet">
 <img src="https://img.shields.io/badge/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
-src="https://travis-ci.org/timm/gold.svg?branch=master"></a><hr> <a
+src="https://travis-ci.org/timm/gold.svg?branch=master"></a><br> <a
 href="https://github.com/timm/gold/blob/master/doc/11classes.md#top">classes</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/12methods.md#top">methods</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/13testing.md#top">testing</a> :: <a

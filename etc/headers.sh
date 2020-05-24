@@ -23,7 +23,7 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="$b/purpose-ai,se-blueviolet">
 <img src="$b/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
-src="https://travis-ci.org/timm/gold.svg?branch=master"></a><hr> <a
+src="https://travis-ci.org/timm/gold.svg?branch=master"></a><br> <a
 href="$r/doc/11classes.md#top">classes</a> :: <a
 href="$r/doc/12methods.md#top">methods</a> :: <a
 href="$r/doc/13testing.md#top">testing</a> :: <a
