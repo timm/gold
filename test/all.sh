@@ -3,6 +3,8 @@
 gawk -W version | head -1
 ls 
 
+set -x
+
 for i in  *ok.md; do
   bash ../etc/run.sh $i
 done  |  gawk ' 
