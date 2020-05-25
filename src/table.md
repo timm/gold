@@ -35,7 +35,7 @@ Tables have `Row`s and columns (which can be `Num`eric or `Sym`bolic).
 @include "sym"
 @include "row"
 ```
-`Row`s store example data
+<img src="https://render.githubusercontent.com/render/math?math=e^{i %2B\pi} =x%2B1">`Row`s store example data
 and columns store summaries on a vertical slice of that data.
 
 ```awk
