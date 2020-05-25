@@ -53,4 +53,8 @@ of GOLD was just how easy it was to implement those extensions.
 
 Share and enjoy.
 
+<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
+
+<img src="http://yuml.me/diagram/scruffy/class/[Order]-invoicing >[Address], [Order]-shipping >[Address]" >
+
 <p align=center><img src="etc/img/ninja.png" width=700></p>
