@@ -13,8 +13,8 @@ href="https://github.com/timm/gold/blob/master/doc/07tips.md#top">tips</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">egs</a> 
 </p>
 <p align=center>
-<img src="https://github.com/timm/gold/blob/master/etc/img/coins.png"></p>
-<p align=center>
+<img src="https://github.com/timm/gold/blob/master/etc/img/coins.png">
+<br>
 <a
 href="https://github.com/timm/gold/blob/master/LICENSE.md#top">license</a> :: <a
 href="https://github.com/timm/gold/blob/master/INSTALL.md#top">install</a> :: <a
@@ -22,7 +22,7 @@ href="https://github.com/timm/gold/blob/master/CODE_OF_CONDUCT.md#top">contribut
 href="https://github.com/timm/gold/issues">issues</a> :: <a
 href="https://github.com/timm/gold/blob/master/CITATION.md#top">cite</a> :: <a
 href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a>
-<br>
+</p><p align=center>
 <a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
 src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>

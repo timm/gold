@@ -22,8 +22,8 @@ href="$r/doc/07tips.md#top">tips</a> :: <a
 href="$r/doc/08examples.md#top">egs</a> 
 </p>
 <p align=center>
-<img src="$i"></p>
-<p align=center>
+<img src="$i">
+<br>
 <a
 href="$r/LICENSE.md#top">license</a> :: <a
 href="$r/INSTALL.md#top">install</a> :: <a
@@ -31,7 +31,7 @@ href="$r/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
 href="$u/issues">issues</a> :: <a
 href="$r/CITATION.md#top">cite</a> :: <a
 href="$r/CONTACT.md#top">contact</a>
-<br>
+</p><p align=center>
 <a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
 src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
