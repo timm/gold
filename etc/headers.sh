@@ -34,7 +34,7 @@ href="$r/INSTALL.md#top">install</a> :: <a
 href="$r/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
 href="$u/issues">issues</a> :: <a
 href="$r/CITATION.md#top">cite</a> :: <a
-href="$r/CONTACT.md#top">contact</a></p><hr>
+href="$r/CONTACT.md#top">contact</a></p>
 EOF
 
 one() {
