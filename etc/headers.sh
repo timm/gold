@@ -1,5 +1,5 @@
 
-t="GOLD: the GAWK object layer"
+t="GOLD: an object layer for GAWK"
 b="https://img.shields.io/badge"
 u='https://github.com/timm/gold'
 r="$u/blob/master"

@@ -9,7 +9,7 @@ href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">methods</a>
 href="https://github.com/timm/gold/blob/master/doc/07tips.md#top">tips</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">egs</a> <br>
 <img src="https://github.com/timm/gold/blob/master/etc/img/coins.png"></p>
-<h1 align=center><a href="/README.md#top">GOLD: the GAWK object layer</a></h1>
+<h1 align=center><a href="/README.md#top">GOLD: an object layer for GAWK</a></h1>
 <p align=center><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
 src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
