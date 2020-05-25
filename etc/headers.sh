@@ -8,6 +8,7 @@ i="$r/etc/img/coins.png"
 
 cat <<EOF>/tmp/head$$
 <a name=top>
+<h1 align=center><a href="$f/README.md#top">$t</a></h1>
 <p align=center><a
 href="$r/doc/01tour.md#top">tour</a> :: <a
 href="$r/doc/01core.md#top">core</a> :: <a
@@ -19,7 +20,6 @@ href="$r/doc/06methods.md#top">packages</a> :: <a
 href="$r/doc/07tips.md#top">tips</a> :: <a
 href="$r/doc/08examples.md#top">egs</a> <br>
 <img src="$i"></p>
-<h1 align=center><a href="$f/README.md#top">$t</a></h1>
 <p align=center><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
 src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
