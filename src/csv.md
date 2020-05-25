@@ -12,14 +12,13 @@ href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">egs</a> <b
 <h1 align=center><a href="/README.md#top">GOLD: the GAWK object layer</a></h1>
 <p align=center><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
-src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a><br>
+src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 <img src="https://img.shields.io/badge/license-mit-red">   
 <img src="https://img.shields.io/badge/language-gawk-orange">    
 <img src="https://img.shields.io/badge/purpose-ai,se-blueviolet">
 <img src="https://img.shields.io/badge/platform-mac,*nux-informational">
 <a href="https://travis-ci.org/github/timm/gold"><img 
-src="https://travis-ci.org/timm/gold.svg?branch=master"></a> 
-<a
+src="https://travis-ci.org/timm/gold.svg?branch=master"></a> <br> <a
 href="https://github.com/timm/gold/blob/master/LICENSE.md#top">license</a> :: <a
 href="https://github.com/timm/gold/blob/master/INSTALL.md#top">install</a> :: <a
 href="https://github.com/timm/gold/blob/master/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
