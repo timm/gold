@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 gawk -W version | head -1
+ls 
 
 for i in  *ok.md; do
   bash ../etc/run.sh $i
