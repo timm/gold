@@ -17,7 +17,7 @@ href="$r/doc/05classes.md#top">classes</a> :: <a
 href="$r/doc/06methods.md#top">methods</a> :: <a
 href="$r/doc/06methods.md#top">packages</a> :: <a
 href="$r/doc/07tips.md#top">tips</a> :: <a
-href="$r/doc/08examples.md#top">exampples</a> <br>
+href="$r/doc/08examples.md#top">egs</a> <br>
 <img src="$i"></p>
 <h1 align=center><a href="$f/README.md#top">$t</a></h1>
 <p align=center><a 

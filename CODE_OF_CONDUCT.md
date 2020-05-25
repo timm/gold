@@ -8,7 +8,7 @@ href="https://github.com/timm/gold/blob/master/doc/05classes.md#top">classes</a>
 href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">methods</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">packages</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/07tips.md#top">tips</a> :: <a
-href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">exampples</a> <br>
+href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">egs</a> <br>
 <img src="https://github.com/timm/gold/blob/master/etc/img/coins.png"></p>
 <h1 align=center><a href="/README.md#top">GOLD: an object layer for GAWK</a></h1>
 <p align=center><a 
