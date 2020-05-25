@@ -9,7 +9,7 @@ href="https://github.com/timm/gold/blob/master/doc/05classes.md#top">classes</a>
 href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">methods</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">packages</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/07tips.md#top">tips</a> :: <a
-href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">egs</a> <br>
+href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">egs</a> </p><p align=center>
 <img src="https://github.com/timm/gold/blob/master/etc/img/coins.png"></p>
 <p align=center><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 

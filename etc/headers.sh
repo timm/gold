@@ -18,7 +18,7 @@ href="$r/doc/05classes.md#top">classes</a> :: <a
 href="$r/doc/06methods.md#top">methods</a> :: <a
 href="$r/doc/06methods.md#top">packages</a> :: <a
 href="$r/doc/07tips.md#top">tips</a> :: <a
-href="$r/doc/08examples.md#top">egs</a> <br>
+href="$r/doc/08examples.md#top">egs</a> </p><p align=center>
 <img src="$i"></p>
 <p align=center><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
