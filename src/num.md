@@ -78,10 +78,10 @@ function NumChop(i,j,     a,b,c,d,x1,x2) {
   if (j.sd == 0)                return
   a  = 1/(2*i.sd^2) - 1/(2*j.sd^2)
   b  = j.mu/(j.sd^2) - i.mu/(i.sd^2)
-  c  = i.mu^2/(2*i.sd^2) - j.mu^2/(2*j.sd^2) - math.log(j.sd/i.sd)
+  c  = i.mu^2/(2*i.sd^2) - j.mu^2/(2*j.sd^2) - log(j.sd/i.sd)
   d  = b^2 - 4 * a * c
-  x1 = (-b + math.sqrt(d))/(2*a)
-  x2 = (-b - math.sqrt(d))/(2*a)
+  x1 = (-1*b + (d^0.5))/(2*a)
+  x2 = (-1*b - (d^0.5))/(2*a)
   return (i.mu <= x1 && x1 <= j.mu) ? x1 : x2
 } 
 ```
