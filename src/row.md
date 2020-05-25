@@ -11,8 +11,7 @@ href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">methods</a>
 href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">packages</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/07tips.md#top">tips</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">egs</a> 
-</p>
-<p align=center>
+<br>
 <img src="https://github.com/timm/gold/blob/master/etc/img/coins.png">
 <br>
 <a

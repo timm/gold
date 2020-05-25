@@ -20,8 +20,7 @@ href="$r/doc/06methods.md#top">methods</a> :: <a
 href="$r/doc/06methods.md#top">packages</a> :: <a
 href="$r/doc/07tips.md#top">tips</a> :: <a
 href="$r/doc/08examples.md#top">egs</a> 
-</p>
-<p align=center>
+<br>
 <img src="$i">
 <br>
 <a
