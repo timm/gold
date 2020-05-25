@@ -21,7 +21,7 @@ href="$r/doc/08examples.md#top">egs</a> <br>
 <h1 align=center><a href="$f/README.md#top">$t</a></h1>
 <p align=center><a 
 href="https://doi.org/10.5281/zenodo.3841466"><img 
-src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
+src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a><br>
 <img src="$b/license-mit-red">   
 <img src="$b/language-gawk-orange">    
 <img src="$b/purpose-ai,se-blueviolet">
