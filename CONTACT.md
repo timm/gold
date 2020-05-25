@@ -1,13 +1,14 @@
 <a name=top>
 <p align=center><a
 href="https://github.com/timm/gold/blob/master/doc/01tour.md#top">tour</a> :: <a
-href="https://github.com/timm/gold/doc/02doco.md#top">doco</a> :: <a
+href="https://github.com/timm/gold/blob/master/doc/01core.md#top">core</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/03testing.md#top">testing</a> :: <a
-href="https://github.com/timm/gold/blob/master/doc/04functions.md#top">functions</a> :: <a
+href="https://github.com/timm/gold/doc/02doco.md#top">lit.prog</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/05classes.md#top">classes</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">methods</a> :: <a
+href="https://github.com/timm/gold/blob/master/doc/06methods.md#top">packages</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/07tips.md#top">tips</a> :: <a
-href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">egs</a> <br>
+href="https://github.com/timm/gold/blob/master/doc/08examples.md#top">exampples</a> <br>
 <img src="https://github.com/timm/gold/blob/master/etc/img/coins.png"></p>
 <h1 align=center><a href="/README.md#top">GOLD: an object layer for GAWK</a></h1>
 <p align=center><a 
