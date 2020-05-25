@@ -25,7 +25,7 @@ href="https://github.com/timm/gold/blob/master/INSTALL.md#top">install</a> :: <a
 href="https://github.com/timm/gold/blob/master/CODE_OF_CONDUCT.md#top">contribute</a> :: <a
 href="https://github.com/timm/gold/issues">issues</a> :: <a
 href="https://github.com/timm/gold/blob/master/CITATION.md#top">cite</a> :: <a
-href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a></p>
+href="https://github.com/timm/gold/blob/master/CONTACT.md#top">contact</a></p><hr>
 
 
 ## Table
