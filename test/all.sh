@@ -8,7 +8,7 @@ set -x
 for i in  *ok.md; do
   bash ../etc/run.sh $i
 done  |  gawk ' 
- 1                         # a) print current line      
+ 1         { print $0 }    # a) print current line      
  /FAILED!/ { err += 1 }    # b) catch current error number
  END       { exit err - 1} # c) one test is designed to fail 
                            #    (just to test the test engine)
