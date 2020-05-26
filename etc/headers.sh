@@ -11,12 +11,11 @@ cat <<EOF>/tmp/head$$
 <h1 align=center><a href="$f/README.md#top">$t</a></h1>
 <p align=center>
 <a
-href="$r/doc/01tour.md#top">tour</a> :: <a
-href="$r/doc/01core.md#top">core</a> :: <a
-href="$r/doc/03testing.md#top">testing</a> :: <a
+href="$r/doc/01tour.md#top">overview</a> :: <a
+href="$r/doc/01core.md#top">under.the.hood</a> :: <a
 href="$u/doc/02doco.md#top">lit.prog</a> :: <a
+href="$r/doc/03testing.md#top">testing</a> :: <a
 href="$r/doc/05classes.md#top">classes</a> :: <a
-href="$r/doc/06methods.md#top">methods</a> :: <a
 href="$r/doc/06methods.md#top">packages</a> :: <a
 href="$r/doc/07tips.md#top">tips</a> :: <a
 href="$r/doc/08examples.md#top">egs</a> 
