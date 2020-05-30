@@ -1,60 +1,57 @@
 #!/usr/bin/env bash
 
-Gold=`git rev-parse --show-toplevel`
+Gold=$(dirname $0}
 
-alias l='ls -G'
-alias ..='cd ..'
-
-alias gg="git pull"
-alias gs="git status"
-alias gp="git commit -am 'saving'; git push; git status"
-
-alias vi="vim -u $Gold/etc/vimrc "
-alias gold="bash $Gold/etc/run.sh "
-alias tmux="$(which tmux) -f $Gold/etc/tmuxrc "
-
-ok() {
-  bash $Gold/etc/run.sh ${1}ok.md
-}
-
-# --------------------------
-
-Installed=1
-for c in gawk git tmux vim ; do
-  if [ -z "$(which $c)" ]; then
-   InstalledAFTER=""
-    echo "#E> missing: $c"
-  fi
-done
-
-
-#--------------------------
-# pretties
 here() { cd $1; basename `pwd`; }
-PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
 
-_c0="\033[00m"     # white
-_c1="\033[01;32m"  # green
-_c2="\033[01;34m"  # blue
-_c3="\033[31m"     # red
-_c5="\033[35m"     # purple
-_c6="\033[33m"     # yellow
-_c7="\033[36m"     # turquoise _c8="\033[96m"  # magenta
- 
+if [ -z "$1" ]; then
+  alias l='ls -G'
+  alias ..='cd ..'
+  alias gg="git pull"
+  alias gs="git status"
+  alias gp="git commit -am 'saving'; git push; git status"
 
-if [ "$Installed" == "1" ]; then
-echo -ne "\033[96m"
-cat<<-"EOF"
+  alias vi="vim -u $Gold/etc/vimrc "
+  alias gold="bash $Gold/etc/run.sh "
+  alias tmux="$(which tmux) -f $Gold/etc/tmuxrc "
 
-	   (\____/)
-	     (_oo_)         gawk/gold
-	       (O)          By your command ...
-	     __||__    \)
-	  []/______\[] /
-	  / \______/ \/
-	 /    /__\          Gold v3 (c) 2020
-	(\   /____\         <timm@ieee.org>
+  for c in gawk git tmux vim ; do
+    if [ -z "$(which $c)" ]; then
+      echo "#E> missing: $c"
+      
+    fi
+  done
 
-EOF
-echo -ne "\033[00m"
+  PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
+  
+  _c0="\033[00m"     # white
+  _c1="\033[01;32m"  # green
+  _c2="\033[01;34m"  # blue
+  _c3="\033[31m"     # red
+  _c5="\033[35m"     # purple
+  _c6="\033[33m"     # yellow
+  _c7="\033[36m"     # turquoise _c8="\033[96m"  # magenta
+   
+  echo -ne "\033[96m"
+  cat<<-"EOF"
+  
+  	   (\____/)
+  	     (_oo_)         gawk/gold
+  	       (O)          By your command ...
+  	     __||__    \)
+  	  []/______\[] /
+  	  / \______/ \/
+  	 /    /__\          Gold v3 (c) 2020
+  	(\   /____\         <timm@ieee.org>
+  
+  EOF
+  echo -ne "\033[00m"
 fi
+
+while getopts "h:s:" arg; do
+  case $arg in
+    h) echo "usage" ;;
+    s) strength=$OPTARG
+       echo $strength ;;
+  esac
+done

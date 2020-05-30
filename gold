@@ -1,0 +1,525 @@
+#!/usr/bin/env bash
+
+# --refresh. do all
+# --test test
+# --mds update mardkwon
+
+Gold=$(dirname $0)
+Ext=awk
+
+license() { cat<<'EOF'
+
+# GOLD v3
+
+Copyright (c) 2020, Tim Menzies
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+EOF
+}
+
+here() { cd $1; basename `pwd`; }
+
+if [ -z "$1" ]; then
+    PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
+  _c0="\033[00m"     # white
+  _c1="\033[01;32m"  # green
+  _c2="\033[01;34m"  # blue
+  _c3="\033[31m"     # red
+  _c5="\033[35m"     # purple
+  _c6="\033[33m"     # yellow
+  _c7="\033[36m"     # turquoise _c8="\033[96m"  # magenta
+  echo -ne "\033[96m"
+  cat<<-"EOF"
+	
+	    ,----..               ,--,                
+	   /   /   \            ,--.'|         ,---, 
+	  |   :     :    ,---.  |  | :       ,---.'|    gold v3 
+	  .   |  ;. /   '   ,'\ :  : '       |   | :    http://github.com/timm/gold
+	  .   ; /--`   /   /   ||  ' |       |   | |    
+	  ;   | ;  __ .   ; ,. :'  | |     ,--.__| |    
+	  |   : |.' .''   | |: :|  | :    /   ,'   |    
+	  .   | '_.' :'   | .; :'  : |__ .   '  /  |    
+	  '   ; : \  ||   :    ||  | '.'|'   ; |:  | 
+	  '   | '/  .' \   \  / ;  :    ;|   | '/  '    (ↄ) 2020
+	  |   :    /    `----'  |  ,   / |   :    :|    Tim Menzies 
+	   \   \ .'              ---`-'   \   \  /      <timm@ieee.org>
+	    `---`                          `----'   
+		
+	EOF
+  echo -ne "\033[00m"
+  alias l='ls -G'
+  alias ..='cd ..'
+  alias gg="git pull"
+  alias gs="git status"
+  alias gp="git commit -am 'saving'; git push; git status"
+
+  alias vi="vim -u $Gold/etc/vimrc "
+  alias gold="bash $Gold/etc/run.sh "
+  alias tmux="$(which tmux) -f $Gold/etc/tmuxrc "
+
+  for c in gawk git tmux vim ; do
+    if [ -z "$(which $c)" ]; then
+      echo "#E> missing: $c"
+      
+    fi
+  done
+
+fi
+
+tmuxrc() { cat<<'EOF'
+set -g aggressive-resize on
+unbind C-b
+set -g prefix C-Space
+bind C-Space send-prefix
+set -g base-index 1
+# start with pane 1
+bind | split-window -h -c "#{pane_current_path}"  
+bind - split-window -v -c "#{pane_current_path}"
+unbind '"'
+unbind %
+# open new windows in the current path
+bind c new-window -c "#{pane_current_path}"
+# reload config file
+bind r source-file $Tnix/.config/dottmux
+unbind p
+bind p previous-window
+# shorten command delay
+set -sg escape-time 1
+# don't rename windows automatically
+set-option -g allow-rename off
+# mouse control (clickable windows, panes, resizable panes)
+set -g mouse on
+# Use Alt-arrow keys without prefix key to switch panes
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+# enable vi mode keys
+set-window-option -g mode-keys vi
+# set default terminal mode to 256 colors
+set -g default-terminal "screen-256color"
+bind-key u capture-pane \;\
+    save-buffer /tmp/tmux-buffer \;\
+    split-window -l 10 "urlview /tmp/tmux-buffer"
+bind P paste-buffer
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-selection
+bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
+# loud or quiet?
+set-option -g visual-activity off
+set-option -g visual-bell off
+set-option -g visual-silence off
+set-window-option -g monitor-activity off
+set-option -g bell-action none
+#  modes
+setw -g clock-mode-colour colour5
+# panes
+# statusbar
+set -g status-position top
+set -g status-justify left
+set -g status-bg colour232
+set -g status-fg colour137
+###set -g status-attr dim
+set -g status-left ''
+set -g status-right '#{?window_zoomed_flag,🔍,} #[fg=colour255,bold]#H #[fg=colour255,bg=colour19,bold] %b %d #[fg=colour255,bg=colour8,bold] %H:%M '
+set -g status-right '#{?window_zoomed_flag,🔍,} #[fg=colour255,bold]#H '
+set -g status-right-length 50
+set -g status-left-length 20
+setw -g window-status-current-format ' #I#[fg=colour249]:#[fg=colour255]#W#[fg=colour249]#F '
+setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
+# messages
+# layouts
+bind S source-file $Tnix/.config/tmux-session1
+setw -g monitor-activity on
+set -g visual-activity on
+EOF
+}
+vimrc() { cat<<'EOF'
+set list
+set listchars=tab:>-
+set backupdir-=.
+set backupdir^=~/tmp,/tmp
+set nocompatible              
+"filetype plugin indent on
+set modelines=3
+set scrolloff=3
+set autoindent
+set hidden "remember ls
+set wildmenu
+set wildmode=list:longest
+set visualbell
+set ttyfast
+set backspace=indent,eol,start
+set laststatus=2
+set splitbelow
+set paste
+set mouse=a
+set title
+set number
+autocmd BufEnter * cd %:p:h
+set showmatch
+set matchtime=15
+set background=light
+set syntax=on
+syntax enable
+set ignorecase
+set incsearch
+set smartcase
+set showmatch
+set hlsearch
+set nofoldenable    " disable folding
+set ruler
+set laststatus=2
+set statusline=
+set statusline+=%F
+set statusline+=\ 
+set statusline+=%m
+set statusline+=%=
+set statusline+=%y
+set statusline+=\ 
+set statusline+=%c 
+set statusline+=:
+set statusline+=%l
+set statusline+=\ 
+set lispwords+=defthing   
+set lispwords+=doitems    
+set lispwords+=deftest
+set lispwords+=defkeep
+set lispwords+=labels
+set lispwords+=labels
+set lispwords+=doread
+set lispwords+=while
+set lispwords+=until
+set path+=../**
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2 
+end        
+colorscheme default
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+map Z 1z=
+set spell spelllang=en_us
+set spellsuggest=fast,20 "Don't show too much suggestion for spell check
+nn <F7> :setlocal spell! spell?<CR>
+let g:vim_markdown_fenced_languages = ['awk=awk']
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tbastos/vim-lua'
+Plugin 'airblade/vim-gitgutter'
+"Plugin 'itchyny/lightline.vim'
+Plugin 'junegunn/fzf'
+"	Plugin 'humiaozuzu/tabbar'
+"	Plugin 'drmingdrmer/vim-tabbar'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'ap/vim-buftabline'
+Plugin 'junegunn/fzf.vim'
+Plugin 'jnurmine/Zenburn'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'seebi/dircolors-solarized'
+Plugin 'nequo/vim-allomancer'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'vimwiki/vimwiki'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'tpope/vim-markdown'
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+colorscheme jellybeans
+map <C-o> :NERDTreeToggle<CR>
+nnoremap <Leader><space> :noh<cr>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+set titlestring=%{expand(\"%:p:h\")}
+hi Normal guibg=NONE ctermbg=NONE
+hi NonText guibg=NONE ctermbg=NONE
+        set fillchars=vert:\|
+hi VertSplit cterm=NONE	
+        set ts=2 
+        set sw=2 
+        set sts=2  
+        set et 
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif 
+set hidden
+nnoremap <C-N> :bnext<CR>
+nnoremap <C-P> :bprev<CR>
+set formatoptions-=t
+set nowrap 
+
+" Markdown
+let g:markdown_fenced_languages = ['awk']
+EOF
+}
+gitignore() { cat<<'EOF'
+####################################################
+### Gold ###
+var/
+
+####################################################
+### VIM ###
+
+# Swap
+[._]*.s[a-v][a-z]
+!*.svg  # comment out if you don't need vector files
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+Sessionx.vim
+
+# Temporary
+.netrwhist
+*~
+# Auto-generated tag files
+tags
+# Persistent undo
+[._]*.un~
+
+####################################################
+### Macos ###
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+EOF
+}
+travis() { cat<<'EOF'
+language: C
+
+sudo: true
+
+install:
+  - wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-5.1.0.tar.gz
+  - tar xzf gawk.tar.gz
+  - cd gawk-5.1.0
+  - ./configure; sudo make; sudo make install
+  - cd ..
+
+
+script:
+  - gawk -W version | head -1
+  - bash gold
+  - cd test
+  - bash ../gold -t 
+EOF
+}
+testall() {
+  gawk -W version | head -1
+  pwd
+  for i in  $Gold/test/ok.md; do
+    bash $0  $i
+  done  |  gawk ' 
+   1         { print $0 }    # a) print current line      
+   /FAILED!/ { err += 1 }    # b) catch current error number
+   END       { exit err - 1} # c) one test is designed to fail 
+                             #    (just to test the test engine)
+                             #     so "pass" really means, "only
+                             #     one test fails"
+  '
+  out="$?"
+  echo "Number of problems: $out"
+  exit $out
+EOF
+}
+
+goldfun() { cat<<'EOF'
+
+BEGIN{  AU["oid"]  = 0
+        AU["up"]   = ".."
+        AU["dot"] = "." 
+}
+
+function List(i)    { split("",i,"") }
+function Object(i)  { List(i); i["is"] = "Object"; i["oid"] = ++AU["oid"] }
+
+function zap(i,k)  { k = k?k:length(i)+1; i[k][0]; List(i[k]); return k } 
+
+function has( i,k,f,      s) { f=f?f:"List"; s=zap(i,k); @f(i[k]);     return s}
+function hass(i,k,f,m,    s) {               s=zap(i,k); @f(i[k],m);   return s}
+function hasss(i,k,f,m,n, s) {               s=zap(i,k); @f(i[k],m,n); return s}
+
+function inherit(k,f,   g) {
+  while(k) {
+    g = k f
+    if (g in FUNCTAB) return g
+    k = AU["is"][k]
+  }
+  print "#E> failed method lookup: ["f"]"
+  exit 2
+}
+
+functiion is(i,x) {
+  if ("is" in i) { AU["is"][x] = i.is }
+  i["is"] = x
+
+# ------------------------------------------
+#  printing nested arrays
+
+
+function rogues(    s) {
+  for(s in SYMTAB) 
+    if (s ~ /^[A-Z][a-z]/) 
+      print "#W> Global " s>"/dev/stderr"
+  for(s in SYMTAB) 
+    if (s ~ /^[_a-z]/    ) 
+      print "#W> Rogue: " s>"/dev/stderr"
+}
+
+function tests(what, all,   f,a,i,n) {
+  n = split(all,a,",")
+  print "\n#--- " what " -----------------------"
+  for(i=1;i<=n;i++) { 
+    f = a[i]; 
+    @f(f) 
+  }
+  rogues()
+}
+
+function near(got,want,     epsilon) {
+   epsilon = epsilon ? epsilon : 0.001
+   return abs(want - got)/(want + 10^-32)  < epsilon
+}
+
+function ok(f,yes,    msg) {
+  msg = yes ? "PASSED!" : "FAILED!"
+  print "#TEST:\t" msg "\t" f
+}
+
+# ------------------------------------------
+#  printing nested arrays
+
+function oo(a,prefix,    indent,   i,txt) {
+  txt = indent ? indent : (prefix AU.dot)
+  ooSortOrder(a)
+  for(i in a)  {
+    if (isarray(a[i]))   {
+      print(txt i"" )
+      oo(a[i],"","|  " indent)
+    } else
+      print(txt i (a[i]==""?"": ": " a[i])) }
+}
+
+function ooSortOrder(a, i) {
+  for (i in a)
+   return PROCINFO["sorted_in"] =\
+     typeof(i+1)=="number" ? "@ind_num_asc" : "@ind_str_asc"
+}
+
+function how(k,f,   g) {
+  while(k) {
+    g = k f
+    if (g in FUNCTAB) return g
+    k = AU.isa[k]
+  }
+  print "#E> failed method lookup: ["f"]"
+  exit 2
+}
+
+EOF
+}
+gold2awk() { cat $1 | gawk'
+    /```awk/ { Pre=""}
+    /```[^a]/{ Pre="#"}
+    ! Pre    { $0= gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
+                         "[\"\\1\\2\"]","g",s) }
+             {print Pre $0}'
+   goldfun
+   license | gawk '{print "# " $0"}'
+}
+install() {
+  mkdir -p $Gold/src
+  mkdir -p $Gold/var
+  mkdir -p $Gold/test
+  mkdir -p $Gold/test/data/raw
+  mkdir -p $Gold/test/data/cooked
+  if [ "$0" -nt "$Gold/.gitignore" ]; then gitignore > $Gold/.gitignore; fi
+  if [ "$0" -nt "$Gold/var/tmuxrc" ]; then tmuxrc    > $Gold/var/tmuxrc; fi
+  if [ "$0" -nt "$Gold/var/vimrc"  ]; then vimrc     > $Gold/var/vimrc; fi
+  if [ "$0" -nt "$Gold/.travis.yml"  ]; then travis  > $Gold/.travis.yml; fi
+  if `which vim` then
+    if  [ ! -d "$HOME/.vim/bundle/Vundle.vim" ]; then
+      git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+    fi
+    vim -E -s -u "$Gold/.tmp/vimrc" -c 'PluginInstall' -c 'qa!'
+  fi
+}
+
+Files= "`ls $Gold/src/*.${ext}`" 
+Files="$Files `ls $Gold/test/*.${ext}`" 
+
+if [ -z "$Files" ]; then
+  for i in $Files; do
+    j=$Gold/var/$(basename $i .${Ext}).awk
+    if [ "$i" -nt "$j" ]; then 
+      gold2awk  $i > $j
+    fi
+  done
+fi
+
+XXXX get opts needs a -t for test and a headers update
+
+j=$Gold/var/$(basename $1 .${Ext}).awk
+if [ -f "$j" ]; then
+  shift
+  if [ -t 1 ]; then
+    cat - | AWKPATH="$Gold/var:$AWKPATH" gawk -f $j $*
+  else
+    AWKPATH="$Gold/var:$AWKPATH" gawk -f $j $*
+  fi
+fi
