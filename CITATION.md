@@ -35,7 +35,7 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 ## Cite as ...
 
 T. Menzies. 
-_GOLD: an object layer for  GAWK 
+_GOLD: an object layer for  GAWK_
 May, 2020, 
 https://doi.org/10.5281/zenodo.3841466.
 
