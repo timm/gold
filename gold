@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 banner() { cat<<"EOF"
 
-                     ___        __     
-                    /\_ \      /\ \    
-     __       ___   \//\ \     \_\ \   (ↄ) 2020 
-   /'_ `\    / __`\   \ \ \    /'_` \   Tim Menzies
-  /\ \L\ \  /\ \L\ \   \_\ \_ /\ \L\ \   timm@ieee.org
-  \ \____ \ \ \____/   /\____\\ \___,_\   github.com/timm/gold
-   \/___L\ \ \/___/    \/____/ \/__,_ /
+                     ___        __   An object 
+                    /\_ \      /\ \   layer for Gawk
+     __       ___   \//\ \     \_\ \   -------------    
+   /'_ `\    / __`\   \ \ \    /'_` \   (ↄ) 2020 
+  /\ \L\ \  /\ \L\ \   \_\ \_ /\ \L\ \   Tim Menzies  
+  \ \____ \ \ \____/   /\____\\ \___,_\   timm@ieee.org  
+   \/___L\ \ \/___/    \/____/ \/__,_ /    github.com/timm/gold
      /\____/                           
-     \_/__/                               
+     \_/__/       
 EOF
 }
 #---------------------------------------------------------------------------------------
@@ -247,10 +247,10 @@ hi Normal guibg=NONE ctermbg=NONE
 hi NonText guibg=NONE ctermbg=NONE
         set fillchars=vert:\|
 hi VertSplit cterm=NONE	
-        set ts=2 
-        set sw=2 
-        set sts=2  
-        set et 
+set ts=2 
+set sw=2 
+set sts=2  
+set et 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif 
 set hidden
 nnoremap <C-N> :bnext<CR>
@@ -519,6 +519,16 @@ then
           AWKPATH="$Gold/var:AWKPATH" gawk -f $Gold/var/$(basename $OPTARG .md).awk $*
           ;;
        i) shift
+          _c0="\033[00m"     # white
+          _c1="\033[01;32m"  # green
+          _c2="\033[01;34m"  # blue
+          _c3="\033[31m"     # red
+          _c5="\033[35m"     # purple
+          _c6="\033[33m"     # yellow
+          _c7="\033[36m"     # turquoise _c8="\033[96m"  # magenta
+          echo -ne "\033[96m"
+          banner
+          echo; echo -ne "\033[00m"
           chmod +x $Gold/gold
           mkdir -p $Gold/src
           mkdir -p $Gold/var
@@ -543,17 +553,7 @@ then
           fi
           vim -E -s -u "$Gold/var/vimrc" -c 'PluginInstall' -c 'qa!'
           PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
-          _c0="\033[00m"     # white
-          _c1="\033[01;32m"  # green
-          _c2="\033[01;34m"  # blue
-          _c3="\033[31m"     # red
-          _c5="\033[35m"     # purple
-          _c6="\033[33m"     # yellow
-          _c7="\033[36m"     # turquoise _c8="\033[96m"  # magenta
-          echo -ne "\033[96m"
-          banner
-          echo -ne "\033[00m"
-          alias l='ls -G'
+                    alias l='ls -G'
           alias ..='cd ..'
           alias gg="git pull"
           alias gs="git status"

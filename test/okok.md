@@ -35,7 +35,6 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 # Testing the test engine
 
 ```awk
-@include "ok"
 
 BEGIN {  tests("okok","_ok") }
 
