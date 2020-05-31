@@ -34,17 +34,23 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 
 # Installation
 
-On Mac:
+Edit `~/.bashrc` and add the line
 
 ```
-chmod +x gold
-sh gold -i
+export GOLDENPATH="/path/to/this/dir"
 ```
 
-## Testing
-
-However you install, after installation:
+Then:
 
 ```
-sh gold -t
+. ~/.bashrc    # source the path (or log out, then log back in)
+chmod +x gold  # make the control file executable
+sh gold -i     # run GOLD's install scripts
+sh gold -t     # test your installation
+```
+
+If the above works, you should see much output, then finally:
+
+```
+Number of problems: 0
 ```

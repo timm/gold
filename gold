@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 banner() { cat<<"EOF"
 
-                     ___        __   An object 
-                    /\_ \      /\ \   layer for Gawk
-     __       ___   \//\ \     \_\ \   -------------    
-   /'_ `\    / __`\   \ \ \    /'_` \   (ↄ) 2020 
-  /\ \L\ \  /\ \L\ \   \_\ \_ /\ \L\ \   Tim Menzies  
-  \ \____ \ \ \____/   /\____\\ \___,_\   timm@ieee.org  
-   \/___L\ \ \/___/    \/____/ \/__,_ /    github.com/timm/gold
-     /\____/                           
-     \_/__/       
+                  ___        __  An object laer
+                 /\_ \      /\ \  for Gawk
+   __       ___  \//\ \     \_\ \  v3.0
+ /'_ `\    / __`\  \ \ \    /'_` \  
+/\ \L\ \  /\ \L\ \  \_\ \_ /\ \L\ \  
+\ \____ \ \ \____/  /\____\\ \___,_\  (ↄ) 2020  
+ \/___L\ \ \/___/   \/____/ \/__,_ /  Tim Menzies 
+   /\____/                            timm@ieee.org  
+   \_/__/               http://github.com/timm/gold
 EOF
 }
 #---------------------------------------------------------------------------------------
@@ -19,14 +19,14 @@ usage: gold [OPTIONS] [X.md]
 
  -i        Install IDE (vim, bash, tmux + github+travis).
  -t        Transpile all src and test code into awk.
- -d        Docu tool (copy 1st para of $Gold/README.md's to all .md files).
+ -d        Docu tool (copy $GOLDENPATH/README.md's first para to all .md files).
  -r  X.md  Run X.md.  
- -u        Unit tests (run all the tests in $Gold/test).
+ -u        Unit tests (run all the tests in $GOLDENPATH/test).
  -l        Show license.
  -h        ShoW help.
 
 Tips:
-(1)  Add "export GOLD='this/directory'" to "~/.bashrc"
+(1)  Add "export GOLDENPATH='this/directory'" to "~/.bashrc"
 (2)  To initialize: ". ~/.bashrc; chmod +x gold; sh gold -i"
 (3)  To get some nice tools for the local shell, use ". gold -i"
 (4)  The "-r" flag should be the last thing on the command line.
@@ -265,7 +265,7 @@ EOF
 #---------------------------------------------------------------------------------------
 gitignore() { cat<<'EOF'
 ####################################################
-#### Gold ####
+#### GOLDENPATH ####
 .goldrc
 var/
 
@@ -341,13 +341,13 @@ script:
   - gawk -W version | head -1
   - bash gold -i
   - cd test
-  - Gold="$(dirname $PWD)" bash ../gold -u 
+  - GOLDENPATH="$(dirname $PWD)" bash ../gold -u 
 EOF
 }
 unitests() {
   gawk -W version | head -1
   pwd
-  for i in  $Gold/test/*ok.md; do
+  for i in  $GOLDENPATH/test/*ok.md; do
     bash $0  $i
   done  |  gawk ' 
    1         { print $0 }    # a) print current line      
@@ -443,7 +443,7 @@ EOF
 }
 #---------------------------------------------------------------------------------------
 transpile() { 
-  local j=$Gold/var/$(basename $1 .md).awk
+  local j=$GOLDENPATH/var/$(basename $1 .md).awk
   if [ "$1" -nt "$j" ]; then 
     cat $1 | gawk '
       BEGIN     { Comment=1 }
@@ -466,7 +466,7 @@ transpiles () {
 }
 #---------------------------------------------------------------------------------------
 doco() {
-  cat $Gold/README.md | gawk '
+  cat $GOLDENPATH/README.md | gawk '
         BEGIN { FS="\n"; RS="" } 
               { print; exit 0  }' 
   cat $1 | gawk '
@@ -477,8 +477,8 @@ doco() {
 docos() {
   if [ -n "$*" ]; then
     for i in $*; do
-      if [ "$i" != "./README.md" ]; then
-        if [ "$Gold/README.md" -nt "$i" ]; then
+      if [ "$i" != "$GOLDENPATH/README.md" ]; then
+        if [ "$GOLDENPATH/README.md" -nt "$i" ]; then
           echo $i 2>&1
           doco $i > /tmp/$$
           mv /tmp/$$ $i
@@ -490,13 +490,13 @@ docos() {
 #---------------------------------------------------------------------------------------
 here() { cd $1; basename `pwd`; }
 
-if [ -n "$Gold" ]
+if [ -n "$GOLDENPATH" ]
 then 
    while getopts "itdr:ilh" arg; do
      case $arg in
        t) shift
-          transpiles $Gold/src/*.md
-          transpiles $Gold/test/*.md;;
+          transpiles $GOLDENPATH/src/*.md
+          transpiles $GOLDENPATH/test/*.md;;
        h) shift
           echo -ne "\033[96m"
           banner
@@ -508,15 +508,15 @@ then
           license
           echo -ne "\033[00m";;
        d) shift
-          docos $Gold/src/*.md
-          docos $Gold/test/*.md
-          docos $Gold/*.md;;
+          docos $GOLDENPATH/src/*.md
+          docos $GOLDENPATH/test/*.md
+          docos $GOLDENPATH/*.md;;
        u) shift
           unittests;;
        r) shift
           shift
           md2awk $OPTARG
-          AWKPATH="$Gold/var:AWKPATH" gawk -f $Gold/var/$(basename $OPTARG .md).awk $*
+          AWKPATH="$GOLDENPATH/var:AWKPATH" gawk -f $GOLDENPATH/var/$(basename $OPTARG .md).awk $*
           ;;
        i) shift
           _c0="\033[00m"     # white
@@ -529,37 +529,37 @@ then
           echo -ne "\033[96m"
           banner
           echo; echo -ne "\033[00m"
-          chmod +x $Gold/gold
-          mkdir -p $Gold/src
-          mkdir -p $Gold/var
-          mkdir -p $Gold/test
-          mkdir -p $Gold/test/data/raw
-          mkdir -p $Gold/test/data/cooked
-          if [ "$0" -nt "$Gold/.gitignore"  ]; then gitignore > $Gold/.gitignore;  fi
-          if [ "$0" -nt "$Gold/.travis.yml" ]; then travis    > $Gold/.travis.yml; fi
-          if [ "$0" -nt "$Gold/LICENSE.md"  ]; then license   > $Gold/LICENSE.md;  fi
-          if [ "$0" -nt "$Gold/var/tmuxrc"  ]; then tmuxrc    > $Gold/var/tmuxrc;  fi
-          if [ "$0" -nt "$Gold/var/vimrc"   ]; then vimrc     > $Gold/var/vimrc;   fi
+          chmod +x $GOLDENPATH/gold
+          mkdir -p $GOLDENPATH/src
+          mkdir -p $GOLDENPATH/var
+          mkdir -p $GOLDENPATH/test
+          mkdir -p $GOLDENPATH/test/data/raw
+          mkdir -p $GOLDENPATH/test/data/cooked
+          if [ "$0" -nt "$GOLDENPATH/.gitignore"  ]; then gitignore > $GOLDENPATH/.gitignore;  fi
+          if [ "$0" -nt "$GOLDENPATH/.travis.yml" ]; then travis    > $GOLDENPATH/.travis.yml; fi
+          if [ "$0" -nt "$GOLDENPATH/LICENSE.md"  ]; then license   > $GOLDENPATH/LICENSE.md;  fi
+          if [ "$0" -nt "$GOLDENPATH/var/tmuxrc"  ]; then tmuxrc    > $GOLDENPATH/var/tmuxrc;  fi
+          if [ "$0" -nt "$GOLDENPATH/var/vimrc"   ]; then vimrc     > $GOLDENPATH/var/vimrc;   fi
           if  [ ! -d "$HOME/.vim/bundle/Vundle.vim" ]
           then git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
           fi
           if [ -z "`which gawk`" ]; then
-            (mkdir -p /tmp/$$
-   	 cd /tmp/$$
-            wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-5.1.0.tar.gz
-   	 tar xzf gawk.tar.gz
-   	 cd gawk-5.1.0; ./configure; sudo make; sudo make install
-            )
+	     (mkdir -p /tmp/$$
+	     cd /tmp/$$
+	     wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-5.1.0.tar.gz
+	     tar xzf gawk.tar.gz
+	     cd gawk-5.1.0; ./configure; sudo make; sudo make install
+	     )
           fi
-          vim -E -s -u "$Gold/var/vimrc" -c 'PluginInstall' -c 'qa!'
+          vim -E -s -u "$GOLDENPATH/var/vimrc" -c 'PluginInstall' -c 'qa!'
           PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
                     alias l='ls -G'
           alias ..='cd ..'
           alias gg="git pull"
           alias gs="git status"
           alias gp="git commit -am 'saving'; git push; git status"
-          alias vi="vim -u $Gold/var/vimrc "
-          alias tmux="tmux -f $Gold/var/tmuxrc "
+          alias vi="vim -u $GOLDENPATH/var/vimrc "
+          alias tmux="tmux -f $GOLDENPATH/var/tmuxrc "
           for c in gawk git tmux vim ; do
             if [ -z "$(which $c)" ]; then
               echo "#WARNING:  missing: $c (better install it)"
@@ -571,9 +571,9 @@ then
 else
   cat<<-'EOF'
 
-	Gold not yet installed. Please add this line to ~/.bashrc
+	GOLD not yet installed. Please add this line to ~/.bashrc
 	
-	    export GOLD="this directory"
+	    export GOLDENPATH="this directory"
 	
 	then source the file:
 	
