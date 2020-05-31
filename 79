@@ -5,11 +5,11 @@
 banner() { cat<<"EOF"
 
    ________  ________     
-  |\_____  \|\  ___  \    gold/79
-   \|___/  /\ \____   \      http://github.com/timm/gold
-       /  / /\|____|\  \  
-      /  / /     __\_\  \       (ↄ) 2020 Tim Menzies
-     /__/ /     |\_______\         <timm@ieee.org>
+  |\_____  \|\  ___  \     gold/ 79
+   \|___/  /\ \____   \     github.com/timm/gold
+       /  / /\|____|\  \     ,
+      /  / /     __\_\  \     (ↄ) 2020 Tim Menzies
+     /__/ /     |\_______\     <timm@ieee.org>     
      |__|/      \|_______|
 
 EOF
@@ -17,11 +17,7 @@ EOF
 #---------------------------------------------------------------------------------------
 help() { cat<<'EOF'
 
-USAGE 0: chmod +x 79; sh 79 -i
-
-  - Just for installation.  Just do once.
-
-USAGE 1: ./79 [OPTIONS] [X.md]
+usage: 79 [OPTIONS] [X.md]
 
   -h         Show help.
   -a         Convert src and test code into awk.
@@ -32,9 +28,10 @@ USAGE 1: ./79 [OPTIONS] [X.md]
   -r X.md    Convert X.md to X.awk. Run it.
              Must be the last flag on the command line.
 
-USAGE 2: . 79 -i
-
-  - Add some nice short cuts to the current envrionment.
+Tips
+1)  Add "export GOLD='this/directory'" to "~/.bashrc".
+2)  For the initial set up, use  "chmod +x 79; sh 79 -i".
+3)  To get some  tools for the local shell, use ". gold -i".
 
 EOF
 }
@@ -542,7 +539,7 @@ then
           AWKPATH="$Gold/var:AWKPATH" gawk -f $Gold/var/$(basename $OPTARG .md).awk $*
           ;;
        i) shift
-          chmod +x $Gold/gold
+          chmod +x $Gold/79
           mkdir -p $Gold/src
           mkdir -p $Gold/var
           mkdir -p $Gold/test
