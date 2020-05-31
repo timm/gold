@@ -37,16 +37,8 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 On Mac:
 
 ```
-brew update
-brew install gawk
-gawk -W version | head -1
-```
-You want GAWK version 5+.
-
-On Unix:
-
-```
-make gawk
+chmod +x gold
+sh 79 -i
 ```
 
 ## Testing
@@ -54,5 +46,5 @@ make gawk
 However you install, after installation:
 
 ```
-make test
+sh 79 -t
 ```

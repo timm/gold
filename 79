@@ -1,31 +1,27 @@
 #!/usr/bin/env bash
 
 
-banner() { cat<<-"EOF"
 
-	    ,----..               ,--,                
-	   /   /   \            ,--.'|         ,---, 
-	  |   :     :    ,---.  |  | :       ,---.'|    gold v3 
-	  .   |  ;. /   '   ,'\ :  : '       |   | :    http://github.com/timm/gold
-	  .   ; /--`   /   /   ||  ' |       |   | |    
-	  ;   | ;  __ .   ; ,. :'  | |     ,--.__| |    
-	  |   : |.' .''   | |: :|  | :    /   ,'   |    
-	  .   | '_.' :'   | .; :'  : |__ .   '  /  |    
-	  '   ; : \  ||   :    ||  | '.'|'   ; |:  | 
-	  '   | '/  .' \   \  / ;  :    ;|   | '/  '    (ↄ) 2020
-	  |   :    /    `----'  |  ,   / |   :    :|    Tim Menzies 
-	   \   \ .'              ---`-'   \   \  /      <timm@ieee.org>
-	    `---`                          `----'   
-	EOF
+banner() { cat<<"EOF"
+
+   ________  ________     
+  |\_____  \|\  ___  \    gold/79
+   \|___/  /\ \____   \      http://github.com/timm/gold
+       /  / /\|____|\  \  
+      /  / /     __\_\  \       (ↄ) 2020 Tim Menzies
+     /__/ /     |\_______\         <timm@ieee.org>
+     |__|/      \|_______|
+
+EOF
 }
 #---------------------------------------------------------------------------------------
 help() { cat<<'EOF'
 
-usage0: sh gold -i
+USAGE 0: chmod +x 79; sh 79 -i
 
   - Just for installation.  Just do once.
 
-usage1: gold [OPTIONS] [X.md]
+USAGE 1: ./79 [OPTIONS] [X.md]
 
   -h         Show help.
   -a         Convert src and test code into awk.
@@ -36,7 +32,7 @@ usage1: gold [OPTIONS] [X.md]
   -r X.md    Convert X.md to X.awk. Run it.
              Must be the last flag on the command line.
 
-usage2: . gold -i
+USAGE 2: . 79 -i
 
   - Add some nice short cuts to the current envrionment.
 
@@ -348,9 +344,9 @@ install:
 
 script:
   - gawk -W version | head -1
-  - bash gold
+  - bash 79 -i
   - cd test
-  - bash ../gold -t 
+  - bash ../79 -t 
 EOF
 }
 testall() {
@@ -521,6 +517,7 @@ then
    while getopts "ahilmtr:" arg; do
      case $arg in
        a) shift
+          echo 1
           md2awks $Gold/src/*.md
           md2awks $Gold/test/*.md;;
        h) shift
