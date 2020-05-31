@@ -34,6 +34,22 @@ src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 
 # Installation
 
+Download the files:
+
+```
+wget https://github.com/timm/gold/archive/master.zip
+unzip master.zip
+mv gold-master gold
+cd gold
+```
+
+Or, clone the repo:
+
+```
+git clone https://github.com/timm/gold
+cd gold
+
+```
 Edit `~/.bashrc` and add the line
 
 ```
@@ -42,11 +58,16 @@ export GOLDENPATH="/path/to/this/dir"
 
 Then:
 
+- Source the path (or log out, then log back in)
+- Make the control file executable
+- Run GOLD's install scripts
+- Test your installation
+
 ```
-. ~/.bashrc    # source the path (or log out, then log back in)
-chmod +x gold  # make the control file executable
-sh gold -i     # run GOLD's install scripts
-sh gold -t     # test your installation
+. ~/.bashrc    
+chmod +x gold  
+sh gold -i     
+sh gold -t     
 ```
 
 If the above works, you should see much output, then finally:
