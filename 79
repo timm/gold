@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-
-
-
 banner() { cat<<"EOF"
 
    ________  ________     
