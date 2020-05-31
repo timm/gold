@@ -2,7 +2,8 @@
 <h1 align=center><a href="/README.md#top">GOLD: an object layer for GAWK</a></h1>
 <p align=center>
 <a
-href="https://github.com/timm/gold/blob/master/doc/01tour.md#top">overview</a> :: <a
+href="https://github.com/timm/gold/blob/master/doc/01tour.md#top">intro</a> :: <a
+href="https://github.com/timm/gold/blob/master/doc/01tour.md#top">ide</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/01core.md#top">under.the.hood</a> :: <a
 href="https://github.com/timm/gold/doc/02doco.md#top">lit.prog</a> :: <a
 href="https://github.com/timm/gold/blob/master/doc/03testing.md#top">testing</a> :: <a
