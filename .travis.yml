@@ -12,6 +12,6 @@ install:
 
 script:
   - gawk -W version | head -1
-  - bash gold
+  - bash 79 -i
   - cd test
-  - bash ../gold -t 
+  - Gold="$(dirname $PWD)" bash ../79 -u 

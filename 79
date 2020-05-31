@@ -16,19 +16,19 @@ help() { cat<<'EOF'
 
 usage: 79 [OPTIONS] [X.md]
 
-  -h         Show help.
-  -a         Convert src and test code into awk.
-  -i         Install IDE.
-  -l         Show License.
-  -m         Copy the 1st para of Gold/README.md's to all .md files.
-  -t         Run all the tests in Gold/test.
-  -r X.md    Convert X.md to X.awk. Run it.
-             Must be the last flag on the command line.
+ -i        Install  IDE (vim, bash, tmux + github+travis).
+ -t        Transpile all src and test code into awk.
+ -d        Docu tool (copy 1st para of $Gold/README.md's to all .md files).
+ -r  X.md  Run X.md.  
+ -u        Unit tests (run all the tests in $Gold/test).
+ -l        Show license.
+ -h        ShoW help.
 
-Tips
-1)  Add "export GOLD='this/directory'" to "~/.bashrc".
-2)  For the initial set up, use  "chmod +x 79; sh 79 -i".
-3)  To get some  tools for the local shell, use ". gold -i".
+Tips:
+(1)  Add "export GOLD='this/directory'" to "~/.bashrc"
+(2)  To initialize  ". ~/.bashrc; chmod +x 79; sh 79 -i"
+(3)  To get some  tools for the local shell, use ". gold -i"
+(4)  The "-r" flag should be the last thing on the command line.
 
 EOF
 }
@@ -340,10 +340,10 @@ script:
   - gawk -W version | head -1
   - bash 79 -i
   - cd test
-  - bash ../79 -t 
+  - Gold="$(dirname $PWD)" bash ../79 -u 
 EOF
 }
-testall() {
+unitests() {
   gawk -W version | head -1
   pwd
   for i in  $Gold/test/*ok.md; do
@@ -458,7 +458,7 @@ function how(k,f,   g) {
 EOF
 }
 #---------------------------------------------------------------------------------------
-md2awk() { 
+transpile() { 
   local j=$Gold/var/$(basename $1 .md).awk
   if [ "$1" -nt "$j" ]; then 
     cat $1 | gawk '
@@ -473,15 +473,15 @@ md2awk() {
     license | gawk '{print "# " $0}'  >> $j
   fi
 }
-md2awks () {
+transpiles () {
   if [ -n "$*" ]; then
     for i in $*; do
-      md2awk $i 
+      transpile $i 
     done
   fi
 }
 #---------------------------------------------------------------------------------------
-readme2md() {
+doco() {
   cat $Gold/README.md | gawk '
         BEGIN { FS="\n"; RS="" } 
               { print; exit 0  }' 
@@ -490,13 +490,13 @@ readme2md() {
         NR==1 && $1~/name=top>/ { next }
                                 { print ""; print }'  
 }
-readme2mds() {
+docos() {
   if [ -n "$*" ]; then
     for i in $*; do
       if [ "$i" != "./README.md" ]; then
         if [ "$Gold/README.md" -nt "$i" ]; then
           echo $i 2>&1
-          readme2md $i > /tmp/$$
+          doco $i > /tmp/$$
           mv /tmp/$$ $i
         fi
       fi
@@ -508,12 +508,11 @@ here() { cd $1; basename `pwd`; }
 
 if [ -n "$Gold" ]
 then 
-   while getopts "ahilmtr:" arg; do
+   while getopts "itdr:ilh" arg; do
      case $arg in
-       a) shift
-          echo 1
-          md2awks $Gold/src/*.md
-          md2awks $Gold/test/*.md;;
+       t) shift
+          transpiles $Gold/src/*.md
+          transpiles $Gold/test/*.md;;
        h) shift
           echo -ne "\033[96m"
           banner
@@ -524,12 +523,12 @@ then
           echo -ne "\033[33m"     # yellow
           license
           echo -ne "\033[00m";;
-       m) shift
-          readme2mds $Gold/src/*.md
-          readme2mds $Gold/test/*.md
-          readme2mds $Gold/*.md;;
-       t) shift
-          testall;;
+       d) shift
+          docos $Gold/src/*.md
+          docos $Gold/test/*.md
+          docos $Gold/*.md;;
+       u) shift
+          unittests;;
        r) shift
           shift
           md2awk $OPTARG
