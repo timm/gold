@@ -38,7 +38,7 @@ On Mac:
 
 ```
 chmod +x gold
-sh 79 -i
+sh gold -i
 ```
 
 ## Testing
@@ -46,5 +46,5 @@ sh 79 -i
 However you install, after installation:
 
 ```
-sh 79 -t
+sh gold -t
 ```

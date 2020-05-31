@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
 banner() { cat<<"EOF"
 
-   ________  ________     
-  |\_____  \|\  ___  \     gold/ 79
-   \|___/  /\ \____   \     github.com/timm/gold
-       /  / /\|____|\  \     ,
-      /  / /     __\_\  \     (ↄ) 2020 Tim Menzies
-     /__/ /     |\_______\     <timm@ieee.org>     
-     |__|/      \|_______|
-
+                     ___        __     
+                    /\_ \      /\ \    
+     __       ___   \//\ \     \_\ \   (ↄ) 2020 
+   /'_ `\    / __`\   \ \ \    /'_` \   Tim Menzies
+  /\ \L\ \  /\ \L\ \   \_\ \_ /\ \L\ \   timm@ieee.org
+  \ \____ \ \ \____/   /\____\\ \___,_\   github.com/timm/gold
+   \/___L\ \ \/___/    \/____/ \/__,_ /
+     /\____/                           
+     \_/__/                               
 EOF
 }
 #---------------------------------------------------------------------------------------
 help() { cat<<'EOF'
 
-usage: 79 [OPTIONS] [X.md]
+usage: gold [OPTIONS] [X.md]
 
- -i        Install  IDE (vim, bash, tmux + github+travis).
+ -i        Install IDE (vim, bash, tmux + github+travis).
  -t        Transpile all src and test code into awk.
  -d        Docu tool (copy 1st para of $Gold/README.md's to all .md files).
  -r  X.md  Run X.md.  
@@ -26,8 +27,8 @@ usage: 79 [OPTIONS] [X.md]
 
 Tips:
 (1)  Add "export GOLD='this/directory'" to "~/.bashrc"
-(2)  To initialize  ". ~/.bashrc; chmod +x 79; sh 79 -i"
-(3)  To get some  tools for the local shell, use ". gold -i"
+(2)  To initialize: ". ~/.bashrc; chmod +x gold; sh gold -i"
+(3)  To get some nice tools for the local shell, use ". gold -i"
 (4)  The "-r" flag should be the last thing on the command line.
 
 EOF
@@ -338,9 +339,9 @@ install:
 
 script:
   - gawk -W version | head -1
-  - bash 79 -i
+  - bash gold -i
   - cd test
-  - Gold="$(dirname $PWD)" bash ../79 -u 
+  - Gold="$(dirname $PWD)" bash ../gold -u 
 EOF
 }
 unitests() {
@@ -535,7 +536,7 @@ then
           AWKPATH="$Gold/var:AWKPATH" gawk -f $Gold/var/$(basename $OPTARG .md).awk $*
           ;;
        i) shift
-          chmod +x $Gold/79
+          chmod +x $Gold/gold
           mkdir -p $Gold/src
           mkdir -p $Gold/var
           mkdir -p $Gold/test
