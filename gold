@@ -38,7 +38,7 @@ usage1: gold [OPTIONS] [X.md]
 
 usage2: . gold -i
 
-  - Adds some nice short cuts to the current envrionment.
+  - Add some nice short cuts to the current envrionment.
 
 EOF
 }
