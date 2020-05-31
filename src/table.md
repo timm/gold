@@ -32,7 +32,6 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 </p>
 
-
 # `Table` = Tables of Data
 
 Tables have `Row`s and columns (which can be `Num`eric or `Sym`bolic).

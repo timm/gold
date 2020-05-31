@@ -32,7 +32,6 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 </p>
 
-
 # `Col` = Columns
 
 `Col`s are superclasses for column headers
@@ -43,7 +42,7 @@ of 1 (but  if their name includes
 
 ```awk
 function Col(i,txt,pos) {
-  Object(i)
+  Object(i) # adas
   i.w   = txt ~ /</ ? -1 : 1
   i.txt = txt
   i.pos = pos

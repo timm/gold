@@ -32,7 +32,6 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 </p>
 
-
 # `Num` = Numeric Columns
 
 Class for keeping  summaries of numbers.

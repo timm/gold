@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-Gold=$(dirname $0)
 
 banner() { cat<<-"EOF"
 
@@ -271,11 +270,12 @@ EOF
 #---------------------------------------------------------------------------------------
 gitignore() { cat<<'EOF'
 ####################################################
-### Gold ###
+#### Gold ####
+.goldrc
 var/
 
 ####################################################
-### VIM ###
+#### VIM ####
 
 # Swap
 [._]*.s[a-v][a-z]
@@ -298,7 +298,7 @@ tags
 [._]*.un~
 
 ####################################################
-### Macos ###
+#### Macos ####
 
 # General
 .DS_Store
@@ -394,10 +394,10 @@ function inherit(k,f,   g) {
   exit 2
 }
 
-functiion is(i,x) {
-  if ("is" in i) { AU["is"][x] = i.is }
+function is(i,x) {
+  if ("is" in i) { AU["is"][x] = i["is"] }
   i["is"] = x
-
+}
 # -----------------------------------------------------------------------------------
 #  printing nested arrays
 
@@ -435,7 +435,7 @@ function ok(f,yes,    msg) {
 #  printing nested arrays
 
 function oo(a,prefix,    indent,   i,txt) {
-  txt = indent ? indent : (prefix AU.dot)
+  txt = indent ? indent : (prefix AU["dot"] )
   ooSortOrder(a)
   for(i in a)  {
     if (isarray(a[i]))   {
@@ -455,7 +455,7 @@ function how(k,f,   g) {
   while(k) {
     g = k f
     if (g in FUNCTAB) return g
-    k = AU.isa[k]
+    k = AU["isa"][k]
   }
   print "#E> failed method lookup: ["f"]"
   exit 2
@@ -467,14 +467,16 @@ EOF
 md2awk() { 
   local j=$Gold/var/$(basename $1 .md).awk
   if [ "$1" -nt "$j" ]; then 
-    cat $1 | gawk'
-      /```awk/ { Pre=""}
-      /```[^a]/{ Pre="#"}
-      ! Pre    { $0= gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
-                           "[\"\\1\\2\"]","g",s) }
-               {print Pre $0}'  > $2
-    goldfun >> $2
-    license | gawk '{print "# " $0"}'  >> $2
+    cat $1 | gawk '
+      BEGIN     { Comment=1 }
+      /```awk/  { Comment=0; print "# " $0; next }
+      /```($|[^a])/ { Comment=1; print "# " $0; next }
+      ! Comment { $0 = gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
+                            "[\"\\1\\2\"]","g",$0) }
+                { print (Comment ? "# " : "")  $0 }
+                '  > $j
+    goldfun >> $j
+    license | gawk '{print "# " $0}'  >> $j
   fi
 }
 md2awks () {
@@ -487,12 +489,12 @@ md2awks () {
 #---------------------------------------------------------------------------------------
 readme2md() {
   cat $Gold/README.md | gawk '
-         BEGIN { FS="\n"; RS="" } 
-               { print; exit 0  }' 
+        BEGIN { FS="\n"; RS="" } 
+              { print; exit 0  }' 
   cat $1 | gawk '
         BEGIN { FS="\n"; RS="" } 
         NR==1 && $1~/name=top>/ { next }
-                                { print }'  
+                                { print ""; print }'  
 }
 readme2mds() {
   if [ -n "$*" ]; then
@@ -510,75 +512,96 @@ readme2mds() {
 #---------------------------------------------------------------------------------------
 here() { cd $1; basename `pwd`; }
 
-while getopts "ahilmtr:" arg; do
-  case $arg in
-    a) shift
-       gold2awks $Gold/src/*.md
-       gold2awks $Gold/test/*.md;;
-    h) shift
-       echo -ne "\033[96m"
-       banner
-       echo -ne "\033[33m"     # yellow
-       help
-       echo -ne "\033[00m";;
-    l) shift
-       echo -ne "\033[33m"     # yellow
-       license
-       echo -ne "\033[00m";;
-    m) shift
-       readme2mds $Gold/src/*.md
-       readme2mds $Gold/test/*.md
-       readme2mds $Gold/*.md;;
-    t) shift
-       testall;;
-    r) shift
-       shift
-       md2awk $OPTARG
-       if [ -t 1 ]
-       then 
-         cat - |
-         AWKPATH="$Gold/var:AWKPATH" gawk -f $Gold/var/$(basename $OPTARG .md).awk $*
-       else
-         AWKPATH="$Gold/var:AWKPATH" gawk -f $Gold/var/$(basename $OPTARG .md).awk $*
-       fi;;
-    i) shift
-       chmod +x $Gold/gold
-       mkdir -p $Gold/src
-       mkdir -p $Gold/var
-       mkdir -p $Gold/test
-       mkdir -p $Gold/test/data/raw
-       mkdir -p $Gold/test/data/cooked
-       if [ "$0" -nt "$Gold/.gitignore"  ]; then gitignore > $Gold/.gitignore;  fi
-       if [ "$0" -nt "$Gold/.travis.yml" ]; then travis    > $Gold/.travis.yml; fi
-       if [ "$0" -nt "$Gold/LICENSE.md"  ]; then license   > $Gold/LICENSE.md;  fi
-       if [ "$0" -nt "$Gold/var/tmuxrc"  ]; then tmuxrc    > $Gold/var/tmuxrc;  fi
-       if [ "$0" -nt "$Gold/var/vimrc"   ]; then vimrc     > $Gold/var/vimrc;   fi
-       if  [ ! -d "$HOME/.vim/bundle/Vundle.vim" ]
-       then git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
-       fi
-       vim -E -s -u "$Gold/var/vimrc" -c 'PluginInstall' -c 'qa!'
-       PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
-       _c0="\033[00m"     # white
-       _c1="\033[01;32m"  # green
-       _c2="\033[01;34m"  # blue
-       _c3="\033[31m"     # red
-       _c5="\033[35m"     # purple
-       _c6="\033[33m"     # yellow
-       _c7="\033[36m"     # turquoise _c8="\033[96m"  # magenta
-       echo -ne "\033[96m"
-       banner
-       echo -ne "\033[00m"
-       alias l='ls -G'
-       alias ..='cd ..'
-       alias gg="git pull"
-       alias gs="git status"
-       alias gp="git commit -am 'saving'; git push; git status"
-       alias vi="vim -u $Gold/var/vimrc "
-       alias tmux="tmux -f $Gold/var/tmuxrc "
-       for c in gawk git tmux vim ; do
-         if [ -z "$(which $c)" ]; then
-           echo "#WARNING:  missing: $c (better install it)"
-         fi
-       done;;
-  esac
-done
+if [ -n "$Gold" ]
+then 
+   while getopts "ahilmtr:" arg; do
+     case $arg in
+       a) shift
+          md2awks $Gold/src/*.md
+          md2awks $Gold/test/*.md;;
+       h) shift
+          echo -ne "\033[96m"
+          banner
+          echo -ne "\033[33m"     # yellow
+          help
+          echo -ne "\033[00m";;
+       l) shift
+          echo -ne "\033[33m"     # yellow
+          license
+          echo -ne "\033[00m";;
+       m) shift
+          readme2mds $Gold/src/*.md
+          readme2mds $Gold/test/*.md
+          readme2mds $Gold/*.md;;
+       t) shift
+          testall;;
+       r) shift
+          shift
+          md2awk $OPTARG
+          AWKPATH="$Gold/var:AWKPATH" gawk -f $Gold/var/$(basename $OPTARG .md).awk $*
+          ;;
+       i) shift
+          chmod +x $Gold/gold
+          mkdir -p $Gold/src
+          mkdir -p $Gold/var
+          mkdir -p $Gold/test
+          mkdir -p $Gold/test/data/raw
+          mkdir -p $Gold/test/data/cooked
+          if [ "$0" -nt "$Gold/.gitignore"  ]; then gitignore > $Gold/.gitignore;  fi
+          if [ "$0" -nt "$Gold/.travis.yml" ]; then travis    > $Gold/.travis.yml; fi
+          if [ "$0" -nt "$Gold/LICENSE.md"  ]; then license   > $Gold/LICENSE.md;  fi
+          if [ "$0" -nt "$Gold/var/tmuxrc"  ]; then tmuxrc    > $Gold/var/tmuxrc;  fi
+          if [ "$0" -nt "$Gold/var/vimrc"   ]; then vimrc     > $Gold/var/vimrc;   fi
+          if  [ ! -d "$HOME/.vim/bundle/Vundle.vim" ]
+          then git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+          fi
+          if [ -z "`which gawk`" ]; then
+            (mkdir -p /tmp/$$
+   	 cd /tmp/$$
+            wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-5.1.0.tar.gz
+   	 tar xzf gawk.tar.gz
+   	 cd gawk-5.1.0; ./configure; sudo make; sudo make install
+            )
+          fi
+          vim -E -s -u "$Gold/var/vimrc" -c 'PluginInstall' -c 'qa!'
+          PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
+          _c0="\033[00m"     # white
+          _c1="\033[01;32m"  # green
+          _c2="\033[01;34m"  # blue
+          _c3="\033[31m"     # red
+          _c5="\033[35m"     # purple
+          _c6="\033[33m"     # yellow
+          _c7="\033[36m"     # turquoise _c8="\033[96m"  # magenta
+          echo -ne "\033[96m"
+          banner
+          echo -ne "\033[00m"
+          alias l='ls -G'
+          alias ..='cd ..'
+          alias gg="git pull"
+          alias gs="git status"
+          alias gp="git commit -am 'saving'; git push; git status"
+          alias vi="vim -u $Gold/var/vimrc "
+          alias tmux="tmux -f $Gold/var/tmuxrc "
+          for c in gawk git tmux vim ; do
+            if [ -z "$(which $c)" ]; then
+              echo "#WARNING:  missing: $c (better install it)"
+            fi
+          done
+          ;;
+     esac
+   done
+else
+  cat<<-'EOF'
+
+	Gold not yet installed. Please add this line to ~/.bashrc
+	
+	    export GOLD="this directory"
+	
+	then source the file:
+	
+	    . ~/.bashrc
+	
+	(or just log off and log back on again).
+
+	EOF
+fi

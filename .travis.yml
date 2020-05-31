@@ -12,7 +12,6 @@ install:
 
 script:
   - gawk -W version | head -1
-  - ls
+  - bash gold
   - cd test
-  - pwd
-  - bash all.sh
+  - bash ../gold -t 

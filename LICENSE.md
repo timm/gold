@@ -32,8 +32,10 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 </p>
 
+# GOLD v3
 
-# Copyright (c) 2020, Tim Menzies
+Copyright (c) 2020, Tim Menzies    
+MIT license 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
