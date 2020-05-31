@@ -32,7 +32,6 @@ src="https://zenodo.org/badge/DOI/10.5281/zenodo.3841466.svg" alt="DOI"></a>
 src="https://travis-ci.org/timm/gold.svg?branch=master"></a>
 </p>
 
-
 # Welcome to GOLD
 
 We like GAWK. A lot. The simplicity and power of GAWK often make

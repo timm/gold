@@ -1,17 +1,51 @@
 #!/usr/bin/env bash
 
-# --refresh. do all
-# --test test
-# --mds update mardkwon
-
 Gold=$(dirname $0)
-Ext=awk
 
+banner() { cat<<-"EOF"
+
+	    ,----..               ,--,                
+	   /   /   \            ,--.'|         ,---, 
+	  |   :     :    ,---.  |  | :       ,---.'|    gold v3 
+	  .   |  ;. /   '   ,'\ :  : '       |   | :    http://github.com/timm/gold
+	  .   ; /--`   /   /   ||  ' |       |   | |    
+	  ;   | ;  __ .   ; ,. :'  | |     ,--.__| |    
+	  |   : |.' .''   | |: :|  | :    /   ,'   |    
+	  .   | '_.' :'   | .; :'  : |__ .   '  /  |    
+	  '   ; : \  ||   :    ||  | '.'|'   ; |:  | 
+	  '   | '/  .' \   \  / ;  :    ;|   | '/  '    (ↄ) 2020
+	  |   :    /    `----'  |  ,   / |   :    :|    Tim Menzies 
+	   \   \ .'              ---`-'   \   \  /      <timm@ieee.org>
+	    `---`                          `----'   
+	EOF
+}
+#---------------------------------------------------------------------------------------
+help() { cat<<'EOF'
+
+usage1: gold [OPTIONS] [X.md]
+
+ -h         Show help.
+ -a         Convert src and test code into awk.
+ -i         Install IDE.
+ -l         Show License.
+ -m         Copy the 1st para of Gold/README.md's to all .md files.
+ -t         Run all the tests in Gold/test.
+ -r X.md    Convert X.md to X.awk. Run it.
+            Must be the last flag on the command line.
+
+usage2: . gold -i
+
+- Adds some nice short cuts to the current envrionment.
+
+EOF
+}
+#---------------------------------------------------------------------------------------
 license() { cat<<'EOF'
 
 # GOLD v3
 
-Copyright (c) 2020, Tim Menzies
+Copyright (c) 2020, Tim Menzies    
+MIT license 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,58 +64,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
 EOF
 }
 
-here() { cd $1; basename `pwd`; }
-
-if [ -z "$1" ]; then
-    PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
-  _c0="\033[00m"     # white
-  _c1="\033[01;32m"  # green
-  _c2="\033[01;34m"  # blue
-  _c3="\033[31m"     # red
-  _c5="\033[35m"     # purple
-  _c6="\033[33m"     # yellow
-  _c7="\033[36m"     # turquoise _c8="\033[96m"  # magenta
-  echo -ne "\033[96m"
-  cat<<-"EOF"
-	
-	    ,----..               ,--,                
-	   /   /   \            ,--.'|         ,---, 
-	  |   :     :    ,---.  |  | :       ,---.'|    gold v3 
-	  .   |  ;. /   '   ,'\ :  : '       |   | :    http://github.com/timm/gold
-	  .   ; /--`   /   /   ||  ' |       |   | |    
-	  ;   | ;  __ .   ; ,. :'  | |     ,--.__| |    
-	  |   : |.' .''   | |: :|  | :    /   ,'   |    
-	  .   | '_.' :'   | .; :'  : |__ .   '  /  |    
-	  '   ; : \  ||   :    ||  | '.'|'   ; |:  | 
-	  '   | '/  .' \   \  / ;  :    ;|   | '/  '    (ↄ) 2020
-	  |   :    /    `----'  |  ,   / |   :    :|    Tim Menzies 
-	   \   \ .'              ---`-'   \   \  /      <timm@ieee.org>
-	    `---`                          `----'   
-		
-	EOF
-  echo -ne "\033[00m"
-  alias l='ls -G'
-  alias ..='cd ..'
-  alias gg="git pull"
-  alias gs="git status"
-  alias gp="git commit -am 'saving'; git push; git status"
-
-  alias vi="vim -u $Gold/etc/vimrc "
-  alias gold="bash $Gold/etc/run.sh "
-  alias tmux="$(which tmux) -f $Gold/etc/tmuxrc "
-
-  for c in gawk git tmux vim ; do
-    if [ -z "$(which $c)" ]; then
-      echo "#E> missing: $c"
-      
-    fi
-  done
-
-fi
-
+#---------------------------------------------------------------------------------------
 tmuxrc() { cat<<'EOF'
 set -g aggressive-resize on
 unbind C-b
@@ -150,11 +137,12 @@ setw -g monitor-activity on
 set -g visual-activity on
 EOF
 }
+#---------------------------------------------------------------------------------------
 vimrc() { cat<<'EOF'
 set list
 set listchars=tab:>-
 set backupdir-=.
-set backupdir^=~/tmp,/tmp
+set nobackup
 set nocompatible              
 "filetype plugin indent on
 set modelines=3
@@ -280,6 +268,7 @@ set nowrap
 let g:markdown_fenced_languages = ['awk']
 EOF
 }
+#---------------------------------------------------------------------------------------
 gitignore() { cat<<'EOF'
 ####################################################
 ### Gold ###
@@ -339,6 +328,7 @@ Temporary Items
 .apdisk
 EOF
 }
+#---------------------------------------------------------------------------------------
 travis() { cat<<'EOF'
 language: C
 
@@ -362,7 +352,7 @@ EOF
 testall() {
   gawk -W version | head -1
   pwd
-  for i in  $Gold/test/ok.md; do
+  for i in  $Gold/test/*ok.md; do
     bash $0  $i
   done  |  gawk ' 
    1         { print $0 }    # a) print current line      
@@ -372,12 +362,12 @@ testall() {
                              #     so "pass" really means, "only
                              #     one test fails"
   '
-  out="$?"
+  local out="$?"
   echo "Number of problems: $out"
   exit $out
 EOF
 }
-
+#---------------------------------------------------------------------------------------
 goldfun() { cat<<'EOF'
 
 BEGIN{  AU["oid"]  = 0
@@ -408,7 +398,7 @@ functiion is(i,x) {
   if ("is" in i) { AU["is"][x] = i.is }
   i["is"] = x
 
-# ------------------------------------------
+# -----------------------------------------------------------------------------------
 #  printing nested arrays
 
 
@@ -423,7 +413,7 @@ function rogues(    s) {
 
 function tests(what, all,   f,a,i,n) {
   n = split(all,a,",")
-  print "\n#--- " what " -----------------------"
+  print "\n#--- " what " ------------------------"
   for(i=1;i<=n;i++) { 
     f = a[i]; 
     @f(f) 
@@ -441,7 +431,7 @@ function ok(f,yes,    msg) {
   print "#TEST:\t" msg "\t" f
 }
 
-# ------------------------------------------
+# -----------------------------------------------------------------------------------
 #  printing nested arrays
 
 function oo(a,prefix,    indent,   i,txt) {
@@ -473,53 +463,121 @@ function how(k,f,   g) {
 
 EOF
 }
-gold2awk() { cat $1 | gawk'
-    /```awk/ { Pre=""}
-    /```[^a]/{ Pre="#"}
-    ! Pre    { $0= gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
-                         "[\"\\1\\2\"]","g",s) }
-             {print Pre $0}'
-   goldfun
-   license | gawk '{print "# " $0"}'
-}
-install() {
-  mkdir -p $Gold/src
-  mkdir -p $Gold/var
-  mkdir -p $Gold/test
-  mkdir -p $Gold/test/data/raw
-  mkdir -p $Gold/test/data/cooked
-  if [ "$0" -nt "$Gold/.gitignore" ]; then gitignore > $Gold/.gitignore; fi
-  if [ "$0" -nt "$Gold/var/tmuxrc" ]; then tmuxrc    > $Gold/var/tmuxrc; fi
-  if [ "$0" -nt "$Gold/var/vimrc"  ]; then vimrc     > $Gold/var/vimrc; fi
-  if [ "$0" -nt "$Gold/.travis.yml"  ]; then travis  > $Gold/.travis.yml; fi
-  if `which vim` then
-    if  [ ! -d "$HOME/.vim/bundle/Vundle.vim" ]; then
-      git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
-    fi
-    vim -E -s -u "$Gold/.tmp/vimrc" -c 'PluginInstall' -c 'qa!'
+#---------------------------------------------------------------------------------------
+md2awk() { 
+  local j=$Gold/var/$(basename $1 .md).awk
+  if [ "$1" -nt "$j" ]; then 
+    cat $1 | gawk'
+      /```awk/ { Pre=""}
+      /```[^a]/{ Pre="#"}
+      ! Pre    { $0= gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
+                           "[\"\\1\\2\"]","g",s) }
+               {print Pre $0}'  > $2
+    goldfun >> $2
+    license | gawk '{print "# " $0"}'  >> $2
   fi
 }
-
-Files= "`ls $Gold/src/*.${ext}`" 
-Files="$Files `ls $Gold/test/*.${ext}`" 
-
-if [ -z "$Files" ]; then
-  for i in $Files; do
-    j=$Gold/var/$(basename $i .${Ext}).awk
-    if [ "$i" -nt "$j" ]; then 
-      gold2awk  $i > $j
-    fi
-  done
-fi
-
-XXXX get opts needs a -t for test and a headers update
-
-j=$Gold/var/$(basename $1 .${Ext}).awk
-if [ -f "$j" ]; then
-  shift
-  if [ -t 1 ]; then
-    cat - | AWKPATH="$Gold/var:$AWKPATH" gawk -f $j $*
-  else
-    AWKPATH="$Gold/var:$AWKPATH" gawk -f $j $*
+md2awks () {
+  if [ -n "$*" ]; then
+    for i in $*; do
+      md2awk $i 
+    done
   fi
-fi
+}
+#---------------------------------------------------------------------------------------
+readme2md() {
+  cat $Gold/README.md | gawk '
+         BEGIN { FS="\n"; RS="" } 
+               { print; exit 0  }' 
+  cat $1 | gawk '
+        BEGIN { FS="\n"; RS="" } 
+        NR==1 && $1~/name=top>/ { next }
+                                { print }'  
+}
+readme2mds() {
+  if [ -n "$*" ]; then
+    for i in $*; do
+      if [ "$i" != "./README.md" ]; then
+        if [ "$Gold/README.md" -nt "$i" ]; then
+          readme2mds $i > /tmp/$$
+          mv /tmp/$$ $i
+        fi
+      fi
+    done
+  fi
+}
+#---------------------------------------------------------------------------------------
+here() { cd $1; basename `pwd`; }
+
+while getopts "ahilmtr:" arg; do
+  case $arg in
+    a) shift
+       gold2awks $Gold/src/*.md
+       gold2awks $Gold/test/*.md;;
+    h) shift
+       echo -ne "\033[96m"
+       banner
+       echo -ne "\033[33m"     # yellow
+       help
+       echo -ne "\033[00m";;
+    l) shift
+       echo -ne "\033[33m"     # yellow
+       license
+       echo -ne "\033[00m";;
+    m) shift
+       headers $Gold/src/*.md
+       headers $Gold/test/*.md
+       headers $Gold/*.md;;
+    t) shift
+       testall;;
+    r) shift
+       shift
+       md2awk $OPTARG
+       if [ -t 1 ]
+       then 
+         cat - |
+         AWKPATH="$Gold/var:AWKPATH" gawk -f $Gold/var/$(basename $OPTARG .md).awk $*
+       else
+         AWKPATH="$Gold/var:AWKPATH" gawk -f $Gold/var/$(basename $OPTARG .md).awk $*
+       fi;;
+    i) shift
+       chmod +x $Gold/gold
+       mkdir -p $Gold/src
+       mkdir -p $Gold/var
+       mkdir -p $Gold/test
+       mkdir -p $Gold/test/data/raw
+       mkdir -p $Gold/test/data/cooked
+       if [ "$0" -nt "$Gold/.gitignore"  ]; then gitignore > $Gold/.gitignore;  fi
+       if [ "$0" -nt "$Gold/.travis.yml" ]; then travis    > $Gold/.travis.yml; fi
+       if [ "$0" -nt "$Gold/LICENSE.md"  ]; then license   > $Gold/LICENSE.md;  fi
+       if [ "$0" -nt "$Gold/var/tmuxrc"  ]; then tmuxrc    > $Gold/var/tmuxrc;  fi
+       if [ "$0" -nt "$Gold/var/vimrc"   ]; then vimrc     > $Gold/var/vimrc;   fi
+       if  [ ! -d "$HOME/.vim/bundle/Vundle.vim" ]
+       then git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+       fi
+       vim -E -s -u "$Gold/var/vimrc" -c 'PluginInstall' -c 'qa!'
+       PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
+       _c0="\033[00m"     # white
+       _c1="\033[01;32m"  # green
+       _c2="\033[01;34m"  # blue
+       _c3="\033[31m"     # red
+       _c5="\033[35m"     # purple
+       _c6="\033[33m"     # yellow
+       _c7="\033[36m"     # turquoise _c8="\033[96m"  # magenta
+       echo -ne "\033[96m"
+       banner
+       echo -ne "\033[00m"
+       alias l='ls -G'
+       alias ..='cd ..'
+       alias gg="git pull"
+       alias gs="git status"
+       alias gp="git commit -am 'saving'; git push; git status"
+       alias vi="vim -u $Gold/var/vimrc "
+       alias tmux="tmux -f $Gold/var/tmuxrc "
+       for c in gawk git tmux vim ; do
+         if [ -z "$(which $c)" ]; then
+           echo "#WARNING:  missing: $c (better install it)"
+         fi
+       done;;
+  esac
+done
