@@ -499,7 +499,8 @@ readme2mds() {
     for i in $*; do
       if [ "$i" != "./README.md" ]; then
         if [ "$Gold/README.md" -nt "$i" ]; then
-          readme2mds $i > /tmp/$$
+          echo $i 2>&1
+          readme2md $i > /tmp/$$
           mv /tmp/$$ $i
         fi
       fi
@@ -525,9 +526,9 @@ while getopts "ahilmtr:" arg; do
        license
        echo -ne "\033[00m";;
     m) shift
-       headers $Gold/src/*.md
-       headers $Gold/test/*.md
-       headers $Gold/*.md;;
+       readme2mds $Gold/src/*.md
+       readme2mds $Gold/test/*.md
+       readme2mds $Gold/*.md;;
     t) shift
        testall;;
     r) shift
