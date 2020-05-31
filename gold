@@ -21,20 +21,24 @@ banner() { cat<<-"EOF"
 #---------------------------------------------------------------------------------------
 help() { cat<<'EOF'
 
+usage0: sh gold -i
+
+  - Just for installation.  Just do once.
+
 usage1: gold [OPTIONS] [X.md]
 
- -h         Show help.
- -a         Convert src and test code into awk.
- -i         Install IDE.
- -l         Show License.
- -m         Copy the 1st para of Gold/README.md's to all .md files.
- -t         Run all the tests in Gold/test.
- -r X.md    Convert X.md to X.awk. Run it.
-            Must be the last flag on the command line.
+  -h         Show help.
+  -a         Convert src and test code into awk.
+  -i         Install IDE.
+  -l         Show License.
+  -m         Copy the 1st para of Gold/README.md's to all .md files.
+  -t         Run all the tests in Gold/test.
+  -r X.md    Convert X.md to X.awk. Run it.
+             Must be the last flag on the command line.
 
 usage2: . gold -i
 
-- Adds some nice short cuts to the current envrionment.
+  - Adds some nice short cuts to the current envrionment.
 
 EOF
 }
