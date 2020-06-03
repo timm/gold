@@ -12,6 +12,8 @@ banner() { cat<<"EOF"
    \_/__/               http://github.com/timm/gold
 EOF
 }
+
+GOLD=${GOLD:-$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )}
 #---------------------------------------------------------------------------------------
 help() { cat<<'EOF'
 
@@ -19,14 +21,14 @@ usage: gold [OPTIONS] [X.md]
 
  -i        Install IDE (vim, bash, tmux + github+travis).
  -t        Transpile all src and test code into awk.
- -d        Docu tool (copy $GOLDENPATH/README.md's first para to all .md files).
+ -d        Docu tool (copy $GOLD/README.md's first para to all .md files).
  -r  X.md  Run X.md.  
- -u        Unit tests (run all the tests in $GOLDENPATH/test).
+ -u        Unit tests (run all the tests in $GOLD/test).
  -l        Show license.
  -h        ShoW help.
 
 Tips:
-(1)  Add "export GOLDENPATH='this/directory'" to "~/.bashrc"
+(1)  Add "export GOLD='this/directory'" to "~/.bashrc"
 (2)  To initialize: ". ~/.bashrc; chmod +x gold; sh gold -i"
 (3)  To get some nice tools for the local shell, use ". gold -i"
 (4)  The "-r" flag should be the last thing on the command line.
@@ -61,7 +63,6 @@ SOFTWARE.
 
 EOF
 }
-
 #---------------------------------------------------------------------------------------
 tmuxrc() { cat<<'EOF'
 set -g aggressive-resize on
@@ -207,7 +208,11 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+EOF
+
+echo "set rtp+=$Gold/var/vim/bundle/Vundle.vim"
+
+cat<<EOF
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -265,8 +270,7 @@ EOF
 #---------------------------------------------------------------------------------------
 gitignore() { cat<<'EOF'
 ####################################################
-#### GOLDENPATH ####
-.goldrc
+#### GOLDEN ####
 var/
 
 ####################################################
@@ -341,13 +345,13 @@ script:
   - gawk -W version | head -1
   - bash gold -i
   - cd test
-  - GOLDENPATH="$(dirname $PWD)" bash ../gold -u 
+  - GOLD="$(dirname $PWD)" bash ../gold -u 
 EOF
 }
 unitests() {
   gawk -W version | head -1
   pwd
-  for i in  $GOLDENPATH/test/*ok.md; do
+  for i in  $GOLD/test/*ok.md; do
     bash $0  $i
   done  |  gawk ' 
    1         { print $0 }    # a) print current line      
@@ -443,7 +447,7 @@ EOF
 }
 #---------------------------------------------------------------------------------------
 transpile() { 
-  local j=$GOLDENPATH/var/$(basename $1 .md).awk
+  local j=$GOLD/var/$(basename $1 .md).awk
   if [ "$1" -nt "$j" ]; then 
     cat $1 | gawk '
       BEGIN     { Comment=1 }
@@ -466,7 +470,7 @@ transpiles () {
 }
 #---------------------------------------------------------------------------------------
 doco() {
-  cat $GOLDENPATH/README.md | gawk '
+  cat $GOLD/README.md | gawk '
         BEGIN { FS="\n"; RS="" } 
               { print; exit 0  }' 
   cat $1 | gawk '
@@ -477,8 +481,8 @@ doco() {
 docos() {
   if [ -n "$*" ]; then
     for i in $*; do
-      if [ "$i" != "$GOLDENPATH/README.md" ]; then
-        if [ "$GOLDENPATH/README.md" -nt "$i" ]; then
+      if [ "$i" != "$GOLD/README.md" ]; then
+        if [ "$GOLD/README.md" -nt "$i" ]; then
           echo $i 2>&1
           doco $i > /tmp/$$
           mv /tmp/$$ $i
@@ -490,13 +494,13 @@ docos() {
 #---------------------------------------------------------------------------------------
 here() { cd $1; basename `pwd`; }
 
-if [ -n "$GOLDENPATH" ]
+if [ -n "$GOLD" ]
 then 
    while getopts "itdr:ilh" arg; do
      case $arg in
        t) shift
-          transpiles $GOLDENPATH/src/*.md
-          transpiles $GOLDENPATH/test/*.md;;
+          transpiles $GOLD/src/*.md
+          transpiles $GOLD/test/*.md;;
        h) shift
           echo -ne "\033[96m"
           banner
@@ -508,15 +512,15 @@ then
           license
           echo -ne "\033[00m";;
        d) shift
-          docos $GOLDENPATH/src/*.md
-          docos $GOLDENPATH/test/*.md
-          docos $GOLDENPATH/*.md;;
+          docos $GOLD/src/*.md
+          docos $GOLD/test/*.md
+          docos $GOLD/*.md;;
        u) shift
           unittests;;
        r) shift
           shift
           md2awk $OPTARG
-          AWKPATH="$GOLDENPATH/var:AWKPATH" gawk -f $GOLDENPATH/var/$(basename $OPTARG .md).awk $*
+          AWKPATH="$GOLD/var:AWKPATH" gawk -f $GOLD/var/$(basename $OPTARG .md).awk $*
           ;;
        i) shift
           _c0="\033[00m"     # white
@@ -529,19 +533,19 @@ then
           echo -ne "\033[96m"
           banner
           echo; echo -ne "\033[00m"
-          chmod +x $GOLDENPATH/gold
-          mkdir -p $GOLDENPATH/src
-          mkdir -p $GOLDENPATH/var
-          mkdir -p $GOLDENPATH/test
-          mkdir -p $GOLDENPATH/test/data/raw
-          mkdir -p $GOLDENPATH/test/data/cooked
-          if [ "$0" -nt "$GOLDENPATH/.gitignore"  ]; then gitignore > $GOLDENPATH/.gitignore;  fi
-          if [ "$0" -nt "$GOLDENPATH/.travis.yml" ]; then travis    > $GOLDENPATH/.travis.yml; fi
-          if [ "$0" -nt "$GOLDENPATH/LICENSE.md"  ]; then license   > $GOLDENPATH/LICENSE.md;  fi
-          if [ "$0" -nt "$GOLDENPATH/var/tmuxrc"  ]; then tmuxrc    > $GOLDENPATH/var/tmuxrc;  fi
-          if [ "$0" -nt "$GOLDENPATH/var/vimrc"   ]; then vimrc     > $GOLDENPATH/var/vimrc;   fi
-          if  [ ! -d "$HOME/.vim/bundle/Vundle.vim" ]
-          then git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+          chmod +x $GOLD/gold
+          mkdir -p $GOLD/src
+          mkdir -p $GOLD/var
+          mkdir -p $GOLD/test
+          mkdir -p $GOLD/test/data/raw
+          mkdir -p $GOLD/test/data/cooked
+          if [ "$0" -nt "$GOLD/.gitignore"  ]; then gitignore > $GOLD/.gitignore;  fi
+          if [ "$0" -nt "$GOLD/.travis.yml" ]; then travis    > $GOLD/.travis.yml; fi
+          if [ "$0" -nt "$GOLD/LICENSE.md"  ]; then license   > $GOLD/LICENSE.md;  fi
+          if [ "$0" -nt "$GOLD/var/tmuxrc"  ]; then tmuxrc    > $GOLD/var/tmuxrc;  fi
+          if [ "$0" -nt "$GOLD/var/vimrc"   ]; then vimrc     > $GOLD/var/vimrc;   fi
+          if  [ ! -d "$GOLD/var/vim/bundle/Vundle.vim" ]
+          then git clone https://github.com/VundleVim/Vundle.vim.git $GOLD/var/vim/bundle/Vundle.vim
           fi
           if [ -z "`which gawk`" ]; then
 	     (mkdir -p /tmp/$$
@@ -551,15 +555,15 @@ then
 	     cd gawk-5.1.0; ./configure; sudo make; sudo make install
 	     )
           fi
-          vim -E -s -u "$GOLDENPATH/var/vimrc" -c 'PluginInstall' -c 'qa!'
+          vim -E -s -u "$GOLD/var/vimrc" +PluginInstall +qall
           PROMPT_COMMAND='echo -ne "${_c2}iSH:${_c6}$(git branch 2>/dev/null | grep '^*' | colrm 1 2) ";PS1="${_c1}$_c0$(here ../..)/$(here ..)/$(here .) ${_c3}\!>${_c0}\e[m "'
                     alias l='ls -G'
           alias ..='cd ..'
           alias gg="git pull"
           alias gs="git status"
           alias gp="git commit -am 'saving'; git push; git status"
-          alias vi="vim -u $GOLDENPATH/var/vimrc "
-          alias tmux="tmux -f $GOLDENPATH/var/tmuxrc "
+          alias vi="vim -u $GOLD/var/vimrc "
+          alias tmux="tmux -f $GOLD/var/tmuxrc "
           for c in gawk git tmux vim ; do
             if [ -z "$(which $c)" ]; then
               echo "#WARNING:  missing: $c (better install it)"
@@ -573,7 +577,7 @@ else
 
 	GOLD not yet installed. Please add this line to ~/.bashrc
 	
-	    export GOLDENPATH="this directory"
+	    export GOLD="this directory"
 	
 	then source the file:
 	
