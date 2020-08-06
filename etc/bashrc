@@ -5,7 +5,7 @@ reload() {
 }
 
 
-alias awk="gold --all; AWKPATH='$Sh/.var:$AWKPATH'  gawk -f $Sh/gold.awk "
+alias awk="gold --all; AWKPATH='$Sh/.var:$AWKPATH'  gawk -f $Sh/.var/gold.awk "
 alias gold="bash $Sh/gold.sh "
 alias gg="git pull"   
 alias gs="git status"   

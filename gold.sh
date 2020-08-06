@@ -29,7 +29,7 @@ if [ "$1" == "--help" ]; then
 	the following commands are avaialble:
 
 	   gold    = sh gold.sh
-	   awk -f x     = gold --all; AWKPATH='$Sh/.var' gawk -f $Sh/gold.awk -f x 
+	   awk -f x     = gold --all; AWKPATH='$Sh/.var' gawk -f $Sh/.var/gold.awk -f x 
 	   gg	   = git pull
 	   gp      = git commit -am saving; git push; git status
 	   gs	   = git status
@@ -43,7 +43,7 @@ fi
 
 Sh=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 chmod +x $Sh
-mkdir -p $Sh/.var $Sh/src $Sh/tests
+mkdir -p $Sh/.var $Sh/src $Sh/tests $Sh/etc
 
 transpiles() {
   dot=$1; shift
@@ -53,7 +53,7 @@ transpiles() {
       k=$Sh/.var/$j
       echo -n $dot >&2
       cat $i |
-      gawk -f $Sh/gold.awk --source '{use=gold2awk(use) }' > $k
+      gawk -f $Sh/.var/gold.awk --source '{use=gold2awk(use) }' > $k
     done
   fi
 } 
@@ -62,12 +62,12 @@ go() {
   j=$Sh/.var/${2%.gold}.awk
   shift; shift;
   AWKPATH="$Sh/.var:$AWKPATH"
-  Com="gawk -f $Sh/gold.awk -f $j $*"
+  Com="gawk -f $Sh/.var/gold.awk -f $j $*"
   if  [ -t 0 ]; then AWKPATH="$AWKPATH" $Com
   else       cat - | AWKPATH="$AWKPATH" $Com
   fi
+  exit $?
 }
-
 
 if [ "$1" == "--all" ]; then
   transpiles "." $Sh/src/*.gold 
@@ -79,7 +79,6 @@ if [ "$1" == "-f"   ]; then
   transpiles "." $Sh/src/*.gold 
   transpiles "," $Sh/tests/*.gold
   go $*
-  exit $?
 fi
 
 if [ "$1" != "--install"   ]; then
@@ -94,22 +93,23 @@ fi
 
 echo "Installing tricks..."
 
-vims() {
-  if [ ! -d "$HOME/.vim/bundle" ]; then
+wget --quiet -O /tmp/master.zip https://github.com/timm/gold/archive/master.zip
+
+exists() {
+  if [ ! -f "$1" ]; then
+    unzip -p /tmp/master.zip gold-master/etc/$2 > $1
+  fi
+}
+
+exists $Sh/.var/gold.awk gold.awk
+exists $Sh/.gitignore gitignore
+exists $Sh/.var/tmuxrc tmuxrc
+exists $Sh/.var/bashrc bashrc
+exists $Sh/.var/vimrc vimrc
+if [ ! -d "$HOME/.vim/bundle" ]; then
    git clone https://github.com/VundleVim/Vundle.vim.git \
          ~/.vim/bundle/Vundle.vim
    vim -u $Sh/.var/vimrc  +PluginInstall +qall
 fi
-}
 
-exists() {
-  [ -f "$1" ] || wget --queit -O $1 \
-  https://raw.githubusercontent.com/timm/misc/txt/se20/master/$2
-}
-
-exists $Sh/.var/bashrc etc/bashrc
-exists $Sh/.var/vimrc etc/vimrc
-vims
-exists $Sh/.gitignore etc/gitignore
-exists $Sh/.var/tmuxrc etc/tmuxrc
 
