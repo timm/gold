@@ -39,7 +39,7 @@ fi
 
 Sh=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 chmod +x $Sh
-mkdir -p $Sh/.var $Sh/docs $Sh/tests $Sh/etc
+mkdir -p $Sh/.var $Sh/docs $Sh/tests 
 
 transpiles() {
   dot=$1; shift
