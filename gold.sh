@@ -1,8 +1,4 @@
-#!/usr/bin/env bash
-hello() { tput bold; tput setaf 6; cat<<"EOF"
    ________      __      
-  /\_____  \   /'_ `\   GOLD v0.4
-  \/___//'/'  /\ \L\ \   a Gawk object layer
       /' /'   \ \___, \   (ↄ) 2020 Tim Menzies
     /' /'      \/__,/\ \   timm@ieee.org
    /\_/             \ \_\
@@ -21,8 +17,8 @@ if [ "$1" == "--help" ]; then
 	Options:
 	
 	   --help        show help
-	   --all         transpiles to awk any docs/*.gold tests/*.gold files
-	   -f x.gold $*  transpiles, then runs gawk -f gold.awk -f x.awk $*
+	   --all         transpiles to awk any docs/*.md tests/*.md files
+	   -f x.md $*  transpiles, then runs gawk -f gold.awk -f x.awk $*
 	   --install     adds config files for bash, vim, git, tmux to ./.var
 	
 	If run with no options, drops the user into a shell where
@@ -49,7 +45,7 @@ transpiles() {
   dot=$1; shift
   if [ -n "$*" ]; then
     for i in $*; do 
-      j=$(basename $i .gold).awk
+      j=$(basename $i .md).awk
       k=$Sh/.var/$j
       echo -n $dot >&2
       cat $i |
@@ -59,7 +55,7 @@ transpiles() {
 } 
 
 go() {
-  j=$Sh/.var/${2%.gold}.awk
+  j=$Sh/.var/${2%.md}.awk
   shift; shift;
   AWKPATH="$Sh/.var:$AWKPATH"
   Com="gawk -f $Sh/.var/gold.awk -f $j $*"
@@ -70,14 +66,14 @@ go() {
 }
 
 if [ "$1" == "--all" ]; then
-  transpiles "." $Sh/docs/*.gold 
-  transpiles "," $Sh/tests/*.gold
+  transpiles "." $Sh/docs/*.md 
+  transpiles "," $Sh/tests/*.md
   exit 0
 fi
 
 if [ "$1" == "-f"   ]; then
-  transpiles "." $Sh/docs/*.gold 
-  transpiles "," $Sh/tests/*.gold
+  transpiles "." $Sh/docs/*.md 
+  transpiles "," $Sh/tests/*.md
   go $*
 fi
 
@@ -98,7 +94,7 @@ want=$Sh/.var/bashrc
 [ -f "$want" ] || cat<<'EOF' > $want
 reload() {
   rm $Sh/.var/*rc $Sh/.gitgnore
-  sh $Sh/gold.sh --install
+  sh $Sh/md.sh --install
   . $Sh/.var/bashrc
 }
 
@@ -123,9 +119,9 @@ EOF
 ##########################################
 want=$Sh/docs/index.md
 [ -f "$want" ] || cat<<'EOF' > $want
-----
-title: Hello
-----
+---
+title: 'Hello!'
+---
 
 #  Hello
 
