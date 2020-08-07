@@ -1,8 +1,12 @@
-   ________      __      
-      /' /'   \ \___, \   (ↄ) 2020 Tim Menzies
-    /' /'      \/__,/\ \   timm@ieee.org
-   /\_/             \ \_\
-   \//               \/_/
+#!/usr/bin/env bash
+hello() { tput bold; tput setaf 6; cat<<"EOF"
+    ________      __      
+   /\_____  \   /'_ `\   GOLD v0.4
+   \/___//'/'  /\ \L\ \   a Gawk object layer
+       /' /'   \ \___, \   (ↄ) 2020 Tim Menzies
+     /' /'      \/__,/\ \   timm@ieee.org
+    /\_/             \ \_\
+    \//               \/_/
 
 EOF
 tput sgr0
@@ -79,12 +83,12 @@ if [ "$1" == "-f"   ]; then
   exit $?
 fi
 
-if [ "$1" != "--tests"   ]; then
+if [ "$1" == "--tests"   ]; then
   sh $Sh/gold.sh --install
   sh $Sh/gold.sh --all
   cd $Sh/tests
   for i in *ok.md; do
-    go $i
+    sh gold.sh -f  $i
   done | gawk ' 
     1                          # a) print current line      
     /^Failure/ { err += 1 }    # b) catch current error number
@@ -97,6 +101,7 @@ if [ "$1" != "--tests"   ]; then
   echo "Number of problems: $out"
   exit $out
 fi
+
 
 if [ "$1" != "--install"   ]; then
   if [ -f "$Sh/.var/bashrc" ]; then

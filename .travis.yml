@@ -11,7 +11,6 @@ install:
 
 
 script:
-  - gawk -W version | head -1
-  - bash gold -i
-  - cd test
-  - Gold="$(dirname $PWD)" bash ../gold -u 
+  - chmod +x gold.sh
+  - sh gold.sh --tests
+
