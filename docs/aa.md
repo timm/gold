@@ -1,5 +1,8 @@
 # News 
 
+* TOC
+{:toc}
+
 Aida as ads _Adas_ ads _
 
 ```awk
