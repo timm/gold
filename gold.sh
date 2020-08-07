@@ -55,10 +55,11 @@ transpiles() {
 } 
 
 go() {
-  j=$Sh/.var/${2%.md}.awk
+  j=`basename $2 .md`
+  k=$Sh/.var/$j.awk
   shift; shift;
   AWKPATH="$Sh/.var:$AWKPATH"
-  Com="gawk -f $Sh/.var/gold.awk -f $j $*"
+  Com="gawk -f $Sh/.var/gold.awk -f $k $*"
   if  [ -t 0 ]; then AWKPATH="$AWKPATH" $Com
   else       cat - | AWKPATH="$AWKPATH" $Com
   fi
@@ -75,6 +76,26 @@ if [ "$1" == "-f"   ]; then
   transpiles "." $Sh/docs/*.md 
   transpiles "," $Sh/tests/*.md
   go $*
+  exit $?
+fi
+
+if [ "$1" != "--tests"   ]; then
+  sh $Sh/gold.sh --install
+  sh $Sh/gold.sh --all
+  cd $Sh/tests
+  for i in *ok.md; do
+    go $i
+  done | gawk ' 
+    1                          # a) print current line      
+    /^Failure/ { err += 1 }    # b) catch current error number
+    END        { exit err - 1} # c) one test is designed to fail 
+                               #    (just to test the test engine)
+                               #    so "pass" really means, "only
+                               #    one test fails"
+    '
+  out="$?"
+  echo "Number of problems: $out"
+  exit $out
 fi
 
 if [ "$1" != "--install"   ]; then
@@ -116,6 +137,26 @@ here()  { cd $1; basename `pwd`; }
 PROMPT_COMMAND='echo -ne "🔆 79º $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'     
 EOF
 
+##########################################
+want=$Sh/.travis.yml
+[ -f "$want" ] || cat<<'EOF' > $want
+language: C
+
+sudo: true
+
+install:
+  - wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-5.1.0.tar.gz
+  - tar xzf gawk.tar.gz
+  - cd gawk-5.1.0
+  - ./configure; sudo make; sudo make install
+  - cd ..
+
+
+script:
+  - chmod +x gold.sh
+  - sh gold.sh --tests
+
+EOF
 ##########################################
 want=$Sh/docs/index.md
 [ -f "$want" ] || cat<<'EOF' > $want
