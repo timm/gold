@@ -1,5 +1,3 @@
-###### vim: set ft=markdown: 
-
 # News 
 
 Aida as ads _Adas_ ads _

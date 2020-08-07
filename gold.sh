@@ -94,6 +94,46 @@ fi
 echo "Installing tricks..."
 
 ##########################################
+want=$Sh/.var/bashrc
+[ -f "$want" ] || cat<<'EOF' > $want
+reload() {
+  rm $Sh/.var/*rc $Sh/.gitgnore
+  sh $Sh/gold.sh --install
+  . $Sh/.var/bashrc
+}
+
+
+alias awk="gold --all; AWKPATH='$Sh/.var:$AWKPATH'  gawk -f $Sh/gold.awk "
+alias gold="bash $Sh/gold.sh "
+alias gg="git pull"   
+alias gs="git status"   
+alias gp="git commit -am 'saving'; git push; git status"    
+
+matrix() { nice -20 cmatrix -b -C cyan;   }
+vims()   { vim -u $Sh/.var/vimrc +PluginInstall +qall; }
+
+alias vi="vim    -u $Sh/.var/vimrc"
+alias tmux="tmux -f $Sh/.var/tmuxrc"
+
+here()  { cd $1; basename `pwd`; }    
+
+PROMPT_COMMAND='echo -ne "🔆 79º $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'     
+EOF
+
+##########################################
+want=$Sh/docs/index.md
+[ -f "$want" ] || cat<<'EOF' > $want
+----
+title: Hello
+----
+
+#  Hello
+
+<img src="https://pngimg.com/uploads/gold/gold_PNG11033.png">
+
+EOF
+
+##########################################
 want=$Sh/.var/gold.awk 
 [ -f "$want" ] || cat<<'EOF' > $want
 function gold2awk(use) {
@@ -461,34 +501,6 @@ bind S source-file $Tnix/.config/tmux-session1
 setw -g monitor-activity on
 set -g visual-activity on
 EOF
-##########################################
-
-want=$Sh/.var/bashrc
-[ -f "$want" ] || cat<<'EOF' > $want
-reload() {
-  rm $Sh/.var/*rc $Sh/.gitgnore
-  sh $Sh/gold.sh --install
-  . $Sh/.var/bashrc
-}
-
-
-alias awk="gold --all; AWKPATH='$Sh/.var:$AWKPATH'  gawk -f $Sh/gold.awk "
-alias gold="bash $Sh/gold.sh "
-alias gg="git pull"   
-alias gs="git status"   
-alias gp="git commit -am 'saving'; git push; git status"    
-
-matrix() { nice -20 cmatrix -b -C cyan;   }
-vims()   { vim -u $Sh/.var/vimrc +PluginInstall +qall; }
-
-alias vi="vim    -u $Sh/.var/vimrc"
-alias tmux="tmux -f $Sh/.var/tmuxrc"
-
-here()  { cd $1; basename `pwd`; }    
-
-PROMPT_COMMAND='echo -ne "🔆 79º $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'     
-EOF
-
 ##########################################
 
 want=$Sh/.var/vimrc
