@@ -43,7 +43,7 @@ fi
 
 Sh=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 chmod +x $Sh
-mkdir -p $Sh/.var $Sh/docs $Sh/tests 
+mkdir -p $Sh/.var $Sh/docs $Sh/tests $Sh/docs/assets/css
 
 transpiles() {
   dot=$1; shift
@@ -139,6 +139,14 @@ alias tmux="tmux -f $Sh/.var/tmuxrc"
 here()  { cd $1; basename `pwd`; }    
 
 PROMPT_COMMAND='echo -ne "🔆 79º $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'     
+EOF
+
+##########################################
+want=$Sh/docs/assets/css/style.scss
+[ -f "$want" ] || cat<<'EOF' > $want
+l
+@import "{{ site.theme }}";
+pre { font-size: 10px; line-spacing: 110%;}
 EOF
 
 ##########################################
