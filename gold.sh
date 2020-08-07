@@ -60,7 +60,7 @@ transpiles() {
 
 go() {
   j=`basename $2 .md`
-  k=$Sh/.var/$j.awk
+  k=$Sh/.var/${j}.awk
   shift; shift;
   AWKPATH="$Sh/.var:$AWKPATH"
   Com="gawk -f $Sh/.var/gold.awk -f $k $*"
@@ -84,8 +84,7 @@ if [ "$1" == "-f"   ]; then
 fi
 
 if [ "$1" == "--tests"   ]; then
-  sh $Sh/gold.sh --install
-  sh $Sh/gold.sh --all
+   set -x
   cd $Sh/tests
   for i in *ok.md; do
     sh gold.sh -f  $i
