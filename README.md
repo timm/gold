@@ -1,7 +1,9 @@
+<img width=30 src="https://image.flaticon.com/icons/svg/25/25621.svg">
 [cite](#citation) :: 
 [install](#install) :: 
 [contact](#contact) ::
 [license](#license)  
+<img width=30 src="https://image.flaticon.com/icons/svg/25/25299.svg">
 
 # Gold
 
