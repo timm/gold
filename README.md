@@ -1,5 +1,6 @@
 <img 
-                     width=15   src="https://image.flaticon.com/icons/svg/25/25621.svg"> <a 
+                     width=15   
+src="https://image.flaticon.com/icons/svg/25/25621.svg"> [citation](#citation) ::  
 href="#citation">cite</a> :: <a 
 href="#install">install</a> :: <a 
 href="#contact">contact</a> :: <a 
