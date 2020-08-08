@@ -1,10 +1,10 @@
-<p align=center><img 
+<img 
                      width=15   src="https://image.flaticon.com/icons/svg/25/25621.svg"> <a 
 href="#citation">cite</a> :: <a 
 href="#install">install</a> :: <a 
 href="#contact">contact</a> :: <a 
 href="#license">license</a>  <img
-width=15   src="https://image.flaticon.com/icons/svg/25/25299.svg"></p>
+width=15   src="https://image.flaticon.com/icons/svg/25/25299.svg">
 
 # Gold
 
