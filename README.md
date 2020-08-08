@@ -1,5 +1,4 @@
-<img width=15 src="https://image.flaticon.com/icons/svg/25/25621.svg"
->[citation](#citation) ::  [install](#install) :: [contact](#contact) :: [license](#license) <img
+<img width=15 src="https://image.flaticon.com/icons/svg/25/25621.svg">[citation](#citation) ::  [install](#install) :: [contact](#contact) :: [license](#license) <img
 width=15   src="https://image.flaticon.com/icons/svg/25/25299.svg">
 
 # Gold
