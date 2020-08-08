@@ -11,6 +11,17 @@
  </p>
 
  ## Features
+ 
+Gold is a transpiler that converts `.md` files containg `awk` blocks into awk code. Dots are translated into
+array references. E.g.
+
+    a.b.c++
+    
+becomes
+
+    a["b"]["c"]++
+    
+Along the way, other things are added in like:
 
 - encapsulation, inheritance, iterators
 - unit tests
