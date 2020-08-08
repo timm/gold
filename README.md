@@ -23,9 +23,10 @@ becomes
     
 Along the way, other things are added in like:
 
-- encapsulation, inheritance, iterators
-- unit tests
-- document generation
+- encapsulation (using the dots), 
+- polymorphism and inheritance (using indirect functions), 
+- iterators and unit tests (using some built in fuctions)
+- document generation (using the `.md` files stores in a `docs` directory which can be used by, e.g. Jekyll).
 
 ## Citation
 
