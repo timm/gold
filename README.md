@@ -6,7 +6,7 @@
  href="#citation">cite</a> ::  <a 
  href="#install">install</a> :: <a 
  href="#contact">contact</a> :: <a 
- href="#license">license</a>   license</a>  
+ href="#license">license</a>    </a>  
  </p>
 
  ## Features
