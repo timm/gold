@@ -1,12 +1,11 @@
-
-  <h1 align=center> Gold = Gawk object layer</h1>
+ <h1 align=center> Gold = Gawk object layer</h1>
   <p align=center>
-  <img src="">
+   <img src="https://pngimg.com/uploads/gold/gold_PNG11033.png">
   <a 		                      width=15   src="https://image.flaticon.com/icons/svg/25/25621.svg"> <a 
  href="#citation">cite</a> :: <a 		 href="#citation">cite</a> :: <a 
  href="#install">install</a> :: <a 		 href="#install">install</a> :: <a 
  href="#contact">contact</a> :: <a 		 href="#contact">contact</a> :: <a 
- href="#license">license</a>  <img		 href="#license">license</a>  
+ href="#license">license</a>   license</a>  
  </p>
 
  ## Features
