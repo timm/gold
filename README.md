@@ -1,9 +1,15 @@
-<img width=13 src="https://image.flaticon.com/icons/svg/25/25621.svg"> [citation](#citation) ::  [install](#install) :: [contact](#contact) :: [license](#license) <img
-width=13   src="https://image.flaticon.com/icons/svg/25/25299.svg">
 
-# Gold
+<p align=center>
+  <h1> Gold = Gawk object layer</h1>
+  <img src="">
+<br> <a 		                      width=15   src="https://image.flaticon.com/icons/svg/25/25621.svg"> <a 
+ href="#citation">cite</a> :: <a 		 href="#citation">cite</a> :: <a 
+ href="#install">install</a> :: <a 		 href="#install">install</a> :: <a 
+ href="#contact">contact</a> :: <a 		 href="#contact">contact</a> :: <a 
+ href="#license">license</a>  <img		 href="#license">license</a>  
+ </p>
 
-Gawk object layer.
+ ## Features
 
 - encapsulation, inheritance, iterators
 - unit tests
