@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 hello() { tput bold; tput setaf 6; cat<<"EOF"
-    ________      __      
-   /\_____  \   /'_ `\   GOLD v0.4
-   \/___//'/'  /\ \L\ \   a Gawk object layer
-       /' /'   \ \___, \   (ↄ) 2020 Tim Menzies
-     /' /'      \/__,/\ \   timm@ieee.org
-    /\_/             \ \_\
-    \//               \/_/
-
+   __        __  __   
+ /'__`\     /\ \/\ \   GOLD v0.4
+/\ \L\.\_   \ \ \_\ \    a Gawk object layer
+\ \__/.\_\   \ \____/      (ↄ) 2020 Tim Menzies
+ \/__/\/_/    \/___/         timm@ieee.org
+                   
 EOF
 tput sgr0
 }
