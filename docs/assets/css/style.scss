@@ -98,9 +98,9 @@ br { clear:left }
 
 .menu_simple ul li a {
     float: left; text-decoration: none;
-    color: white; 
+    color: blue; 
     padding: 10.5px 11px;
-    background-color:  #005555;
+    background-color:  white;
 }
  
 .menu_simple ul li a:visited {
@@ -109,5 +109,5 @@ br { clear:left }
  
 .menu_simple ul li a:hover, .menu_simple ul li .current {
     color: white;
-    background-color: white;
+    background-color: #5FD367;
 }
