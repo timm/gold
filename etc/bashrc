@@ -6,7 +6,7 @@ reload() {
 alias awk="gold --all; AWKPATH='$Sh/.var:$AWKPATH'  gawk -f $Sh/etc/gold.awk "
 alias gold="bash $Sh/gold.sh "
 alias ls="ls -G "
-elias gg="git pull"   
+alias gg="git pull"   
 alias gs="git status"   
 alias gp="git commit -am 'saving'; git push; git status"    
 

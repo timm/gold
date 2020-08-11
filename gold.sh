@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 hello() { tput bold; tput setaf 6; cat<<"EOF"
-    __        __  __   
-  /'__`\     /\ \/\ \   GOLD v0.4
- /\ \L\.\_   \ \ \_\ \    a Gawk object layer
- \ \__/.\_\   \ \____/      (ↄ) 2020 Tim Menzies
-  \/__/\/_/    \/___/         timm@ieee.org
-                   
+                  
+        _.-'~~`~~'-._
+     .'`  J   E   C  `'.  GOLD v0.4
+    / B               T \   a Gawk object layer
+  /`       .-'~"-.       `\   (ↄ) 2020 Tim Menzies
+ ; O      / `-    \      S ;    timm@ieee.org
+;        />  `.  -.|        ;
+|       /_     '-.__)       |
+|        |-  _.' \ |        |
+;        `~~;     \\        ;
+ ;INgawkWE /      \\)P    ;
+  \  TRUST '.___.-'`"     /
+   `\                   /`
+     '._   2 0 2 0   _.'
+ jgs    `'-..,,,..-'` 
 EOF
 tput sgr0
 }
@@ -45,14 +54,13 @@ mkdir -p $Sh/.var
 
 transpiles() {
   dot=$1; shift
-  if [ -n "$*" ]; then
-    for i in $*; do 
-      j=$(basename $i .md).awk
-      k=$Sh/.var/$j
-      echo -n $dot >&2
-      cat $i |
-      gawk -f $Sh/etc/gold.awk --source '{use=gold2awk(use) }' > $k
-    done
+  j=$(basename $1 .md).awk
+  k=$Sh/.var/$j
+  #echo -n $dot >&2
+  if [ "$1" -nt "$k" ]; then
+    echo "$1 ==> $j" >&2
+    cat $1 |
+    gawk -f $Sh/etc/gold.awk --source '{use=gold2awk(use) }' > $k
   fi
 } 
 
@@ -69,14 +77,14 @@ go() {
 }
 
 if [ "$1" == "--all" ]; then
-  transpiles "." $Sh/docs/*.md 
-  transpiles "," $Sh/tests/*.md
+  for f in $Sh/docs/*.md;  do transpiles "." $f; done
+  for f in $Sh/tests/*.md; do transpiles "." $f; done
   exit 0
 fi
 
 if [ "$1" == "-f"   ]; then
-  transpiles "." $Sh/docs/*.md 
-  transpiles "," $Sh/tests/*.md
+  for f in $Sh/docs/*.md;  do transpiles "." $f; done
+  for f in $Sh/tests/*.md; do transpiles "." $f; done
   go $*
   exit $?
 fi

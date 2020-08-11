@@ -1,4 +1,5 @@
-function gold2awk(use) {
+function gold2awk(use) 
+{
   if (gsub(/^```awk/,"")) use= 1
   if (gsub(/^```/,  "")) use= 0
   if (use) 
@@ -47,16 +48,19 @@ function Obj(i)  {
 function List(i)    { split("",i,"") }
 
 function has(i,k,f,   s) { 
-  if (!f) f = "List"               # ensure we are creating something
-  if (!k) k = length(i)+1          # ensure we have a place to put it
   i[k]["\001"]; delete i[k]["\001"] # ensure we adding to a sulist
-  @f(i[k])                         # create
-  return k                         # return where we put it
+  f ? @f(i[k])  : List(i[k])
 }
 
-function is(i,f1,f2) {
-  if (f2) @f2(i)
-  if ("ois" in i) { GOLD["ois"][f1] = i["ois"] }
+function have(i,f,   k) { 
+  k =length(i)+1
+  has(i,k,f)
+  return k
+}
+
+function isa(i,f1,f2) {
+  @f2(i)
+  GOLD["ois"][f1] = i["ois"] 
   i["ois"] = f1
 }
 
@@ -70,25 +74,28 @@ function inherit(s,f,   g) {
   exit 2
 }
 
-function isa(f,a) {
-  if (isarray(a) && "ois" in a && "oid" in a && 
-      f==a["ois"] && a["ois"] in FUNCTAB) {
-       if (GOLD["brave"])
-         return 1
-       else {
-         while(f) { 
-           if (isa1(f, a)) 
-             return 1
-           f = GOLD["ois"][f] }}}
+function is(f,a) {
+  if (isarray(a))
+    if ( "ois" in a)
+      if ("oid" in a) 
+        if(f==a["ois"])
+          if(a["ois"] in FUNCTAB) {
+            if (GOLD["brave"])
+              return 1
+            else {
+              while(f) { 
+                if (is1(f, a)) 
+                  return 1
+                f = GOLD["ois"][f] }}}
   return 0
 }
 
-function isa1(f,a,   b) { @f(b); return isa2(a,b) }
+function is1(f,a,   b) { @f(b); return is2(a,b) }
 
-function isa2(a,b,     j) {
+function is2(a,b,     j) {
   if (isarray(a) && isarray(b)) {
     for(j in b) 
-      if ( ! isa2(a[j], b[j]) ) 
+      if ( ! is2(a[j], b[j]) ) 
         return 0
   } else {
       if (typeof(a) != typeof(b)) 
