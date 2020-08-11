@@ -1,20 +1,17 @@
 #!/usr/bin/env bash
 hello() { tput bold; tput setaf 6; cat<<"EOF"
-                  
-        _.-'~~`~~'-._
-     .'`  J   E   C  `'.  GOLD v0.4
-    / B               T \   a Gawk object layer
-  /`       .-'~"-.       `\   (ↄ) 2020 Tim Menzies
- ; O      / `-    \      S ;    timm@ieee.org
-;        />  `.  -.|        ;
-|       /_     '-.__)       |
-|        |-  _.' \ |        |
-;        `~~;     \\        ;
- ;INgawkWE /      \\)P    ;
-  \  TRUST '.___.-'`"     /
-   `\                   /`
-     '._   2 0 2 0   _.'
- jgs    `'-..,,,..-'` 
+           .--.
+         / ,~a`-,
+         \ \_.-"`
+          ) (
+        ,/ ."\
+       /  (  |   GOLD v0.4
+      /   )  ;   A GAWK object layer
+ jgs /   /  /    (ↄ) 2020 Tim Menzies
+   ,/_."` /`     timm@ieee.org 
+    /_/\ |___
+       `~~~~~`   "A little auk goes a long way."
+
 EOF
 tput sgr0
 }
