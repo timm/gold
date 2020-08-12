@@ -115,9 +115,12 @@ if [ "$1" != "--install"   ]; then
   exit 0
 fi
 
-echo "Installing tricks..."
-wget  -O master.zip https://github.com/timm/gold/archive/master.zip
-unzip master.zip
+echo "Installing tricks ..."
+echo "Download base files ..."
+wget  -q -O master.zip https://github.com/timm/gold/archive/master.zip
+echo "Expanding base files ..."
+unzip -q  master.zip
+echo "Updating local files ..."
 cp -a  -n gold-master/ .
 rm -rf master.zip gold-master
 chmod +x gold.sh
