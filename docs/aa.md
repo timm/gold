@@ -6,6 +6,8 @@
 Aida as ads _Adas_ ads _
 
 ```awk
+@include "b"
+
 function asa() {
   x=gsub("asdaa",$1)
 }

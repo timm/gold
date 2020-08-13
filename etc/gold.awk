@@ -1,13 +1,35 @@
-function gold2awk(use) 
+function gold2awk(use,s) 
 {
-  if (gsub(/^```awk/,"")) use= 1
-  if (gsub(/^```/,  "")) use= 0
+  if (gsub(/^```awk/,"", s)) use= 1
+  if (gsub(/^```/,  "" , s)) use= 0
   if (use) 
     print gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/,
-                  "[\"\\1\\2\"]","g",$0);
-  else 
-    print "# " $0
+                  "[\"\\1\\2\"]","g", s);
   return use
+}
+function fileExists(f,   status) {
+  status = getline < f
+  status = status >= 0
+  close(f)
+  return status
+}
+function goldFile(f, seen,
+            g,i,use,s) {
+  if (f in seen) return 0
+  if (fileExists(f)) {
+    seen[f] 
+    while((getline < f) > 0)  {
+      if($0 ~ /^@include/) {
+        g = $2
+        gsub(/[" \t]/,"",g)
+        gsub(/\.md$/,"",g)
+        goldFile(g ".md", seen) 
+     } else
+       use = gold2awk(use, $0);
+    }
+    close(g) 
+  } else
+    print("#E missing file ",f) > "/dev/stderr"
 }
 
 function tests(what, all,   f,a,i,n) {

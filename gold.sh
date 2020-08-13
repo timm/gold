@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+Lib=$HOME/opt/gold/lib
 hello() { tput bold; tput setaf 6; cat<<"EOF"
            .--.
          / ,~a`-,
@@ -26,14 +27,14 @@ if [ "$1" == "--help" ]; then
 	
 	   --help        show help
 	   --all         transpiles to awk any docs/*.md tests/*.md files
-	   -f x.md $*  transpiles, then runs gawk -f gold.awk -f x.awk $*
-	   --install     adds config files for bash, vim, git, tmux to ./.var
+	   -f x.md $*  transpiles, then runs gawk  -f x.awk $*
+	   --install     adds config files
 	
 	If run with no options, drops the user into a shell where
 	the following commands are avaialble:
 
 	   gold    = sh gold.sh
-	   awk -f x     = gold --all; AWKPATH='$Sh/.var' gawk -f $Sh/.var/gold.awk -f x 
+	   awk -f x     = gold --all; AWKPATH='$Sh/etc:$HOME/opt/gold:$AWKPATH' gawk -f  x 
 	   gg	   = git pull
 	   gp      = git commit -am saving; git push; git status
 	   gs	   = git status
@@ -47,26 +48,22 @@ fi
 
 Sh=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 chmod +x $Sh
-mkdir -p $Sh/.var 
+mkdir -p $Lib
 
-transpiles() {
-  dot=$1; shift
-  j=$(basename $1 .md).awk
-  k=$Sh/.var/$j
-  #echo -n $dot >&2
-  if [ "$1" -nt "$k" ]; then
-    echo "$1 ==> $j" >&2
-    cat $1 |
-    gawk -f $Sh/etc/gold.awk --source '{use=gold2awk(use) }' > $k
-  fi
+transpile() {
+  j=$Lib/$(basename $1 .md).awk
+  (cd $Sh/docs
+  gawk -f $Sh/etc/gold.awk --source 'BEGIN {goldFile("'$1'")}'  > tmp$$
+  cat $Sh/etc/gold.awk >> tmp$$
+  gawk -o- -f tmp$$ | sed $'s/\t/  /g' > $j
+  rm tmp$$
+  )
 } 
 
 go() {
-  j=`basename $2 .md`
-  k=$Sh/.var/${j}.awk
-  shift; shift;
-  AWKPATH="$Sh/.var:$AWKPATH"
-  Com="gawk -f $Sh/.var/gold.awk -f $k $*"
+  j=$Lib/$(basename $1 .md).awk
+  AWKPATH="$Lib:$AWKPATH"
+  Com="gawk -f $j $*"
   if  [ -t 0 ]; then AWKPATH="$AWKPATH" $Com
   else       cat - | AWKPATH="$AWKPATH" $Com
   fi
@@ -74,21 +71,25 @@ go() {
 }
 
 if [ "$1" == "--all" ]; then
-  for f in $Sh/docs/*.md;  do transpiles "." $f; done
-  for f in $Sh/tests/*.md; do transpiles "." $f; done
+  for f in $Sh/docs/*.md;  do transpile $f; done
   exit 0
 fi
 
+if [ "$1" == "-t"   ]; then
+  shift
+  transpile $1
+  exit $?
+fi
+
 if [ "$1" == "-f"   ]; then
-  for f in $Sh/docs/*.md;  do transpiles "." $f; done
-  for f in $Sh/tests/*.md; do transpiles "." $f; done
-  go $*
+  shift
+  transpile $1
+  go $1
   exit $?
 fi
 
 if [ "$1" == "--tests"   ]; then
-   set -x
-  cd $Sh/tests
+  cd $Sh/docs
   for i in *ok.md; do
     sh gold.sh -f  $i
   done | gawk ' 
@@ -108,7 +109,7 @@ fi
 if [ "$1" != "--install"   ]; then
   if [ -f "$Sh/etc/bashrc" ]; then
     hello
-    Sh="$Sh"   bash --init-file $Sh/etc/bashrc -i  
+    Sh="$Sh" Lib="$Lib" bash --init-file $Sh/etc/bashrc -i  
   else
     echo "Missing config files. Try running sh gold.sh --install"
   fi
