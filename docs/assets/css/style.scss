@@ -84,13 +84,14 @@ br { clear:left }
 .menu_simple {
     width: 100%;
     xbackground-color: #005555;
-    background-color: rgb(38,124,183);
+    background-color: #ccc; 
+    text-align: center;
+    xx: rgb(38,124,183);
 }
 
 .menu_simple ul {
     margin: 0; padding: 0;
     float: left;
-    text-align: center;
     padding-bottom: 5px;
     color: white;
 }
@@ -101,9 +102,9 @@ br { clear:left }
 
 .menu_simple ul li a {
     float: left; text-decoration: none;
-    color: white; 
+    color: black; 
     padding: 10.5px 11px;
-    background-color:  white;
+    background-color:  black;
 }
  
 .menu_simple ul li a:visited {
