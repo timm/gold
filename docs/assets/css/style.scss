@@ -83,10 +83,8 @@ br { clear:left }
 
 .menu_simple {
     width: 100%;
-    xbackground-color: #005555;
     background-color: #ccc; 
     text-align: center;
-    xx: rgb(38,124,183);
 }
 
 .menu_simple ul {
@@ -103,14 +101,4 @@ br { clear:left }
     color: black; 
     padding: 10.5px 11px;
     background-color:  black;
-}
- 
-.xmenu_simple ul li a:visited {
-    color: white;
-}
- 
-.xmenu_simple ul li a:hover, .menu_simple ul li .current {
-    color: white;
-    xbackground-color: #5FD367;
-    background-color: white;
 }
