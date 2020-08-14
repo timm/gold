@@ -84,7 +84,7 @@ br { clear:left }
 .menu_simple {
     width: 100%;
     xbackground-color: #005555;
-    background-color: blue;
+    background-color: rgb(38,124,183);
 }
 
 .menu_simple ul {
@@ -99,7 +99,7 @@ br { clear:left }
 
 .menu_simple ul li a {
     float: left; text-decoration: none;
-    color: blue; 
+    color: white; 
     padding: 10.5px 11px;
     background-color:  white;
 }
@@ -110,5 +110,6 @@ br { clear:left }
  
 .menu_simple ul li a:hover, .menu_simple ul li .current {
     color: white;
-    background-color: #5FD367;
+    xbackground-color: #5FD367;
+    background-color: white;
 }
