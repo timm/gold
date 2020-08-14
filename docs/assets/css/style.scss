@@ -91,8 +91,6 @@ br { clear:left }
 
 .menu_simple ul {
     margin: 0; padding: 0;
-    float: left;
-    xpadding-bottom: 5px;
     color: black;
 }
 
@@ -101,17 +99,17 @@ br { clear:left }
 }
 
 .menu_simple ul li a {
-    float: left; text-decoration: none;
+    float: center; text-decoration: none;
     color: black; 
     padding: 10.5px 11px;
     background-color:  black;
 }
  
-.menu_simple ul li a:visited {
+.xmenu_simple ul li a:visited {
     color: white;
 }
  
-.menu_simple ul li a:hover, .menu_simple ul li .current {
+.xmenu_simple ul li a:hover, .menu_simple ul li .current {
     color: white;
     xbackground-color: #5FD367;
     background-color: white;
