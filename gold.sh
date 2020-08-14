@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 Lib=$HOME/opt/gold/lib
+
 hello() { tput bold; tput setaf 6; cat<<"EOF"
            .--.
          / ,~a`-,
@@ -78,7 +79,7 @@ fi
 if [ "$1" == "-t"   ]; then
   shift
   transpile $1
-  exit $?
+  exit 0
 fi
 
 if [ "$1" == "-f"   ]; then

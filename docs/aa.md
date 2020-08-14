@@ -1,5 +1,11 @@
 # News 
 
+$a^4$
+
+$$\frac{a}{10}$$
+
+<i class="fas fa-camera"></i>
+
 * TOC
 {:toc}
 
