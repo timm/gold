@@ -6,6 +6,11 @@ pre { font-size: 11px;
       line-spacing: 105%;
     }
 
+.grays {text-align: center; margin: 3px; padding: 3px; 
+        margin-bottom: 10px;
+        background-color: #CCC;
+}
+
 .highlight .hll { background-color: #ffffcc }
 .highlight  { background: #f0f3f3; }
 .highlight .c { color: #0099FF; font-style: italic } /* Comment */
@@ -77,33 +82,5 @@ pre { font-size: 11px;
 .highlight .il { color: #FF6600 } /* Literal.Number.Integer.Long */
 
 
-/* CSSTerm.com Simple CSS menu */
 
-.grays {text-align: center; margin: 3px; padding: 3px; 
-        margin-bottom: 10px;
-        background-color: #CCC;
-}
 
-br { clear:left }
-
-.menu_simple {
-    width: 100%;
-    background-color: #ccc; 
-    text-align: center;
-}
-
-.menu_simple ul {
-    margin: 0; padding: 0;
-    color: black;
-}
-
-.menu_simple ul li {
-    display: inline;
-}
-
-.menu_simple ul li a {
-    float: center; text-decoration: none;
-    color: black; 
-    padding: 10.5px 11px;
-    background-color:  black;
-}
