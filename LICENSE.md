@@ -1,0 +1,5 @@
+# License
+
+See [docs/license.md](docs/license.md).
+
+
