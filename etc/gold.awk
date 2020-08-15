@@ -61,29 +61,27 @@ function rogues(    s) {
     if (s ~ /^[_a-z]/) print "#W> Rogue: " s>"/dev/stderr"
 }
 
-function Obj(i)  { 
+function Object(i)  { 
   List(i)
-  i["ois"]= "Obj"
+  i["ois"]= "Object"
   i["oid"] = ++GOLD["oid"] 
 }
 
 function List(i)    { split("",i,"") }
 
-function has(i,k,f,   s) { 
-  i[k]["\001"]; delete i[k]["\001"] # ensure we adding to a sulist
-  f ? @f(i[k])  : List(i[k])
-}
+function has(i,k,f,              s) { i[k]["0"]; delete i[k]["0"] ; f ? @f(i[k])  : List(i[k]) }
+function hass(i,k,f,x1,          s) { i[k]["0"]; delete i[k]["0"] ; @f(i[k],x1)       }
+function hasss(i,k,f,x1,x2,      s) { i[k]["0"]; delete i[k]["0"] ; @f(i[k],x1,x2)    }
+function hassss(i,k,f,x1,x2,x3,  s) { i[k]["0"]; delete i[k]["0"] ; @f(i[k],x1,x2,x3) }
 
-function have(i,f,   k) { 
-  k =length(i)+1
-  has(i,k,f)
-  return k
-}
+function have(i,f,               k) { k =length(i)+1; has(i,k,f);          return k }
+function haves(i,f,x1,           k) { k =length(i)+1; hass(i,k,f,x1);      return k }
+function havess(i,f,x1,x2,       k) { k =length(i)+1; has(i,k,f,x1,x2);    return k }
+function havesss(i,f,x1,x2,x3,   k) { k =length(i)+1; has(i,k,f,x1,x2,x3); return k }
 
-function isa(i,f1,f2) {
-  @f2(i)
+function is(i,x) {
   GOLD["ois"][f1] = i["ois"] 
-  i["ois"] = f1
+  i["ois"] = x
 }
 
 function inherit(s,f,   g) {
@@ -96,32 +94,46 @@ function inherit(s,f,   g) {
   exit 2
 }
 
-function is(f,a) {
+function isa(f,a) {
   if (isarray(a))
-    if ( "ois" in a)
+    if ("ois" in a)
       if ("oid" in a) 
-        if(f==a["ois"])
-          if(a["ois"] in FUNCTAB) {
-            if (GOLD["brave"])
-              return 1
-            else {
-              while(f) { 
-                if (is1(f, a)) 
-                  return 1
-                f = GOLD["ois"][f] }}}
-  return 0
+        if (f==a["ois"])
+          if (a["ois"] in FUNCTAB) 
+             return 1
 }
 
-function is1(f,a,   b) { @f(b); return is2(a,b) }
+function copy(a, b,     i){
+  for (i in a) {
+    if(isarray(a[i])) {
+      b[i][0]        # ensure nested list exists
+      delete b[i][0] 
+      copy(a[i], b[i])
+    } else 
+      b[i] = a[i] 
+}}
 
-function is2(a,b,     j) {
-  if (isarray(a) && isarray(b)) {
-    for(j in b) 
-      if ( ! is2(a[j], b[j]) ) 
-        return 0
-  } else {
-      if (typeof(a) != typeof(b)) 
-        return 0 
-  }
-  return 1
+function o(a,     sep,    sep1,i,s) {
+  for(i in a) {
+    s    = s sep1 a[i]
+    sep1 = sep ? sep : ", " }
+  return s 
 }
+
+function oo(a,prefix,    indent,   i,txt) {
+  txt = indent ? indent : (prefix GOLD["dot"] )
+  if (!isarray(a)) {print(a); return a}
+  ooSortOrder(a)
+  for(i in a)  {
+    if (isarray(a[i]))   {
+      print(txt i"" )
+      oo(a[i],"","|  " indent)
+    } else
+      print(txt i (a[i]==""?"": ": " a[i])) }
+}
+function ooSortOrder(a, i) {
+  for (i in a)
+   return PROCINFO["sorted_in"] =\
+     typeof(i+1)=="number" ? "@ind_num_asc" : "@ind_str_asc"
+}
+
