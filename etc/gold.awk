@@ -32,27 +32,26 @@ function goldFile(f, seen,
     print("#E missing file ",f) > "/dev/stderr"
 }
 
-function tests(what, all,   f,a,i,n) {
-  n = split(all,a,",")
-  print "\n#--- " what " -----------------------"
-  for(i=1;i<=n;i++) { 
-    srand(1)
-    f = a[i]; 
-    @f(f) 
+function oks(    f) {
+  for(f in FUNCTAB) 
+    if (f ~ /^ok_/)  {
+      print "\n#--- " f " -----------------------"
+      srand(1)
+      @f() 
   }
   rogues()
 }
 
-function ok(f,yes,    msg) {
+function ok(yes,    msg) {
   msg = yes ? "PASSED!" : "FAILED!"
   if (yes) 
      GOLD["test"]["yes"]++ 
   else
      GOLD["test"]["no"]++;
-  print "#test:\t" msg "\t" f
+  print "#test:\t" msg
 }
 
-function within(x,lo,hi) { return x >= lo && x <= hi }
+function within(lo,x,hi) { return x >= lo && x <= hi }
 
 function rogues(    s) {
   for(s in SYMTAB) 
@@ -76,11 +75,11 @@ function hassss(i,k,f,x1,x2,x3,  s) { i[k]["0"]; delete i[k]["0"] ; @f(i[k],x1,x
 
 function have(i,f,               k) { k =length(i)+1; has(i,k,f);          return k }
 function haves(i,f,x1,           k) { k =length(i)+1; hass(i,k,f,x1);      return k }
-function havess(i,f,x1,x2,       k) { k =length(i)+1; has(i,k,f,x1,x2);    return k }
-function havesss(i,f,x1,x2,x3,   k) { k =length(i)+1; has(i,k,f,x1,x2,x3); return k }
+function havess(i,f,x1,x2,       k) { k =length(i)+1; hasss(i,k,f,x1,x2);    return k }
+function havesss(i,f,x1,x2,x3,   k) { k =length(i)+1; hassss(i,k,f,x1,x2,x3); return k }
 
 function is(i,x) {
-  GOLD["ois"][f1] = i["ois"] 
+  GOLD["ois"][x] = i["ois"] 
   i["ois"] = x
 }
 

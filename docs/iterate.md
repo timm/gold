@@ -28,7 +28,7 @@ function csv(a,file,     b4, status,line,i,x) {
 ```
 
 ```awk
-function cols(use, file, out,    ab,file) {
+function cols(use, file, out,    a,c,n) {
   if (!csv(a,file)) 
     return 0
   if (!length(use)) 
