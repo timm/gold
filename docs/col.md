@@ -35,6 +35,15 @@ function NumAdd(i,x,   d) {
   else 
     i.sd = i.n < 2 ? 0 : (i.m2/(i.n - 1))^0.5
 }
+function NumLike (i, x, _y,_z) {
+    if (x < i.mu - 4*i.sd) return 0
+    if (x > i.mu + 4*i.sd) return 0
+    z = 10^-64
+    v = i.sd^2 
+    nom = 2.7181^(-1*(x-i.mu)^2/(2*v+z)) 
+    denom = (2*3.141*v)^.5 
+    return nom/(denom + z)
+}
 function ok_num(   j,a,n) {
   Num(n)
   split("9 2 5 4 12 7 8 11 9 3 7 4 12 5 4 10 9 6 9 4",a)
@@ -60,6 +69,10 @@ function SymAdd(i,x,  new) {
   if (new > i.most) {
     i.most = new
     i.mode = x  }
+}
+function SymLike(i,x,prior,m) {
+  n = (x in i.seen ? i.seen[x] : 0) 
+  return (n + m*prior)/(i.n + m)
 }
 function SymEnt(i,    e,j,p) {
   for(j in i.seen) {
@@ -126,6 +139,17 @@ function RowsRead(i,f,   it) {
   while (loop(it)) 
     RowsAdd(i,it.has)
 }
+function RowsLike(i,row,m,n,k,nh,val,inc,out) {
+  prior = (len(i.rows) + k) / (n + k*nh)
+  out = log(prior)
+  for(col in i.cols.x) {
+    val = row[i.cols.all[col].pos]
+    if (val != "?") {
+      inc = like(i.cols.all[col],val, prior, m)
+      out += log(inc)
+  }}
+  return out
+}
 function RowsAdd(i,a){
   if (i.cols.new)
     ColsAdd(i.cols, a) 
@@ -170,7 +194,21 @@ function Classes(i,  file) {
   has(i,"some")
   i.file = file
   i.n = 0
+  i.m=2
+  i.k=1
   hass(i,"use","Use",file)
+}
+function ClassesGuess(i,row,    all,most,y,ybest):
+  List(all)
+  most = -10**32
+  for(y in i.some):
+    tmp = RowsLike(i.some[y], row, i.n, i.m, i.k, len(i.some))
+    all[y] = tmp
+    if (tmp > most) {
+      ybest = y
+      most =tmp
+    }
+  return ybest
 }
 function ClassesLoop(i,    cols0,k,a) {
   if (! loop(i.use))
