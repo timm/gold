@@ -35,7 +35,7 @@ function NumAdd(i,x,   d) {
   else 
     i.sd = i.n < 2 ? 0 : (i.m2/(i.n - 1))^0.5
 }
-function nok_num(   j,a,n) {
+function ok_num(   j,a,n) {
   Num(n)
   split("9 2 5 4 12 7 8 11 9 3 7 4 12 5 4 10 9 6 9 4",a)
   for(j in a) add(n, a[j])
@@ -68,7 +68,7 @@ function SymEnt(i,    e,j,p) {
      e -= p*log(p)/log(2) }
   return e
 }
-function nok_sym(   a,j,s) {
+function ok_sym(   a,j,s) {
   Sym(s)
   split("a b b c c c c",a)
   for(j in a) add(s, a[j])
@@ -104,7 +104,7 @@ function ColsAdd(i,a,   txt,pos,nump,goalp) {
     if (txt ~ /!/) 
       i.klass=pos 
 }}
-function nok_cols(i,a) {
+function ok_cols(i,a) {
   split("name $age <weight !class",a)
   Cols(i,a)
   ok(i.klass == 4)
@@ -123,7 +123,7 @@ function Rows(i) {
 }
 function RowsRead(i,f,   it) {
   Use(it,f)
-  while (loop(it))
+  while (loop(it)) 
     RowsAdd(i,it.has)
 }
 function RowsAdd(i,a){
@@ -136,7 +136,15 @@ function data(f,   d) {
   d=GOLD.dot
   return d d "/data/" f d "csv"
 }
-function nok_rows(i) {
+function ok_use(   n,f, it) {
+  Use(it,data("weather"))
+  while (loop(it)) {
+    if(!n) n = length(it.has)
+    ok(n == length(it.has))
+  }
+}
+
+function ok_rows(i) {
   Rows(i)
   RowsRead(i, data("weather") )
   print("i",length(i.rows))

@@ -95,6 +95,7 @@ if [ "$1" == "--all" ]; then
 fi
 
 if [ "$1" == "-T" ]; then
+  echo "-T"
   for f in $Sh/docs/*.md;  do transpile $f; done
   for f in $Sh/tests/*.md; do transpile $f; done
   exit 0
@@ -118,6 +119,7 @@ if [ "$1" == "-t"   ]; then
 fi
 
 if [ "$1" == "-f"   ]; then
+  sh $Sh/gold.sh -T
   shift
   transpile $1
   run $1

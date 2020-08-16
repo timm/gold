@@ -38,7 +38,7 @@ function Use(i,f) {
 function UseLoop(i,    a,c,n) {
   if (!csv(a,i.file)) 
     return 0
-  if (!length(i.use)) 
+  if (!length(i.what2do)) 
     for(c in a) 
       if (a[c] !~ /\?/)
         i.what2do[c] = ++n;

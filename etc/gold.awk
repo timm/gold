@@ -22,21 +22,23 @@ function fileExists(f,   status) {
 }
 function goldFile(f, seen,
             g,i,use,s) {
-  if (f in seen) return 0
-  if (fileExists(f)) {
-    seen[f] 
-    while((getline < f) > 0)  {
-      if($0 ~ /^@include/) {
-        g = $2
-        gsub(/[" \t]/,"",g)
-        gsub(/\.md$/,"",g)
-        goldFile(g ".md", seen) 
-     } else
-       use = gold2awk(use, $0);
-    }
-    close(g) 
-  } else
+  if (f in seen) 
+     return 0
+  if (!fileExists(f)) {
     print("#E missing file ",f) > "/dev/stderr"
+    return 1
+  }
+  seen[f] 
+  while((getline < f) > 0)  {
+    if($0 ~ /^@include/) {
+      g = $2
+      gsub(/[" \t]/,"",g)
+      gsub(/\.md$/,"",g)
+      goldFile(g ".md", seen) 
+   } else
+     use = gold2awk(use, $0);
+  }
+  close(g) 
 }
 
 function oks(    f) {
