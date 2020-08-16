@@ -1,10 +1,17 @@
+BEGIN { 
+  GOLD["dot"]  = "." 
+  GOLD["dots"] = ".." 
+}
+
 function gold2awk(use,s) 
 {
   if (gsub(/^```awk/,"", s)) use= 1
-  if (gsub(/^```/,  "" , s)) use= 0
+  if (gsub(/^```/,  "" , s)) use= 0 
   if (use) 
     print gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/,
                   "[\"\\1\\2\"]","g", s);
+  else
+    print "# " s
   return use
 }
 function fileExists(f,   status) {

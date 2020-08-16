@@ -3,14 +3,17 @@
 ```awk
 @include "iterate"
 @include "poly"
+```
 
+```awk
 function Col(i,pos,txt) {
   Object(i)
   is(i,"Col") 
   i.n = 0 
 }
+```
 
-#----------------------------------
+```awk
 function Num(i,pos,txt) {
   Col(i,pos,txt)
   is(i,"Num")
@@ -32,7 +35,7 @@ function NumAdd(i,x,   d) {
   else 
     i.sd = i.n < 2 ? 0 : (i.m2/(i.n - 1))^0.5
 }
-function ok_num(   j,a,n) {
+function nok_num(   j,a,n) {
   Num(n)
   split("9 2 5 4 12 7 8 11 9 3 7 4 12 5 4 10 9 6 9 4",a)
   for(j in a) add(n, a[j])
@@ -40,8 +43,9 @@ function ok_num(   j,a,n) {
   ok(n.mu == 7)
   ok( within(3.060, n.sd, 3.061))
 }
+```
 
-#----------------------------------
+```awk
 function Sym(i,pos,txt) {
   Col(i,pos,txt)
   is(i,"Sym")
@@ -64,15 +68,16 @@ function SymEnt(i,    e,j,p) {
      e -= p*log(p)/log(2) }
   return e
 }
-function ok_sym(   a,j,s) {
+function nok_sym(   a,j,s) {
   Sym(s)
   split("a b b c c c c",a)
   for(j in a) add(s, a[j])
   ok(s.mode == "c")
   ok(within(1.378, SymEnt(s),  1.379))
 }
+```
 
-#----------------------------------
+```awk
 function Cols(i, a) {
   Object(i)
   is(i,"Cols")
@@ -99,62 +104,165 @@ function ColsAdd(i,a,   txt,pos,nump,goalp) {
     if (txt ~ /!/) 
       i.klass=pos 
 }}
-function ok_cols(i,a) {
+function nok_cols(i,a) {
   split("name $age <weight !class",a)
   Cols(i,a)
-  oo(i)
+  ok(i.klass == 4)
+  ok(2 in i.nums)
+  ok(1 in i.syms)
+  ok(i.header[3] == "<weight")
 }
-function Rows(i,a) {
+```
+
+```awk
+function Rows(i) {
   Object(i)
   is(i,"Rows")
   has(i,"cols","Cols")
   has(i,"rows") 
-  if(length(a))
-    ColsAdd(i.cols, a)
 }
-function RowsRead(i,f,   a) {
-  while (csv(a,f)) 
-    RowsAdd(i,a)
+function RowsRead(i,f,   it) {
+  Use(it,f)
+  while (loop(it))
+    RowsAdd(i,it.has)
 }
 function RowsAdd(i,a){
-  i.cols.new ?  ColsAdd(i.cols, a) : havess(i.rows,"Row",a,i)
+  if (i.cols.new)
+    ColsAdd(i.cols, a) 
+  else
+    havess(i.rows,"Row",a,i)
 }
+function data(f,   d) {
+  d=GOLD.dot
+  return d d "/data/" f d "csv"
+}
+function nok_rows(i) {
+  Rows(i)
+  RowsRead(i, data("weather") )
+  print("i",length(i.rows))
+  ok(14 == length(i.rows))
+  ok( 9 == i.cols.all[i.cols.klass].seen["yes"])
+}
+```
+
+```awk
 function Row(i,a,rows,    j) {
   Object(i)
   is(i,"Row")
   for(j in a)  
     add(rows.cols.all[j], i.cells[j] = a[j])
 }
+```
 
-#----------------------------------
+```awk
 function Classes(i,  file) {
-  Object(i) #s
+  Object(i) 
   is(i,"Classes")
-  has(i,"all")
+  has(i,"every")
   has(i,"some")
   i.file = file
-  i.new = 1
   i.n = 0
+  hass(i,"use","Use",file)
 }
-function ClassesIt(i,    cols0,k,a) {
-  if (! cols(cols0, i.file, a) )
+function ClassesLoop(i,    cols0,k,a) {
+  if (! loop(i.use))
     return 0
-  if(i.new) {
-     i.new = 0
-     has(i,"all","Rows",a)
+  if (!length(i.every)) {
+     has(i,"every","Rows")
+     add(i.every, i.use.has)
   } else {
     i.n++
-    k = a[i.all.cols.klass] 
-    if(! (k in i.some))
-      has(i.some, k, "Rows", i.all.cols.header)
-    add(i.all, a)
-    add(i.some[k], a) }
+    k = i.use.has[i.every.cols.klass] 
+    if(! (k in i.some)) {
+      has(i.some, k, "Rows")
+      add(i.some[k], i.every.cols.header)
+    }
+    add(i.every, i.use.has)
+    add(i.some[k], i.use.has) 
+  }
   return 1
 }
+
+function ok_classes(   c) {
+  Classes(c, data("weather"))
+  while( loop(c) ) ;
+  ok( 2 == length(c.some) )
+  ok( 5 == length(c.some["no"].rows) )
+  ok( 9 == length(c.some["yes"].rows) )
+  ok(14 == length(c.every.rows) )
+}
+```
+
+```awk
+function Abcd(i) {
+  Object(i)
+  is(i,"Abcd")
+  has(i,"known")
+  has(i,"a")
+  has(i,"b")
+  has(i,"c")
+  has(i,"d")
+  i.yes = i.no = 0
+}
+function AbcdAdd(i,want, got,   x) {
+  if (++i.known[want] == 1) i.a[want]= i.yes + i.no 
+  if (++i.known[got]  == 1) i.a[got] = i.yes + i.no 
+  want == got ? i.yes++ : i.no++ 
+  for (x in i.known) 
+    if (want == x) 
+      want == got ? i.d[x]++ : i.b[x]++
+    else 
+      got == x    ? i.c[x]++ : i.a[x]++
+}
+function AbcdReport(i,   
+                    x,p,q,r,s,ds,pd,pf,
+                    pn,prec,g,f,acc,a,b,c,d) {
+  p = " %4.2f"
+  q = " %4s"
+  r = " %5s"
+  s = " |"
+  ds= "----"
+  printf(r s r s r s r s r s q s q s q s q s q s q s " class\n",
+        "num","a","b","c","d","acc","pre","pd","pf","f","g")
+  printf(r s r s r s r s r s q s q s q s q s q s q s "-----\n",
+         "----",ds,ds,ds,ds,ds,ds,ds,ds,ds,ds)
+  for (x in i.known) {
+    pd = pf = pn = prec = g = f = acc = 0
+    a = i.a[x]
+    b = i.b[x]
+    c = i.c[x]
+    d = i.d[x]
+    if (b+d > 0     ) pd   = d     / (b+d) 
+    if (a+c > 0     ) pf   = c     / (a+c) 
+    if (a+c > 0     ) pn   = (b+d) / (a+c) 
+    if (c+d > 0     ) prec = d     / (c+d) 
+    if (1-pf+pd > 0 ) g=2*(1-pf) * pd / (1-pf+pd) 
+    if (prec+pd > 0 ) f=2*prec*pd / (prec + pd)   
+    if (i.yes + i.no > 0 ) 
+       acc  = i.yes / (i.yes + i.no) 
+    printf( r s        r s r s r s r s p s p s  p s p s p s p s  " %s\n",
+          i.yes+i.no,a,  b,  c,  d,  acc,prec,pd, pf, f,  g,  x) }
+}
+
+function ok_abcd(   a,y,m,n,j) {
+  Abcd(a)
+  y="yes"
+  m="maybe"
+  n="no"
+  for(j=1;j<=6;j++) AbcdAdd(a,y,y)
+  for(j=1;j<=2;j++) AbcdAdd(a,n,n)
+  for(j=1;j<=2;j++) AbcdAdd(a,m,m)
+  AbcdAdd(a,m,n)
+  AbcdReport(a)
+  oo(a)
+}
+```
+
+```awk
 function main(file,   i) {
   Classes(i,file)
   while(it());
-  oo(i)
 }
 
 BEGIN { oks() }
+```

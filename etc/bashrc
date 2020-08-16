@@ -2,7 +2,7 @@ reload() {
   . $Sh/etc/bashrc
 }
 
-alias awk="AWKPATH='$Lib:$AWKPATH' gawk  "
+alias awk="echo 1; gold -T; AWKPATH='$Lib:$AWKPATH' gawk -f $Sh/etc/gold.awk  "
 alias gold="bash $Sh/gold.sh "
 alias ls="ls -G "
 alias gg="git pull"   

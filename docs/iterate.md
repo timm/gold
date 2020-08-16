@@ -28,16 +28,22 @@ function csv(a,file,     b4, status,line,i,x) {
 ```
 
 ```awk
-function cols(use, file, out,    a,c,n) {
-  if (!csv(a,file)) 
+function Use(i,f) {
+  Object(i)
+  is(i,"Use")
+  i.file = f
+  has(i,"has")
+  has(i,"what2do")
+}
+function UseLoop(i,    a,c,n) {
+  if (!csv(a,i.file)) 
     return 0
-  if (!length(use)) 
+  if (!length(i.use)) 
     for(c in a) 
       if (a[c] !~ /\?/)
-        use[c] = ++n;
-  split("",out,"")
-  for(c in use)  
-    out[ use[c] ] = a[c]
+        i.what2do[c] = ++n;
+  for(c in i.what2do)  
+    i.has[ i.what2do[c] ] = a[c]
   return 1
 }
 ```
