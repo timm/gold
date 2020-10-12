@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+here=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
+chmod +x $here/gold
+there=$here/docs/*/*.md
+
+alias gold="sh $here/gold "
+
+want=$here/docs/lib/oo.md
+mkdir -p $(dirname $want)
+[ -f "$want" ] || cat<<'EOF'>$want
+```awk
+BEGIN                { List(GOLD) ; DOT=sprintf("%c",46) }
+function has(i,f,k)  { return has0(i, f?f:"List", k?k:1+length(i[k])) }
+function has0(i,f,k) { i[k][0]; @f(i[k]); delete i[k][0]; return k }
+function List(i)     { split("",i,"") }
+function Object(i)   { List(i); i.id = ++GOLD.id }
+```
+EOF
+
+for f in $(ls $there); do
+  g=${f%.*}.awk
+  if [ "$f" -nt "$g" ]; then
+    cat $f | gawk '
+      BEGIN            { Comment="#" }
+      sub(/```awk/,"") { Comment=""  ; print; next}
+      sub(/```/,"")    { Comment="# "; print; next}
+      /^function[ \t]+[A-Z][^\(]*\(/ {
+          split($0,a,/[ \t\(]/)
+          PREFIX = a[2]
+      }
+      { gsub(/ _/," " PREFIX "_",$0)
+        print Comment gensub( /\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
+                              "[\"\\1\\2\"]","g", $0)
+      }' > $g
+  fi
+done
+
+if [ -n "$1" ]; then
+  g=${f%.*}.awk
+  shift
+  if [ -t 1 ]
+  then         gawk -f $g $*
+  else cat - | gawk -f $g $*
+  fi
+fi
