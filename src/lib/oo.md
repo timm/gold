@@ -20,8 +20,8 @@ Three base structures:
 #### List(+i) :nil
 asdsas
 
-<details><summary>Src:</summary>
-
+<details>
+<summary>Src:</summary>
 ```awk
 BEGIN             { List(GOLD) ; GOLD.dot=sprintf("%c",46) }
 function List(i)  { split("",i,"") }
