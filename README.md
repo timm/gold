@@ -1,5 +1,5 @@
 [home](http://github.com/timm/gold/README.md) ::
-[lib] ::
+[lib1] ::
 [cols] ::
 [rows] ::
 [&copy; 2020](http://github.com/timm/gold/LICENSE.md) by [Tim Menzies](http://menzies.us)   

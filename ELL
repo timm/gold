@@ -51,7 +51,7 @@ docs() {
   for g in $f;  do
     if [ "$Dir/README.md" -nt "$g" ]; then
       h=$(mktemp)
-      echo "# updating $(basename $g) ..."
+      echo "# updating $g ..."
       doc1 $g > $h
       mv $h $g
     fi

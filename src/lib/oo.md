@@ -1,5 +1,5 @@
-[home](http://github.com/timm/gold/README.me) ::
-[lib] ::
+[home](http://github.com/timm/gold/README.md) ::
+[lib1] ::
 [cols] ::
 [rows] ::
 [&copy; 2020](http://github.com/timm/gold/LICENSE.md) by [Tim Menzies](http://menzies.us)   
@@ -24,13 +24,12 @@ function Obj(i)   { List(i); i.id = ++GOLD.id }
 
 ## Slot Creation
 
-- `has(i)` adds a new list at position `i[size+1]`
-- `has(i,Constructor)` adds a new `Contructor` thing at  position`i[size+1]`
-- `has(i,Constructor,key)` adds a new `Contructor` thing at  postilion `i[key]`
+- `has(i,key,function)` calls `function` to add something to `i[key]`.
+- `more(i,function)` calls `function` to append something to end of `i`. Returns position of new item.
+  Used to append items to an already created list.
 
-All calls to `has` return the position of the added thing.
 
 ```awk
-function has(i,f,k)  { return has0(i, f?f:"List", k?k:1+length(i[k])) }
-function has0(i,f,k) { i[k][0]; @f(i[k]); delete i[k][0]; return k }
+function more(i,f)  { k= 1+length(i[k]); has(i,k,f); return k }
+function has(i,k,f) { f= f?f:"List"; i[k]["\t"]; @f(i[k]); delete i[k]["\t"] }
 ```
