@@ -1,8 +1,27 @@
-# How to Contribute
+<a name=top>&nbsp;<p>
+<a href="https://github.com/timm/gold/blob/master/README.md#top">home</a> ::
+<a href="https://github.com/timm/gold/blob/master/src/lib/README.md#top">lib</a> ::
+<a href="https://github.com/timm/gold/blob/master/src/cols/README.md#top">cols</a> ::
+<a href="https://github.com/timm/gold/blob/master/src/rows/README.md#top">rows</a> ::
+<a href="http://github.com/timm/gold/blob/master/LICENSE.md#top">&copy; 2020</a> by <a href="http://menzies.us">Tim Menzies</a>
+<h1> GOLD = a Gawk Object Layer</h1>
+<img width=250 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
+
+## How to Contribute
 
 Document your doce
 
-Level 4 headings are for functions
+Code is in .md files
+
+Never add a level1 heading to your .md files
+
+Start the file with a level2 heading
+
+If you need sub-sections in the file, use level3 headings
+
+Level4 headings are for functions or class definitions.
+
+Level4 headings describe function arguments. They contain the following type hints.
 
 - `atom` denotes type any atom (string or number)
 - `any` denotes type any type (list or string or number)
