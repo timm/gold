@@ -43,7 +43,7 @@ doc1() {
               { print; exit 0  }'
   cat $1 | gawk '
         BEGIN { FS="\n"; RS="" }
-        NR==1 && $1~/home/ { next }
+        NR==1 && $1~/name=top/ { next }
               { print ""; print }'
 }
 docs() {
