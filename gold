@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 here=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 chmod +x $here/gold
-there=$here/docs/*/*.md
+there=$here/src/*/*.md
 
 alias gold="sh $here/gold "
 
-want=$here/docs/lib/oo.md
+want=$here/src/lib/oo.md
 mkdir -p $(dirname $want)
 [ -f "$want" ] || cat<<'EOF'>$want
 ```awk

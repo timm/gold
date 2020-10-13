@@ -1,4 +1,4 @@
-[home](http://github.com/timm/gold/README.me) ::
+[home](http://github.com/timm/gold/README.md) ::
 [lib] ::
 [cols] ::
 [rows] ::
