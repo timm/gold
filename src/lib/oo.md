@@ -1,4 +1,4 @@
-[home](http://github.com/timm/gold/README.md) :: <img align=right width=300 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/gold.png">
+[home](http://github.com/timm/gold/README.md) :: <img align=right width=200 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/robot.png">
 [lib1] ::
 [cols] ::
 [rows] ::
