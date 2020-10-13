@@ -11,4 +11,4 @@
 
 Misc library functions:
 
-- [oo](oo.md) : support for polymorphism and encapsulation
+- [oo](oo.md#top) : support for polymorphism and encapsulation
