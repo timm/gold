@@ -3,8 +3,8 @@
 [cols](https://github.com/timm/gold/blob/master/src/cols/README.md) ::
 [rows](https://github.com/timm/gold/blob/master/src/rows/README.md) ::
 [&copy;2020](http://github.com/timm/gold/blob/master/LICENSE.md) by [Tim Menzies](http://menzies.us)   
-<img  width=200 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
 # GOLD = a Gawk Object Layer
+<img  width=300 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
 
 ```awk
 function red(x)   { return "\033[31m"x"\033[0m" }
