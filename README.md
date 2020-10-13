@@ -1,0 +1,3 @@
+# GOLD
+
+Good as gold
