@@ -3,7 +3,7 @@
 [cols](https://github.com/timm/gold/blob/master/src/cols/README.md) ::
 [rows](https://github.com/timm/gold/blob/master/src/rows/README.md) ::
 [&copy;2020](http://github.com/timm/gold/blob/master/LICENSE.md) by [Tim Menzies](http://menzies.us)   
-# GOLD = the Gawk Object Layer
+# GOLD = a Gawk Object Layer
 
 ## License
 
