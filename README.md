@@ -8,9 +8,9 @@
 
 ## Contents
 
-- [cols](cols/README.md): code to summaize and manage columns
-- [rows](lib/README.md): code to manage rows of data
-- [lib](lib/README.md) : Misc utilties
+- [cols](src/cols/README.md): code to summaize and manage columns
+- [rows](src/lib/README.md): code to manage rows of data
+- [lib](src/lib/README.md) : Misc utilties
 
 ## Contribute
 
