@@ -1,6 +1,6 @@
 # OO
 
-Three base stuctures:
+Three base structures:
 
 - GOLD: a global to store, well, everything
 - GOLD.dot: _GOLD_ translates full stops into nested array access. So if your code really needs a full stop 
@@ -19,7 +19,7 @@ function Obj(i)   { List(i); i.id = ++GOLD.id }
 
 - `has(i)` adds a new list at position `i[size+1]`
 - `has(i,Constructor)` adds a new `Contructor` thing at  position`i[size+1]`
-- `has(i,Constructor,key)` adds a new `Contructor` thing at  positition`i[key]`
+- `has(i,Constructor,key)` adds a new `Contructor` thing at  postilion `i[key]`
 
 All calls to `has` return the position of the added thing.
 
