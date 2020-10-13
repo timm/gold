@@ -17,11 +17,13 @@ Three base structures:
 - `List`: Constructor for empty lists.
 - `Obj`: Constructor for the  base class `Obj`. Contains a unique id.
 
+<details><summary>Code</summary>
 ```awk
 BEGIN             { List(GOLD) ; GOLD.dot=sprintf("%c",46) }
 function List(i)  { split("",i,"") }
 function Obj(i)   { List(i); i.id = ++GOLD.id }
 ```
+</details>
 
 ## Slot Creation
 
@@ -29,7 +31,9 @@ function Obj(i)   { List(i); i.id = ++GOLD.id }
 - `more(i,function)` calls `function` to append something to end of `i`. Returns position of new item.
   Used to append items to an already created list.
 
+<details><summary>Code</summary>
 ```awk
 function more(i,f)  { k= 1+length(i[k]); has(i,k,f); return k }
 function has(i,k,f) { f= f?f:"List"; i[k]["\t"]; @f(i[k]); delete i[k]["\t"] }
 ```
+</details>
