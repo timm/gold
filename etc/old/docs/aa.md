@@ -1,3 +1,10 @@
+<a name=top>
+[home](http://github.com/timm/gold/README.me) ::
+[lib] ::
+[cols] ::
+[rows] ::
+[&copy; 2020](http://github.com/timm/gold/LICENSE.md) by [Tim Menzies](http://menzies.us)
+
 # News 
 
 $a^4$
@@ -21,13 +28,10 @@ a closing parentheses.  Enclosing in double dollar signs put the
 math on its own line.  Or you can use the backslash and a hard
 bracket "\[".
 
-
-
 If you need to actually use a regular dollar sign in the text, then
 you need to 'escape' it so the page doesn't think its the start of
 math.  In order to escape it you use a backslash before the dollar
 sign.  "\\$"
-
 
 - Dollar Signs: $y=mx+1$
 - arenthesis: \(y=mx+2\)
@@ -38,7 +42,6 @@ Hard Bracket: \[y=mx+5\]
 - $\cos (2\theta) = \cos^2 \theta ‐ \sin^2 \theta$
 - $a \bmod b$
 - $x \equiv a \pmod b$
-
 
 When $$a \ne 0$$, there are two solutions to $$ax^2 + bx + c = 0$$ and they are
 $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$

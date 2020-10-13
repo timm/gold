@@ -37,6 +37,28 @@ alias oks="ell --oks"                         # run all tests once
 alias okspy="rerun 'sh $Dir/ELL --oks'"       # keep running all tests
 alias ls="ls -G "                             # colorful ls
 
+doc1() {
+  cat $Dir/README.md | gawk '
+        BEGIN { FS="\n"; RS="" }
+              { print; exit 0  }'
+  cat $1 | gawk '
+        BEGIN { FS="\n"; RS="" }
+        NR==1 && $1~/name=top>/ { next }
+              { print ""; print }'
+}
+docs() {
+  f=`find $Dir -type f -name '*.md'`
+  for g in $f;  do
+    if [ "$Dir/README.md" -nt "$g" ]; then
+      h=$(mktemp)
+      echo "# updating $(basename $g) ..."
+      doc1 $g > $h
+      mv $h $g
+    fi
+  done
+}
+
+
 mytmux() {
   session=$RANDOM
   tmux start-server

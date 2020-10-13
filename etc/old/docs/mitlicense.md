@@ -1,3 +1,10 @@
+<a name=top>
+[home](http://github.com/timm/gold/README.me) ::
+[lib] ::
+[cols] ::
+[rows] ::
+[&copy; 2020](http://github.com/timm/gold/LICENSE.md) by [Tim Menzies](http://menzies.us)
+
 # License
 
 Copyright 2020, Tim Menzies
@@ -20,4 +27,3 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
 ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-

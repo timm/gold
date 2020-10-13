@@ -1,3 +1,10 @@
+<a name=top>
+[home](http://github.com/timm/gold/README.me) ::
+[lib] ::
+[cols] ::
+[rows] ::
+[&copy; 2020](http://github.com/timm/gold/LICENSE.md) by [Tim Menzies](http://menzies.us)
+
 # OO
 
 Three base structures:
@@ -7,7 +14,6 @@ Three base structures:
   (e.g. in extensions to file names) used `GOLD.dot`.
 - `List`: Constructor for empty lists.
 - `Obj`: Constructor for the  base class `Obj`. Contains a unique id.
-
 
 ```awk
 BEGIN             { List(GOLD) ; GOLD.dot=sprintf("%c",46) }

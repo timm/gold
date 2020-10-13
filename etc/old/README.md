@@ -1,3 +1,10 @@
+<a name=top>
+[home](http://github.com/timm/gold/README.me) ::
+[lib] ::
+[cols] ::
+[rows] ::
+[&copy; 2020](http://github.com/timm/gold/LICENSE.md) by [Tim Menzies](http://menzies.us)
+
  <h1 align=center> Gold = Gawk object layer</h1>
   <p align=center>
    <img src="https://pngimg.com/uploads/gold/gold_PNG11033.png">
