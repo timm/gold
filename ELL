@@ -65,12 +65,6 @@ startup() {
   [ -z "$TMUX" ] && mytmux
 }
 
-want=$Dir/docs/.nojekyll
-mkdir -p $(dirname $want)
-[ -f "$want" ] || cat<<-'EOF'>$want
-.
-EOF
-
 want=$HOME/.vimrc
 [ -f "$want" ] || cat<<-'EOF'>$want
 	set list
