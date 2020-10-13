@@ -1,3 +1,4 @@
+<a name=top>
 [home](https://github.com/timm/gold/blob/master/README.md) ::
 [lib](https://github.com/timm/gold/blob/master/src/lib/README.md) ::
 [cols](https://github.com/timm/gold/blob/master/src/cols/README.md) ::
