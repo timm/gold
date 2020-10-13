@@ -6,7 +6,7 @@
 <img align=right width=350 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
 # GOLD = a Gawk Object Layer
 
-# Lib
+## Lib
 
 Misc library functions:
 
