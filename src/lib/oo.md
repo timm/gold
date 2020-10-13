@@ -17,10 +17,8 @@ Three base structures:
 - `List`: Constructor for empty lists.
 - `Obj`: Constructor for the  base class `Obj`. Contains a unique id.
 
-#### Init
+#### List(+i) :nil
 asdsas
-- i : string
-- b : fred
 
 <details><summary>Src:</summary>
 
