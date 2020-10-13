@@ -20,7 +20,7 @@ Three base structures:
 #### List(+i) :nil
 asdsas
 
-<details><summary></summary>
+<details>
 
 ```awk
 BEGIN             { List(GOLD) ; GOLD.dot=sprintf("%c",46) }
@@ -35,7 +35,7 @@ function Obj(i)   { List(i); i.id = ++GOLD.id }
 - `more(i,function)` calls `function` to append something to end of `i`. Returns position of new item.
   Used to append items to an already created list.
 
-<details><summary></summary>
+<details>
 
 ```awk
 function more(i,f)  { k= 1+length(i[k]); has(i,k,f); return k }
