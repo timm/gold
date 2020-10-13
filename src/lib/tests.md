@@ -1,4 +1,4 @@
-<a name=top>
+<a name=top>&nbsp;<p>
 <a href="https://github.com/timm/gold/blob/master/README.md#top">home</a> ::
 <a href="https://github.com/timm/gold/blob/master/src/lib/README.md#top">lib</a> ::
 <a href="https://github.com/timm/gold/blob/master/src/cols/README.md#top">cols</a> ::
