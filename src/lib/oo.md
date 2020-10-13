@@ -5,7 +5,7 @@
 [&copy; 2020](http://github.com/timm/gold/blob/master/LICENSE.md) by [Tim Menzies](http://menzies.us)   
 # GOLD = the Gawk Object Layer
 
-# OO
+## OO
 
 Three base structures:
 
