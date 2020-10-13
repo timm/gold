@@ -25,15 +25,15 @@ Level4 headings describe function arguments. They contain the following type hin
 
 - `atom` denotes type any atom (string or number)
 - `any` denotes type any type (list or string or number)
-- `nil` denotes nil
-- `"x"`  denotes strings
-- `x` denotes numbers (default tye)
+- `nil` denotes nil (empty string)
+- `x`  denotes strings (the default type)
+- `$x` denotes numbers
 - `x = y` denotes that x's default argument is y.
 - `[x]` denotes list of x
 - `?x` denotes optional argument
 - `:x` denotes a suffix saying that something is of type x
 - `:^x` denotes a suffix saying  that something is of  type any which is an indexes into some array containing x
-- `+x`  notes  something that should arrive unassigned and while will become a list
+- `+x`  notes  something that should arrive unassigned and which will become a list
 - `Xx` (a word starting with uppercase) denotes that Xx is something created by the constructor Xx.
 
 These can be combined
