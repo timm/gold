@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# find .  -type f -newer ./README.md -name '*.md'
 
 Dir=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 
