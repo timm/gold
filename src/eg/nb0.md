@@ -12,7 +12,6 @@ function Syn(i,pos,txt) {
   has(i,seen)
 }
 function Rows(i,head) {
-  Obj(i)
   has(i,"cols")
   has(i,"header")
   for(pos in head) {
@@ -31,18 +30,18 @@ function _Add(i,row) {
   k = row[i.class]
   if (! (k in i.some))
     has(i.some,k,"RowsClone",i.all);
-  for(c in i.all.cols) {
-    x = row[x]
-    i.some[k][c][x]++
-    i.all[c][x]++ }
+  for(col in i.all.cols) {
+    x = row[col]
+    i.some[k][col][x]++
+    i.all[col][x]++ }
 }
     
 function nb(file) {
   csv(file, cells) 
-  Classes(all,cells)  
+  Classes(seem,,cells)  
   while (csv(file,cells))
     if(++n>5)
-      ClassesClassify(cells[al
-    ClassesAdd(all,cells)
+      ClassesClassify(cells[alxXXX
+    ClassesAdd(seen,cells)
 }
 ```
