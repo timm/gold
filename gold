@@ -37,7 +37,7 @@ for f in $(find $here/src  -type f  -name '*.md'); do
 done
 
 toc() { cat $1 | gawk '
-BEGIN{ print("<details><summary>Table of Contents</summary>\n") }
+BEGIN{ print("<details open><summary>Table of Contents</summary>\n") }
 function ns(n,    s) { while(n-- > 0) s= s "  "      ; return s}
 function trim(s)     { gsub(/(^[ \t]*|[ \t]*$)/,"",s); return s}
 /^##[#]+/ { 
