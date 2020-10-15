@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# find .  -type f -newer ./README.md -name '*.md'
 
 Dir=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 
@@ -48,14 +47,12 @@ doc1() {
               { print ""; print }'
 }
 docs() {
-  f=`find $Dir -type f -name '*.md'`
+  f=$(find $Dir  -type f -newer $Dir/README.md -name '*.md')
   for g in $f;  do
-    if [ "$Dir/README.md" -nt "$g" ]; then
-      h=$(mktemp)
-      echo "# updating $g ..."
-      doc1 $g > $h
-      mv $h $g
-    fi
+    h=$(mktemp)
+    echo "# updating $g ..."
+    doc1 $g > $h
+    mv $h $g
   done
 }
 

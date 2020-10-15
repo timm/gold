@@ -17,24 +17,28 @@ Three base structures:
 - `List`: Constructor for empty lists.
 - `Obj`: Constructor for the  base class `Obj`. Contains a unique id.
 
-#### function List(+i) :nil
-asdsas
+#### object List
 
 <details>
 
 ```awk
+@include "/aa"
+
 BEGIN             { List(GOLD) ; GOLD.dot=sprintf("%c",46) }
 function List(i)  { split("",i,"") }
 function Obj(i)   { List(i); i.id = ++GOLD.id }
 ```
 </details>
 
-## Slot Creation
+### Slot Creation
+Makeing it happen
 
 - `has(i,key,function)` calls `function` to add something to `i[key]`.
 - `more(i,function)` calls `function` to append something to end of `i`. Returns position of new item.
   Used to append items to an already created list.
 
+#### Other stuff
+asd da d
 <details>
 
 ```awk
