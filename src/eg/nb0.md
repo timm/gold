@@ -18,40 +18,31 @@ function Rows(i,head) {
   for(pos in head) {
     txt = i.head[pos] = head[pos]
     if (txt ~ /!/) i.class=pos
-    hasss(i.cols,j,"Sym",txt, pos)
-  }
+    hasss(i.cols,j,"Sym",txt, pos) }
 }
-function RowsAdd(i,a) { for(c in i.cols) i.seen[c][a[c]]++}
-function RowsFrom(i,j) { Rows(i, j.head) }
+function _Clone(i,j) { Rows(i, j.head) }
 
-function Nb(i,file) {
-  i.file = file
+function Classes(i) {
   has(i,"all","Rows")
-  has(i,"classes") }
-
-function NbAdd(i,row) {
-  k = row[i.class]
-  NbKnown(i, k)
-  NbAdd(i.all,        row)
-  NbAdd(i.classes[k], row)
+  has(i,"some") 
+  has(i,"log","Abcd") 
 }
-
-function _Next(i,a) { 
-  if(csv(i.file,a)) {
-    k = a[i.class]
-    if(! (k in classes)) 
-      has(classes,k,"RowsFrom", i.all) 
-    return k }}
+function _Add(i,row) {
+  k = row[i.class]
+  if (! (k in i.some))
+    has(i.some,k,"RowsClone",i.all);
+  for(c in i.all.cols) {
+    x = row[x]
+    i.some[k][c][x]++
+    i.all[c][x]++ }
+}
     
 function nb(file) {
-  Abcd(log)
-  csv(file, cells) {
-  Rows(all,cells)  
-  while RowsNext(all,cells) {
-    n++
-    NbAdd(all,cell)
-
-    
-  }
+  csv(file, cells) 
+  Classes(all,cells)  
+  while (csv(file,cells))
+    if(++n>5)
+      ClassesClassify(cells[al
+    ClassesAdd(all,cells)
 }
 ```
