@@ -9,6 +9,13 @@
 
 ## OO
 
+<detaill><summary>Table of Contents</summary>
+
+- [Slot Creation](#slotcreation) : Makeing it happena     
+  - [Other stuff](#otherstuff) : asd da d
+
+</detail>
+
 Three base structures:
 
 - GOLD: a global to store, well, everything
@@ -30,8 +37,8 @@ function Obj(i)   { List(i); i.id = ++GOLD.id }
 ```
 </details>
 
-### Slot Creation
-Makeing it happen
+### Slot Creation 
+Makeing it happena     
 
 - `has(i,key,function)` calls `function` to add something to `i[key]`.
 - `more(i,function)` calls `function` to append something to end of `i`. Returns position of new item.

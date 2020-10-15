@@ -16,9 +16,10 @@ function Object(i)   { List(i); i.id = ++GOLD.id }
 ```
 EOF
 
-for f in $(find $here  -type f  -name '*.md'); do
+for f in $(find $here/src  -type f  -name '*.md'); do
   g=${f%.*}.awk
   if [ "$f" -nt "$g" ]; then
+    #echo -n "."  2>&1
     cat $f | gawk -v Slash="$(dirname $f)" '
       BEGIN            { Comment="#" }
       sub(/```awk/,"") { Comment=""  ; print; next}
@@ -36,6 +37,7 @@ for f in $(find $here  -type f  -name '*.md'); do
 done
 
 toc() { cat $1 | gawk '
+BEGIN{ print("<detaill><summary>Table of Contents</summary>\n") }
 function ns(n,    s) { while(n-- > 0) s= s "  "      ; return s}
 function trim(s)     { gsub(/(^[ \t]*|[ \t]*$)/,"",s); return s}
 /^##[#]+/ { 
@@ -46,7 +48,7 @@ function trim(s)     { gsub(/(^[ \t]*|[ \t]*$)/,"",s); return s}
    getline; 
    if(help=$0) print ns(indent) "- ["text"](#"tolower(link)") : " help 
 }
-END {print ""}
+END {print "";print "</detail>"}
 '
 }
 
