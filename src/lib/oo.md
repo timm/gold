@@ -8,7 +8,7 @@
 <img width=250 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
 
 ## OO
-<details><summary>Table of Contents</summary>
+<details open><summary>Table of Contents</summary>
 
 - [Slot Creation](#slotcreation) : Makeing it happena     
   - [Other stuff](#otherstuff) : asd da d
