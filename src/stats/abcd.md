@@ -1,5 +1,12 @@
-#!/usr/bin/env ../gold
+## class Abcd
+Incrementally update recall, precision, false alarm, etc.
 
+Example: 
+- `Abcd(x); Abcd1(x,"a","b"); Abcd1(x,"a","a"); AbcdReport(i)`
+
+<details><summary>...</summay>
+
+```awk
 @include "/../lib/oo"
 
 function Abcd(i) {
@@ -10,7 +17,7 @@ function Abcd(i) {
   has(i,"d")
   i.yes = i.no = 0
 }
-function Abcd1(i,want, got,   x) {
+function _1(i,want, got,   x) {
   if (++i.known[want] == 1) i.a[want]= i.yes + i.no 
   if (++i.known[got]  == 1) i.a[got] = i.yes + i.no 
   want == got ? i.yes++ : i.no++ 
@@ -20,7 +27,7 @@ function Abcd1(i,want, got,   x) {
     else 
       got == x    ? i.c[x]++ : i.a[x]++
 }
-function AbcdReport(i,   
+function _Report(i,   
                     x,p,q,r,s,ds,pd,pf,
                     pn,prec,g,f,acc,a,b,c,d) {
   p = " %4.2f"
@@ -49,5 +56,7 @@ function AbcdReport(i,
     printf( r s        r s r s r s r s p s p s  p s p s p s p s  " %s\n",
           i.yes+i.no,a,  b,  c,  d,  acc,prec,pd, pf, f,  g,  x) }
 }
+```
+</details>
 
 
