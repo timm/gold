@@ -16,10 +16,10 @@ function Object(i)   { List(i); i.id = ++GOLD.id }
 ```
 EOF
 
-for f in $(find $here/src  -type f  -name '*.md'); do
+for f in $(find $here/src  -type f  -name "[[:lower:]]*.md"); do
   g=${f%.*}.awk
   if [ "$f" -nt "$g" ]; then
-    #echo -n "."  2>&1
+    echo -n "."  2>&1
     cat $f | gawk -v Slash="$(dirname $f)" '
       BEGIN            { Comment="#" }
       sub(/```awk/,"") { Comment=""  ; print; next}
