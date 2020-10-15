@@ -39,7 +39,7 @@ Makeing it happen
 
 #### Other stuff
 asd da d
-<details>
+<details><summary>...</summary>
 
 ```awk
 function more(i,f)  { k= 1+length(i[k]); has(i,k,f); return k }
