@@ -14,7 +14,6 @@ function Nb(i,file) {
    i.class = 0
    i.nall = 0
    has(i, "seen")
-   has(i, "all")
    has(i, "log", "Abcd") }
 
 function _Classify(i,row,     c,f,fudge,x,y,like,most,out,prior) {
@@ -36,11 +35,12 @@ function _Read(i,     row) {
   csv(i.file, row) 
   i.class = length(row)
   while (csv(i.file, row)) {
+    i.nall++
     _Test(i, row)
     _Train(i,row) }}
 
 function _Test(i,row) {
-   if (++i.nall > i.min)
+   if (i.nall > i.min)
       AbcdAdd(i.log, row[i.class], _Classify(i,row))}
 
 function _Train(i,row,    x,y,c) {
@@ -48,9 +48,7 @@ function _Train(i,row,    x,y,c) {
   i.n[y]++
   for(c in row) {
     x = row[c]
-    if(x != "?") {
-      i.some[y][c][x]++
-      i.all[c][x]++  }}}
-
+    if(x != "?") 
+      i.some[y][c][x]++ }}
   
 ```
