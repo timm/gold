@@ -47,13 +47,13 @@ asd da d
 <details><summary>...</summary>
 
 ```awk
-function more(i,f)        { k= 1+length(i[k]); has(i,k,f); return k }
-function mores(i,f,m)     { k= 1+length(i[k]); hass(i,k,f,m); return k }
-function mores(i,f,m,n)   { k= 1+length(i[k]); hass(i,k,f,m,n); return k }
+function more( i,f,       k) { k=1+length(i); if(f) @f(i[k])       }
+function more( i,f,x1     k) { k=1+length(i); if(f) @f(i[k],x1)    }
+function more( i,f,x1,x2, k) { k=1+length(i); if(f) @f(i[k],x1,x2) }
 
-function has0(i,k,f)      { f= f?f:"List"; i[k]["\t"]; delete i[k]["\t"] }
-function has(i,k,f)       { has0(i,k,f); @f(i[k]) }
-function hass(i,k,f,m)    { has0(i,k,f); @f(i[k],m)  }
-function hasss(i,k,f,m,n) { has0(i,k,f); @f(i[k],m,n) }
+function has0(i,k)           { i[k]["\t"]; delete i[k]["\t"]       }
+function has( i,k,f)         { has0(i,k);  if(f) @f(i[k])          }
+function haS( i,k,f,x1)      { has0(i,k);  if(f) @f(i[k],x1)       }
+function hAS( i,k,f,x1,x2)   { has0(i,k);  if(f) @f(i[k],x1,x2)    }
 ```
 </details>
