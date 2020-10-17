@@ -27,7 +27,6 @@ Three base structures:
 <details>
 
 ```awk
-@include "/aa"
 
 BEGIN             { List(GOLD) ; GOLD.dot=sprintf("%c",46) }
 function List(i)  { split("",i,"") }
@@ -47,9 +46,9 @@ asd da d
 <details><summary>...</summary>
 
 ```awk
-function more( i,f,       k) { k=1+length(i); if(f) @f(i[k])       }
-function more( i,f,x1     k) { k=1+length(i); if(f) @f(i[k],x1)    }
-function more( i,f,x1,x2, k) { k=1+length(i); if(f) @f(i[k],x1,x2) }
+function more( i,f,       k) { k=1+length(i); if(f) @f(i[k])      ; return k}
+function morE( i,f,x1,    k) { k=1+length(i); if(f) @f(i[k],x1)   ; return k}
+function moRE( i,f,x1,x2, k) { k=1+length(i); if(f) @f(i[k],x1,x2); return k}
 
 function has0(i,k)           { i[k]["\t"]; delete i[k]["\t"]       }
 function has( i,k,f)         { has0(i,k);  if(f) @f(i[k])          }

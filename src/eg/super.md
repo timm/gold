@@ -2,11 +2,14 @@
 Basic Naive Bayes
 
 ```awk
-@include "/lib/oo"
-@include "/lib/file"
-@include "/stats/abcd"
+@include "/../lib/oo"
+@include "/../lib/files"
+@include "/../stats/abcd"
+@include "/../lib/tests"
 
-function Nb(i,f) {
+function Super(i,f) {
+   i.Class = "!"
+   i.Skip  = "?"
    i.Min   = 10          # tuning param
    i.K     = 1           # tuning param
    i.M     = 2           # tuning param
@@ -20,12 +23,14 @@ function Nb(i,f) {
 function _Add(i,row,  x,y,c) {
   y = row[i.class]
   if (++i.nall > i.Min) 
-    AbcdAdd(i.log, y, _MostLiked(i,row))}
+    AbcdAdd(i.log, y, _MostLiked(i,row))
   for(c in row) {
     x = row[c]
-    if(x != "?") i.seen[y][c][x]++ }}
+    if(x != "?") 
+      ++i.seen[y][c][x] }}
 
-function _Like(i,row,n,    prior,like,c,x,f) {
+function _Like(i,row,y,    n,prior,like,c,x,f) {
+  n = i.seen[y][i.class][y]
   prior = like = (n + i.K)/(i.nall + i.k*length(i.seen))
   like  = log(like)
   for(c in row)
@@ -36,9 +41,9 @@ function _Like(i,row,n,    prior,like,c,x,f) {
         like += log( (f + i.M*prior) / (n + i.M)) }}
   return like }
 
-function _MostLiked(i,row,     y,like,most,out,y) {
+function _MostLiked(i,row,     y,like,most,out) {
   for(y in i.seen) {
-    like = _Like(i, row, i.seen[y][i.class][y])
+    like = _Like(i, row, y)
     if (like > most) {
       most=like
       out=y }}
