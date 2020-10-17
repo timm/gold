@@ -23,7 +23,7 @@ function csv(a,file,     i,j,b4, ok,line,x,y) {
   for(i in a) {
     x=a[i]
     y=a[i]+0
-    a[i] = x==y ? x : y
+    a[i] = x==y ? y : x
   }
   return 1
 }

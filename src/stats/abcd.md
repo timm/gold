@@ -17,7 +17,7 @@ function Abcd(i) {
   has(i,"d")
   i.yes = i.no = 0
 }
-function _1(i,want, got,   x) {
+function _Add(i,want, got,   x) {
   if (++i.known[want] == 1) i.a[want]= i.yes + i.no 
   if (++i.known[got]  == 1) i.a[got] = i.yes + i.no 
   want == got ? i.yes++ : i.no++ 
