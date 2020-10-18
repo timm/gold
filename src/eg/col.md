@@ -100,7 +100,7 @@ function Num(i,pos,txt) {
 </details></ul>
 
 #### Add
-Incrementally add new data, update `mu`, `sd`, `n    
+Incrementally add new data, update `mu`, `sd`, `n`   
 
 <details><summary>...</summary>
 
@@ -117,21 +117,6 @@ function _Add(i,x,   i)  {
 ```
 </details>
 
-#### Sub
-Subtract new data, update `mu`, `sd`, `n`    
-
-<details><summary>...</summary>
-
-```awk
-function _Sub(x,     d)
-  if x == "?" return x
-  i.n  -= 1
-  d     = x - i.mu
-  i.mu -= d / i.n
-  i.m2 -= d * (x - i.mu) 
-  i.sd  = (i.n<2 ?0: (i.m2<0 ?0: (i.m2/(i.n - 1))^0.5)) }
-```
-</details>
 
 #### Norm
 Return a number 0..1, min..max
@@ -193,26 +178,13 @@ function _Add(i,x,  tmp) {
 ```
 </details>
 
-#### Sub
-Subtract new data, update `mu`, `sd`, `n`    
-
-<details><summary>...</summary>
-
-```awk
-function _Sub(i,x) {
-  if (x == "?") return x
-  if( --i.n       < 1) i.n=0
-  if( --i.seen[x] < 1) delete i.seen[x] }
-```
-</details>
-
 #### AUC
 Area under the curve between two points
 
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 function _AUC(i,x) { return i.seen[x]/i.n }
-</details>
 ```
+</details></ul>
