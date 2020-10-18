@@ -84,7 +84,7 @@ func _Merge(i,a,c,    amax,as,b,bs) {
 ### class Num
 Incrementally summarize numerics
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 func Num(i,pos,txt) {
@@ -97,7 +97,7 @@ func Num(i,pos,txt) {
   i.hi= -10^32
   i.n= i.sd = i.mu = i.md = 0 }
 ```
-</details>
+</details></ul>
 
 #### Add
 Incrementally add new data, update `mu`, `sd`, `n    
