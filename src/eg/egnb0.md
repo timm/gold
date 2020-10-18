@@ -2,12 +2,10 @@
 @include "/nb0"
 @include "/../lib/tests"
 
-BEGIN {
-  print 100
- rogues()
-  Nb(i)
-  NbRead(i)
-  @Add(i,4,5)
-  Lookup(i,"report")@METHOD(Zi,1,23)
-}
+func aa(i) { 
+  Nb(i); NbRead(i); rogues(); 
+  AbcdReport(i.log) 
+  #oo(i.seen)
+  }
+BEGIN { aa() }
 ```

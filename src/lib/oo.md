@@ -46,6 +46,7 @@ asd da d
 <details><summary>...</summary>
 
 ```awk
+function method(i,f)         { METHOD=i.is f }
 function more( i,f,       k) { k=1+length(i); if(f) @f(i[k])      ; return k}
 function morE( i,f,x1,    k) { k=1+length(i); if(f) @f(i[k],x1)   ; return k}
 function moRE( i,f,x1,x2, k) { k=1+length(i); if(f) @f(i[k],x1,x2); return k}

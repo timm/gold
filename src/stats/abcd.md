@@ -10,6 +10,7 @@ Example:
 @include "/../lib/oo"
 
 function Abcd(i) {
+  i.is = "Abcd"
   has(i,"known")
   has(i,"a")
   has(i,"b")
@@ -30,15 +31,15 @@ function _Add(i,want, got,   x) {
 function _Report(i,   
                     x,p,q,r,s,ds,pd,pf,
                     pn,prec,g,f,acc,a,b,c,d) {
-  p = " %4.2f"
+  p = " %0.2f"
   q = " %4s"
   r = " %5s"
   s = " |"
   ds= "----"
   printf(r s r s r s r s r s q s q s q s q s q s q s " class\n",
-        "num","a","b","c","d","acc","pre","pd","pf","f","g")
+        "#    ","a","b","c","d","acc","pre","pd","pf","f","g")
   printf(r s r s r s r s r s q s q s q s q s q s q s "-----\n",
-         "----",ds,ds,ds,ds,ds,ds,ds,ds,ds,ds)
+         "#----",ds,ds,ds,ds,ds,ds,ds,ds,ds,ds)
   for (x in i.known) {
     pd = pf = pn = prec = g = f = acc = 0
     a = i.a[x]
@@ -54,7 +55,7 @@ function _Report(i,
     if (i.yes + i.no > 0 ) 
        acc  = i.yes / (i.yes + i.no) 
     printf( r s        r s r s r s r s p s p s  p s p s p s p s  " %s\n",
-          i.yes+i.no,a,  b,  c,  d,  acc,prec,pd, pf, f,  g,  x) }
+          c+d,a,  b,  c,  d,  acc,prec,pd, pf, f,  g,  x) }
 }
 ```
 </details>

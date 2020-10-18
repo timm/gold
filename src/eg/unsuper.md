@@ -10,16 +10,37 @@ Basic Naive Bayes
 func Cols(i) { 
   i.is="Cols"
   i.class=""
+  has(i,"nums"); has(i,"syms")
   has(i,"txt");has(i,"all");has(i,"x");has(i,"y")}
 
 func _Add(i,a,      c,x) {
   for(c in a) {
     x = a[c]
-    if(x ~ /\?/) continue 
+    skipp  = x ~ /\?/
+    if(skipp) continue 
+    classp = x ~ /!/
+    nump   = /[:<>]/
+    goalp  = /[!<>]/
     i.txt[c] = x
-    if(x ~ /!/) i.class = c
-    i.all[c]
-    (x ~ /[!<>]/) ? i.y[c] : i.x[c] }}
+    if(classp) i.class = c
+    goalp ? i.y[c]    : i.x[c] 
+    nump  ? i.nums[c] : i.syms[c] 
+    has(i.all, c, nump?"Num":"Sym", i.all[c]
+}}
+
+function Num(i,pos,txt) {
+  i.is="Num"
+  i.txt= txt
+  i.pos= pos
+  if (txt ~ /</) i.w = -1
+  if (txt ~ />/) i.w =  1
+  i.lo=  10^32
+  i.hi= -10^32 }
+
+function _Add(i,x)  { if(x<i.lo) i.lo=x; if(x>i.hi) i.hi=x }
+function _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
+
+function Sym(i,pos,txt
 
 func Nb(i,f) {
    i.is = "Nb"
