@@ -27,18 +27,18 @@ Add a new item (if reservoir not full). Else, replace an old item.
 ```awk
 @include "/../lib/list" # get "any"
 
-func _Add((i,x) {
+function _Add((i,x) {
   if (x=="?") return x
   if (length(i.all) < i.max)     return i.all[1+length(i.all)]=x
   if (rand()        < i.max/i.n) return i.all[     any(i.all)]=x }
 
-func _Sd(i,lo,hi,   p10,p90) {
+function _Sd(i,lo,hi,   p10,p90) {
   if(!sorted) i.sorted=asort(i.all)
   p10 = int(0.5 + (hi - lo)*.1)
   p90 = int(0.5 + (hi - lo)*.9)
   return (i.all[p90] - i.all[p10])/2.56 }
 
-func _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
+function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
   n1   = b-a
   n2   = c-b-1
   sd0  = _Sd(i,a,c)
@@ -62,7 +62,7 @@ function _Div(i,bins,    n0,n1,lo,hi,bins,b) {
   }  
   _Merge(i,a) }
 
-func _Merge(i,a,c,    amax,as,b,bs) {
+function _Merge(i,a,c,    amax,as,b,bs) {
   amax = length(a)
   as = bs = 1
   b[bs].lo = a[as].lo
@@ -87,7 +87,7 @@ Incrementally summarize numerics
 <ul><details><summary>...</summary>
 
 ```awk
-func Num(i,pos,txt) {
+function Num(i,pos,txt) {
   i.is ="Num"
   i.txt= txt
   i.pos= pos
@@ -105,7 +105,7 @@ Incrementally add new data, update `mu`, `sd`, `n
 <details><summary>...</summary>
 
 ```awk
-func _Add(i,x,   i)  { 
+function _Add(i,x,   i)  { 
   if (x=="?") return x
   if(x>i.hi) i.hi=x
   if(x<i.lo) i.lo=x
@@ -123,7 +123,7 @@ Subtract new data, update `mu`, `sd`, `n`
 <details><summary>...</summary>
 
 ```awk
-func _Sub(x,     d)
+function _Sub(x,     d)
   if x == "?" return x
   i.n  -= 1
   d     = x - i.mu
@@ -139,7 +139,7 @@ Return a number 0..1, min..max
 <details><summary>...</summary>
 
 ```awk
-func _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
+function _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
 ```
 </details>
 
@@ -149,7 +149,7 @@ Return area under the probability curve below `-&infin; &le x`.
 <details><summary>...</summary>
 
 ```awk
-func _CDF(i,x)      { 
+function _CDF(i,x)      { 
   x=(x-i.mu)/i.sd; return 1/(1 + 2.71828^(-0.07056*x^3 - 1.5976*x)) }
 ```
 </details>
@@ -160,7 +160,7 @@ Area under the curve between two points
 <details><summary>...</summary>
 
 ```awk
-func _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
+function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 ```
 </details>
 
@@ -169,7 +169,7 @@ func _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 <details><summary>...</summary>
 
 ```awk
-func Sym(i) { 
+function Sym(i) { 
   i.is = "Sym"
   i.txt= txt
   i.pos= pos
@@ -185,7 +185,7 @@ Add new data, update `mu`, `sd`, `n`
 <details><summary>...</summary>
 
 ```awk
-func _Add(i,x,  tmp) {
+function _Add(i,x,  tmp) {
   if (x == "?") return v
   i.n++
   tmp = ++i.seen[x]
@@ -199,7 +199,7 @@ Subtract new data, update `mu`, `sd`, `n`
 <details><summary>...</summary>
 
 ```awk
-func _Sub(i,x) {
+function _Sub(i,x) {
   if (x == "?") return x
   if( --i.n       < 1) i.n=0
   if( --i.seen[x] < 1) delete i.seen[x] }
@@ -213,6 +213,6 @@ Area under the curve between two points
 <details><summary>...</summary>
 
 ```awk
-func _AUC(i,x) { return i.seen[x]/i.n }
+function _AUC(i,x) { return i.seen[x]/i.n }
 </details>
 ```
