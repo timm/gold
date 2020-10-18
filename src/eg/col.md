@@ -4,6 +4,8 @@ Incrementally summarize columns
 ### class Some
 Reservoir sampling: just keep up to `i.max` items.
 
+<ul>
+
 #### Some
 Initialize
 
@@ -80,11 +82,14 @@ function _Merge(i,a,c,    amax,as,b,bs) {
   return bs<as ? _Merge(i,b,c) : copy(b,c) }
 ```
 </details></ul>
+</ul>
 
 ### class Num
 Incrementally summarize numerics
 
-<ul><ul><details><summary>...</summary>
+<ul>
+#### method Num
+<ul><details><summary>...</summary>
 
 ```awk
 function Num(i,pos,txt) {
@@ -99,7 +104,7 @@ function Num(i,pos,txt) {
 ```
 </details></ul>
 
-#### Add
+#### method Add
 Incrementally add new data, update `mu`, `sd`, `n`   
 
 <ul><details><summary>...</summary>
@@ -118,7 +123,7 @@ function _Add(i,x,   i)  {
 </details></ul>
 
 
-#### Norm
+#### method Norm
 Return a number 0..1, min..max
 
 <ul><details><summary>...</summary>
@@ -150,8 +155,9 @@ function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 </details></ul> </ul>
 
 ### Class Sym
+ITings ad stuff
 
-<ul><details><summary>...</summary>
+<ul><ul><details><summary>...</summary>
 
 ```awk
 function Sym(i) { 
@@ -187,4 +193,4 @@ Area under the curve between two points
 ```awk
 function _AUC(i,x) { return i.seen[x]/i.n }
 ```
-</details></ul>
+</details></ul></ul>
