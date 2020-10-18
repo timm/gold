@@ -7,6 +7,8 @@ Reservoir sampling: just keep up to `i.max` items.
 #### Some
 Initialize
 
+<details><summary>...</summary>
+
 ```awk
 function Some(i) { 
   i.is="Some"; i.sorted=0; 
@@ -15,9 +17,12 @@ function Some(i) {
   i.Epsilon = 0.01
   has(i,"all"); i.n=0; i.max=256 }
 ```
+</details>
 
 #### Some
 Add a new item (if reservoir not full). Else, replace an old item.
+
+<details><summary>...</summary>
 
 ```awk
 @include "/../lib/list" # get "any"
@@ -74,9 +79,12 @@ func _Merge(i,a,c,    amax,as,b,bs) {
     as++ }
   return bs<as ? _Merge(i,b,c) : copy(b,c) }
 ```
+</details>
 
 ### class Num
 Incrementally summarize numerics
+
+<details><summary>...</summary>
 
 ```awk
 func Num(i,pos,txt) {
@@ -88,9 +96,13 @@ func Num(i,pos,txt) {
   i.lo=  10^32
   i.hi= -10^32
   i.n= i.sd = i.mu = i.md = 0 }
+```
+</details>
 
 #### Add
 Incrementally add new data, update `mu`, `sd`, `n    
+
+<details><summary>...</summary>
 
 ```awk
 func _Add(i,x,   i)  { 
@@ -103,9 +115,12 @@ func _Add(i,x,   i)  {
   i.m2 += d * (x - i.mu) 
   i.sd  = (i.n<2 ?0: (i.m2<0 ?0: (i.m2/(i.n - 1))^0.5)) }
 ```
+</details>
 
 #### Sub
 Subtract new data, update `mu`, `sd`, `n`    
+
+<details><summary>...</summary>
 
 ```awk
 func _Sub(x,     d)
@@ -116,30 +131,42 @@ func _Sub(x,     d)
   i.m2 -= d * (x - i.mu) 
   i.sd  = (i.n<2 ?0: (i.m2<0 ?0: (i.m2/(i.n - 1))^0.5)) }
 ```
+</details>
 
 #### Norm
 Return a number 0..1, min..max
 
+<details><summary>...</summary>
+
 ```awk
 func _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
 ```
+</details>
 
 #### CDF
 Return area under the probability curve below `-&infin; &le x`.
+
+<details><summary>...</summary>
 
 ```awk
 func _CDF(i,x)      { 
   x=(x-i.mu)/i.sd; return 1/(1 + 2.71828^(-0.07056*x^3 - 1.5976*x)) }
 ```
+</details>
 
 #### AUC
 Area under the curve between two points
 
+<details><summary>...</summary>
+
 ```awk
 func _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 ```
+</details>
 
 ### Class Sym
+
+<details><summary>...</summary>
 
 ```awk
 func Sym(i) { 
@@ -150,9 +177,12 @@ func Sym(i) {
   i.mode =""
   has(i,"seen") }
 ```
+</details>
   
 #### Sub
 Add new data, update `mu`, `sd`, `n`    
+
+<details><summary>...</summary>
 
 ```awk
 func _Add(i,x,  tmp) {
@@ -161,20 +191,28 @@ func _Add(i,x,  tmp) {
   tmp = ++i.seen[x]
   if (tmp > i.most) { i.most = tmp; i.mode = x }}
 ```
+</details>
 
 #### Sub
 Subtract new data, update `mu`, `sd`, `n`    
-adn: 
+
+<details><summary>...</summary>
+
 ```awk
 func _Sub(i,x) {
   if (x == "?") return x
   if( --i.n       < 1) i.n=0
   if( --i.seen[x] < 1) delete i.seen[x] }
 ```
- awwk  
+</details>
+
 #### AUC
 Area under the curve between two points
 
+
+<details><summary>...</summary>
+
 ```awk
 func _AUC(i,x) { return i.seen[x]/i.n }
+</details>
 ```
