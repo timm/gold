@@ -7,7 +7,7 @@ Reservoir sampling: just keep up to `i.max` items.
 #### Some
 Initialize
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 function Some(i) { 
@@ -17,12 +17,12 @@ function Some(i) {
   i.Epsilon = 0.01
   has(i,"all"); i.n=0; i.max=256 }
 ```
-</details>
+</details></ul>
 
 #### Some
 Add a new item (if reservoir not full). Else, replace an old item.
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 @include "/../lib/list" # get "any"
@@ -79,7 +79,7 @@ function _Merge(i,a,c,    amax,as,b,bs) {
     as++ }
   return bs<as ? _Merge(i,b,c) : copy(b,c) }
 ```
-</details>
+</details></ul>
 
 ### class Num
 Incrementally summarize numerics
@@ -102,7 +102,7 @@ function Num(i,pos,txt) {
 #### Add
 Incrementally add new data, update `mu`, `sd`, `n`   
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 function _Add(i,x,   i)  { 
@@ -121,37 +121,37 @@ function _Add(i,x,   i)  {
 #### Norm
 Return a number 0..1, min..max
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 function _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
 ```
-</details>
+</details></ul>
 
 #### CDF
 Return area under the probability curve below `-&infin; &le x`.
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 function _CDF(i,x)      { 
   x=(x-i.mu)/i.sd; return 1/(1 + 2.71828^(-0.07056*x^3 - 1.5976*x)) }
 ```
-</details>
+</details></ul>
 
 #### AUC
 Area under the curve between two points
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 ```
-</details>
+</details></ul>
 
 ### Class Sym
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 function Sym(i) { 
@@ -162,12 +162,12 @@ function Sym(i) {
   i.mode =""
   has(i,"seen") }
 ```
-</details>
+</details></ul>
   
 #### Sub
 Add new data, update `mu`, `sd`, `n`    
 
-<details><summary>...</summary>
+<ul><details><summary>...</summary>
 
 ```awk
 function _Add(i,x,  tmp) {
@@ -176,7 +176,7 @@ function _Add(i,x,  tmp) {
   tmp = ++i.seen[x]
   if (tmp > i.most) { i.most = tmp; i.mode = x }}
 ```
-</details>
+</details></ul>
 
 #### AUC
 Area under the curve between two points
