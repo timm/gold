@@ -84,7 +84,7 @@ function _Merge(i,a,c,    amax,as,b,bs) {
 ### class Num
 Incrementally summarize numerics
 
-<ul><details><summary>...</summary>
+<ul><ul><details><summary>...</summary>
 
 ```awk
 function Num(i,pos,txt) {
@@ -115,7 +115,7 @@ function _Add(i,x,   i)  {
   i.m2 += d * (x - i.mu) 
   i.sd  = (i.n<2 ?0: (i.m2<0 ?0: (i.m2/(i.n - 1))^0.5)) }
 ```
-</details>
+</details></ul>
 
 
 #### Norm
@@ -147,7 +147,7 @@ Area under the curve between two points
 ```awk
 function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 ```
-</details></ul>
+</details></ul> </ul>
 
 ### Class Sym
 
