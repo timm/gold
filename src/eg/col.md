@@ -42,9 +42,9 @@ Reservoir sampling: just keep up to `i.max` items.
 <ul>
 
 #### constructor Some
-Initialize
+<ul>Initialize
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function Some(i, post,txt) { 
@@ -59,9 +59,9 @@ function Some(i, post,txt) {
 </details></ul>
 
 #### method Add
-Add a new item (if reservoir not full). Else, replace an old item.
+<ul>Add a new item (if reservoir not full). Else, replace an old item.
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 @include "/../lib/list" # get "any"
@@ -75,11 +75,11 @@ function _Add((i,x) {
 
 
 #### method Sd
-Compute the standard deviation of a list of sorted numbers.
+<ul>Compute the standard deviation of a list of sorted numbers.
 
 Uses the trick that the standard deviation can be approximated using the 90th-10th percentile (divided by 2.56).
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _Sd(i,lo,hi,   p10,p90) {
@@ -92,9 +92,9 @@ function _Sd(i,lo,hi,   p10,p90) {
 
 
 #### method Better
-Returns true if it useful dividing the list `a` to `c` at the point  `b`.  
+<ul>Returns true if it useful dividing the list `a` to `c` at the point  `b`.  
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
@@ -110,9 +110,9 @@ function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
 
 
 #### method Div
-Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
+<ul>Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 
@@ -132,9 +132,9 @@ function _Div(i,a,    n0,n1,lo,hi,bins,b) {
 </details></ul>
 
 #### method Merge
-Combine adjacent pairs of bins (if they too similar). Loop until there are no more combinable  bins.
+<ul>Combine adjacent pairs of bins (if they too similar). Loop until there are no more combinable  bins.
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _Merge(i,a,c,    amax,as,b,bs) {
@@ -170,9 +170,9 @@ e.g.
 <ul>
 
 #### constructor  Num
-Create a new `Num`.
+<ul>Create a new `Num`.
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function Num(i,pos,txt) {
@@ -188,9 +188,9 @@ function Num(i,pos,txt) {
 </details></ul>
 
 #### method Add
-Incrementally add new data, update `mu`, `sd`, `n`   
+<ul>Incrementally add new data, update `mu`, `sd`, `n`   
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _Add(i,x,   i)  { 
@@ -206,9 +206,9 @@ function _Add(i,x,   i)  {
 </details></ul>
 
 #### method Norm
-Return a number 0..1, min..max
+<ul>Return a number 0..1, min..max
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
@@ -216,9 +216,9 @@ function _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
 </details></ul>
 
 #### method CDF
-Return area under the probability curve below `-&infin; &le x`.
+<ul>Return area under the probability curve below `-&infin; &le x`.
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _CDF(i,x)      { 
@@ -227,9 +227,9 @@ function _CDF(i,x)      {
 </details></ul>
 
 #### method AUC
-Area under the curve between two points
+<ul>Area under the curve between two points
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
@@ -242,9 +242,9 @@ Incrementally summarize a stream of symbols.
 <ul>
 
 #### constructor Sym
-Create a new `Sym`.
+<ul>Create a new `Sym`.
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function Sym(i, pos,txt) { 
@@ -259,9 +259,9 @@ function Sym(i, pos,txt) {
 </details></ul>
   
 #### method Add
-Add new data, update `mu`, `sd`, `n`    
+<ul>Add new data, update `mu`, `sd`, `n`    
 
-<ul><details><summary>...</summary>
+><details><summary>...</summary>
 
 ```awk
 function _Add(i,x,  tmp) {
@@ -273,11 +273,11 @@ function _Add(i,x,  tmp) {
 </details></ul>
 
 #### method Merge
-Returns true if  combing two `Sym`s does not have larger entropy that the parts.
+<ul>Returns true if  combing two `Sym`s does not have larger entropy that the parts.
 
 As a side-effect, compute that combined item.
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _Merge(i,j,k) {
@@ -297,9 +297,9 @@ function _Merge(i,j,k) {
 </details></ul>
 
 #### method Ent
-Compute the entropy of the stored symbol counts.
+<ul>Compute the entropy of the stored symbol counts.
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _Ent(i, e, p) {
@@ -314,9 +314,9 @@ function _Ent(i, e, p) {
 
 
 #### method AUC
-Area under the curve between two points
+<ul>Area under the curve between two points
 
-<ul><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _AUC(i,x) { return i.seen[x]/i.n }

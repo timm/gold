@@ -50,7 +50,9 @@ function trim(s)     { gsub(/(^[ \t]*|[ \t]*$)/,"",s); return s}
    link=text = trim($0)
    gsub(/[ \t]+/,"-",link)
    getline  
-   if (help=$0) print(prefix "- ["text"](#"tolower(link)") : " help)
+   help=$0
+   gsub(/^<ul>/,"",help)
+   if (help) print(prefix "- ["text"](#"tolower(link)") : " help)
 }
 END {print "\n</details>\n"}
 '
