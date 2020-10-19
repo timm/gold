@@ -11,11 +11,12 @@
 ## Col
 Incrementally summarize columns
 
+
 <details open><summary>Contents</summary>
 
 - [class Some](#class-some) : Reservoir sampling: just keep up to `i.max` items.
   - [constructor Some](#constructor-some) : Initialize
-  - [Add](#add) : Add a new item (if reservoir not full). Else, replace an old item.
+  - [method Add](#method-add) : Add a new item (if reservoir not full). Else, replace an old item.
   - [method Sd](#method-sd) : Compute the standard deviation of a list of sorted numbers.
   - [method Better](#method-better) : Returns true if it useful dividing the list `a` to `c` at the point  `c`.
   - [method Div](#method-div) : Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
@@ -53,7 +54,7 @@ function Some(i) {
 ```
 </details></ul>
 
-#### Add
+#### method Add
 Add a new item (if reservoir not full). Else, replace an old item.
 
 <ul><details><summary>...</summary>
