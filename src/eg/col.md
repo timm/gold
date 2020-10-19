@@ -37,7 +37,6 @@ Incrementally summarize columns
 ### class Some
 Reservoir sampling: just keep up to `i.max` items.
 
-<details>
 <ul>
 
 #### constructor Some
@@ -152,7 +151,6 @@ function _Merge(i,a,c,    amax,as,b,bs) {
 </details></ul>
 
 </ul>
-</details>
 
 ### class Num
 Incrementally summarize numerics.
