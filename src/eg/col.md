@@ -10,7 +10,7 @@
 ## Col
 Incrementally summarize columns
 
-<details open><summary>Table of Contents</summary>
+<details open><summary>Contents</summary>
 
 - [class Some](#class-some) : Reservoir sampling: just keep up to `i.max` items.
   - [Some](#some) : Initialize
