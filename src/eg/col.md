@@ -17,7 +17,7 @@ Incrementally summarize columns
   - [constructor Some](#constructor-some) : Initialize
   - [method Add](#method-add) : Add a new item (if reservoir not full). Else, replace an old item.
   - [method Sd](#method-sd) : Compute the standard deviation of a list of sorted numbers.
-  - [method Better](#method-better) : Returns true if it useful dividing the list `a` to `c` at the point  `b`.  <ul><details><summary>...</summary>
+  - [method Better](#method-better) : Returns true if it useful dividing the list `a` to `c` at the point  `b`.  
   - [method Div](#method-div) : Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
   - [method Merge](#method-merge) : Combine adjacent pairs of bins (if they too similar). Loop until there are no more combinable  bins.
 - [class Num](#class-num) : Incrementally summarize numerics.
@@ -92,7 +92,9 @@ function _Sd(i,lo,hi,   p10,p90) {
 
 
 #### method Better
-Returns true if it useful dividing the list `a` to `c` at the point  `b`.  <ul><details><summary>...</summary>
+Returns true if it useful dividing the list `a` to `c` at the point  `b`.  
+
+<ul><details><summary>...</summary>
 
 ```awk
 function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
