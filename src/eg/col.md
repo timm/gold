@@ -12,20 +12,19 @@ Incrementally summarize columns
 
 <details open><summary>Table of Contents</summary>
 
-- [class Some](#classsome) : Reservoir sampling: just keep up to `i.max` items.
+- [class Some](#class-some) : Reservoir sampling: just keep up to `i.max` items.
   - [Some](#some) : Initialize
   - [Some](#some) : Add a new item (if reservoir not full). Else, replace an old item.
-- [class Num](#classnum) : Incrementally summarize numerics
-  - [constructor Num](#constructornum) : Create a new `Num`.
-  - [method Add](#methodadd) : Incrementally add new data, update `mu`, `sd`, `n`   
-  - [method Norm](#methodnorm) : Return a number 0..1, min..max
-  - [method CDF](#methodcdf) : Return area under the probability curve below `-&infin; &le x`.
-  - [method AUC](#methodauc) : Area under the curve between two points
-- [class Sym](#classsym) : Incrementally summarize numerics
-  - [constructor Sym](#constructorsym) : Create a new `Sym`.
-  - [method Add](#methodadd) : Add new data, update `mu`, `sd`, `n`    
-  - [method AUC](#methodauc) : Area under the curve between two points
-
+- [class Num](#class-num) : Incrementally summarize numerics
+  - [constructor Num](#constructor-num) : Create a new `Num`.
+  - [method Add](#method-add) : Incrementally add new data, update `mu`, `sd`, `n`   
+  - [method Norm](#method-norm) : Return a number 0..1, min..max
+  - [method CDF](#method-cdf) : Return area under the probability curve below `-&infin; &le x`.
+  - [method AUC](#method-auc) : Area under the curve between two points
+- [class Sym](#class-sym) : Incrementally summarize numerics
+  - [constructor Sym](#constructor-sym) : Create a new `Sym`.
+  - [method Add](#method-add) : Add new data, update `mu`, `sd`, `n`    
+  - [method AUC](#method-auc) : Area under the curve between two points
 
 </details>
 
