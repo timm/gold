@@ -1,5 +1,31 @@
+<a name=top>&nbsp;<p>
+<a href="https://github.com/timm/gold/blob/master/README.md#top">home</a> ::
+<a href="https://github.com/timm/gold/blob/master/src/lib/README.md#top">lib</a> ::
+<a href="https://github.com/timm/gold/blob/master/src/cols/README.md#top">cols</a> ::
+<a href="https://github.com/timm/gold/blob/master/src/rows/README.md#top">rows</a> ::
+<a href="http://github.com/timm/gold/blob/master/LICENSE.md#top">&copy;&nbsp;2020</a>&nbsp;by&nbsp;<a href="http://menzies.us">Tim&nbsp;Menzies</a>
+<h1> GOLD = a Gawk Object Layer</h1>
+<img width=250 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
+
 ## Col
 Incrementally summarize columns
+
+<details open><summary>Table of Contents</summary>
+
+- [class Some](#classsome) : Reservoir sampling: just keep up to `i.max` items.
+  - [Some](#some) : Initialize
+  - [Some](#some) : Add a new item (if reservoir not full). Else, replace an old item.
+- [class Num](#classnum) : Incrementally summarize numerics
+  - [method Num](#methodnum) : <ul><details><summary>...</summary>
+  - [method Add](#methodadd) : Incrementally add new data, update `mu`, `sd`, `n`   
+  - [method Norm](#methodnorm) : Return a number 0..1, min..max
+  - [method CDF](#methodcdf) : Return area under the probability curve below `-&infin; &le x`.
+  - [method AUC](#methodauc) : Area under the curve between two points
+- [class Sym](#classsym) : Incrementally summarize numerics
+  - [method Add](#methodadd) : Add new data, update `mu`, `sd`, `n`    
+  - [method AUC](#methodauc) : Area under the curve between two points
+
+</details>
 
 ### class Some
 Reservoir sampling: just keep up to `i.max` items.
@@ -123,7 +149,6 @@ function _Add(i,x,   i)  {
 ```
 </details></ul>
 
-
 #### method Norm
 Return a number 0..1, min..max
 
@@ -134,7 +159,7 @@ function _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
 ```
 </details></ul>
 
-#### CDF
+#### method CDF
 Return area under the probability curve below `-&infin; &le x`.
 
 <ul><details><summary>...</summary>
@@ -145,7 +170,7 @@ function _CDF(i,x)      {
 ```
 </details></ul>
 
-#### AUC
+#### method AUC
 Area under the curve between two points
 
 <ul><details><summary>...</summary>
@@ -155,9 +180,8 @@ function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 ```
 </details></ul> </ul>
 
-### Class Sym
+### class Sym
 Incrementally summarize numerics
-
 
 <ul><ul><details><summary>...</summary>
 
@@ -172,7 +196,7 @@ function Sym(i) {
 ```
 </details></ul>
   
-#### Sub
+#### method Add
 Add new data, update `mu`, `sd`, `n`    
 
 <ul><details><summary>...</summary>
@@ -186,9 +210,8 @@ function _Add(i,x,  tmp) {
 ```
 </details></ul>
 
-#### AUC
+#### method AUC
 Area under the curve between two points
-
 
 <ul><details><summary>...</summary>
 
