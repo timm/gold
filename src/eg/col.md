@@ -16,14 +16,16 @@ Incrementally summarize columns
   - [Some](#some) : Initialize
   - [Some](#some) : Add a new item (if reservoir not full). Else, replace an old item.
 - [class Num](#classnum) : Incrementally summarize numerics
-  - [method Num](#methodnum) : <ul><details><summary>...</summary>
+  - [constructor Num](#constructornum) : Create a new `Num`.
   - [method Add](#methodadd) : Incrementally add new data, update `mu`, `sd`, `n`   
   - [method Norm](#methodnorm) : Return a number 0..1, min..max
   - [method CDF](#methodcdf) : Return area under the probability curve below `-&infin; &le x`.
   - [method AUC](#methodauc) : Area under the curve between two points
 - [class Sym](#classsym) : Incrementally summarize numerics
+  - [constructor Sym](#constructorsym) : Create a new `Sym`.
   - [method Add](#methodadd) : Add new data, update `mu`, `sd`, `n`    
   - [method AUC](#methodauc) : Area under the curve between two points
+
 
 </details>
 
@@ -115,7 +117,9 @@ Incrementally summarize numerics
 
 <ul>
 
-#### method Num
+#### constructor  Num
+Create a new `Num`.
+
 <ul><details><summary>...</summary>
 
 ```awk
@@ -183,7 +187,13 @@ function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 ### class Sym
 Incrementally summarize numerics
 
-<ul><ul><details><summary>...</summary>
+<ul>
+
+
+#### constructor Sym
+Create a new `Sym`.
+
+<ul><details><summary>...</summary>
 
 ```awk
 function Sym(i) { 
