@@ -11,14 +11,13 @@
 ## Col
 Incrementally summarize columns
 
-
 <details open><summary>Contents</summary>
 
 - [class Some](#class-some) : Reservoir sampling: just keep up to `i.max` items.
   - [constructor Some](#constructor-some) : Initialize
   - [method Add](#method-add) : Add a new item (if reservoir not full). Else, replace an old item.
   - [method Sd](#method-sd) : Compute the standard deviation of a list of sorted numbers.
-  - [method Better](#method-better) : Returns true if it useful dividing the list `a` to `c` at the point  `c`.
+  - [method Better](#method-better) : Returns true if it useful dividing the list `a` to `c` at the point  `b`.  <ul><details><summary>...</summary>
   - [method Div](#method-div) : Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
   - [method Merge](#method-merge) : Combine adjacent pairs of bins (if they too similar). Loop until there are no more combinable  bins.
 - [class Num](#class-num) : Incrementally summarize numerics.
@@ -30,9 +29,12 @@ Incrementally summarize columns
 - [class Sym](#class-sym) : Incrementally summarize numerics
   - [constructor Sym](#constructor-sym) : Create a new `Sym`.
   - [method Add](#method-add) : Add new data, update `mu`, `sd`, `n`    
+  - [method Merge](#method-merge) : Returns true if  combing two `Sym`s does not have larger entropy that the parts.
+  - [method Ent](#method-ent) : Compute the entropy of the stored symbol counts.
   - [method AUC](#method-auc) : Area under the curve between two points
 
 </details>
+
 
 ### class Some
 Reservoir sampling: just keep up to `i.max` items.
@@ -45,11 +47,13 @@ Initialize
 <ul><details><summary>...</summary>
 
 ```awk
-function Some(i) { 
+function Some(i, post,txt) { 
   i.is="Some"; i.sorted=0; 
   i.Size = 0.5
   i.Small = 4
   i.Epsilon = 0.01
+  i.pos = pos
+  i.txt = txt
   has(i,"all"); i.n=0; i.max=256 }
 ```
 </details></ul>
@@ -235,8 +239,9 @@ Create a new `Sym`.
 <ul><details><summary>...</summary>
 
 ```awk
-function Sym(i) { 
+function Sym(i, pos,txt) { 
   i.is = "Sym"
+  i.Epsilon = 0.01
   i.txt= txt
   i.pos= pos
   i.n  = i.most = 0
@@ -258,6 +263,45 @@ function _Add(i,x,  tmp) {
   if (tmp > i.most) { i.most = tmp; i.mode = x }}
 ```
 </details></ul>
+
+#### method Merge
+Returns true if  combing two `Sym`s does not have larger entropy that the parts.
+
+As a side-effect, compute that combined item.
+
+<ul><details><summary>...</summary>
+
+```awk
+function _Merge(i,j,k) {
+  Num(k,i.pos,i.txt)
+  k.n = i.n + j.n
+  for(x in i.seen) k.seen[x] += i.seen[x]
+  for(x in j.seen) k.seen[x] += j.seen[x]
+  for(x in k.seen) 
+    if (k.seen[x] > k.most) { k.most = k.seen[x]; k.mode=x }
+  e1  = _Ent(i);  n1  = i.n
+  e2  = _Ent(j);  n2  = j.n
+  e12 = _Ent(k);  n12 = k.n
+  return e12 - (n1/n12 * e1 + n2/n12*e2) <= i.Epsilon }
+```
+</details></ul>
+
+#### method Ent
+Compute the entropy of the stored symbol counts.
+
+<ul><details><summary>...</summary>
+
+```awk
+function _Ent(i, e, p) {
+  for(x in i.seen[x])
+    if (i.seen[x]>0) {
+      p  = i.seen[x]/i.n
+      e -= p*log(p)/log(2) }
+  return e }
+```
+</details></ul>
+
+
 
 #### method AUC
 Area under the curve between two points
