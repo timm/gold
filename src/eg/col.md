@@ -14,9 +14,13 @@ Incrementally summarize columns
 <details open><summary>Contents</summary>
 
 - [class Some](#class-some) : Reservoir sampling: just keep up to `i.max` items.
-  - [Some](#some) : Initialize
-  - [Some](#some) : Add a new item (if reservoir not full). Else, replace an old item.
-- [class Num](#class-num) : Incrementally summarize numerics
+  - [constructor Some](#constructor-some) : Initialize
+  - [Add](#add) : Add a new item (if reservoir not full). Else, replace an old item.
+  - [method Sd](#method-sd) : Compute the standard deviation of a list of sorted numbers.
+  - [method Better](#method-better) : Returns true if it useful dividing the list `a` to `c` at the point  `c`.
+  - [method Div](#method-div) : Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
+  - [method Merge](#method-merge) : Combine adjacent pairs of bins (if they too similar). Loop until there are no more combinable  bins.
+- [class Num](#class-num) : Incrementally summarize numerics.
   - [constructor Num](#constructor-num) : Create a new `Num`.
   - [method Add](#method-add) : Incrementally add new data, update `mu`, `sd`, `n`   
   - [method Norm](#method-norm) : Return a number 0..1, min..max
