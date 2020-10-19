@@ -88,9 +88,7 @@ function _Sd(i,lo,hi,   p10,p90) {
 
 
 #### method Better
-Returns true if it useful dividing the list `a` to `c` at the point  `c`.
-
-<ul><details><summary>...</summary>
+Returns true if it useful dividing the list `a` to `c` at the point  `b`.  <ul><details><summary>...</summary>
 
 ```awk
 function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
