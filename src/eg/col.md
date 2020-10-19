@@ -34,7 +34,7 @@ Reservoir sampling: just keep up to `i.max` items.
 
 <ul>
 
-#### Some
+#### constructor Some
 Initialize
 
 <ul><details><summary>...</summary>
@@ -49,7 +49,7 @@ function Some(i) {
 ```
 </details></ul>
 
-#### Some
+#### Add
 Add a new item (if reservoir not full). Else, replace an old item.
 
 <ul><details><summary>...</summary>
@@ -61,13 +61,32 @@ function _Add((i,x) {
   if (x=="?") return x
   if (length(i.all) < i.max)     return i.all[1+length(i.all)]=x
   if (rand()        < i.max/i.n) return i.all[     any(i.all)]=x }
+```
 
+
+#### method Sd
+Compute the standard deviation of a list of sorted numbers.
+
+Uses the trick that the standard deviation can be approximated using the 90th-10th percentile (divided by 2.56).
+
+<ul><details><summary>...</summary>
+
+```awk
 function _Sd(i,lo,hi,   p10,p90) {
   if(!sorted) i.sorted=asort(i.all)
   p10 = int(0.5 + (hi - lo)*.1)
   p90 = int(0.5 + (hi - lo)*.9)
   return (i.all[p90] - i.all[p10])/2.56 }
+```
+</details></ul>
 
+
+#### method Better
+Returns true if it useful dividing the list `a` to `c` at the point  `c`.
+
+<ul><details><summary>...</summary>
+
+```awk
 function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
   n1   = b-a
   n2   = c-b-1
@@ -76,8 +95,18 @@ function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
   sd2  = _Sd(i,b+1,c)
   sd12 = n1/(n1+n2) * sd1 + n2/(n1+n2) * sd2
   return sd0 - sd12 > i.Epsilon }
+```
+</details></ul>
 
-function _Div(i,bins,    n0,n1,lo,hi,bins,b) {
+
+#### method Div
+Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
+
+<ul><details><summary>...</summary>
+
+```awk
+
+function _Div(i,a,    n0,n1,lo,hi,bins,b) {
   if(!sorted) i.sorted=asort(i.all)
   l = length(i.all)
   m = l^i.Size
@@ -88,10 +117,16 @@ function _Div(i,bins,    n0,n1,lo,hi,bins,b) {
     if(alls - b4 > m) 
       if(i.all[alls] != i.all[alls-1]) 
         b4 = a[++as].lo = a[as].hi = alls 
-    a[as].hi = alls
-  }  
-  _Merge(i,a) }
+    a[as].hi = alls }}
+```
+</details></ul>
 
+#### method Merge
+Combine adjacent pairs of bins (if they too similar). Loop until there are no more combinable  bins.
+
+<ul><details><summary>...</summary>
+
+```awk
 function _Merge(i,a,c,    amax,as,b,bs) {
   amax = length(a)
   as = bs = 1
@@ -110,10 +145,11 @@ function _Merge(i,a,c,    amax,as,b,bs) {
   return bs<as ? _Merge(i,b,c) : copy(b,c) }
 ```
 </details></ul>
+
 </ul>
 
 ### class Num
-Incrementally summarize numerics
+Incrementally summarize numerics.
 
 <ul>
 
