@@ -261,7 +261,7 @@ function Sym(i, pos,txt) {
 #### method Add
 <ul>Add new data, update `mu`, `sd`, `n`    
 
-><details><summary>...</summary>
+<details><summary>...</summary>
 
 ```awk
 function _Add(i,x,  tmp) {
