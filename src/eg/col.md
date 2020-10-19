@@ -88,6 +88,7 @@ function _Merge(i,a,c,    amax,as,b,bs) {
 Incrementally summarize numerics
 
 <ul>
+
 #### method Num
 <ul><details><summary>...</summary>
 
@@ -155,7 +156,8 @@ function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 </details></ul> </ul>
 
 ### Class Sym
-ITings ad stuff
+Incrementally summarize numerics
+
 
 <ul><ul><details><summary>...</summary>
 
