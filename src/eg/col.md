@@ -163,9 +163,9 @@ Incrementally summarize a stream of numerics.
 
 e.g.
 
-        Num(x)
-        for(i=1;i<= 500;i++) @Add(x, rand()**2)
-        print(n.mu, n.sd)
+    Num(x)
+    for(i=1; i<= 500; i++) @Add(x, rand()**2 )
+    print(x.mu, x.sd)
 
 <ul>
 
