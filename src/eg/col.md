@@ -67,6 +67,7 @@ function _Add((i,x) {
   if (length(i.all) < i.max)     return i.all[1+length(i.all)]=x
   if (rand()        < i.max/i.n) return i.all[     any(i.all)]=x }
 ```
+</details></ul>
 
 
 #### method Sd
