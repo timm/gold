@@ -287,6 +287,8 @@ function _Merge(i,j,k) {
   for(x in j.seen) k.seen[x] += j.seen[x]
   for(x in k.seen) 
     if (k.seen[x] > k.most) { k.most = k.seen[x]; k.mode=x }
+  k.lo = i.lo < j.lo ? i.lo : j.lo
+  k.hi = i.hi > j.hi ? i.hi : j.hi
   e1  = _Ent(i);  n1  = i.n
   e2  = _Ent(j);  n2  = j.n
   e12 = _Ent(k);  n12 = k.n
