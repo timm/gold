@@ -83,7 +83,7 @@ Uses the trick that the standard deviation can be approximated using the 90th-10
 
 ```awk
 function _Sd(i,lo,hi,   p10,p90) {
-  if(!sorted) i.sorted=asort(i.all)
+  i.sorted = i.sorted ||  asort(i.all)
   p10 = int(0.5 + (hi - lo)*.1)
   p90 = int(0.5 + (hi - lo)*.9)
   return (i.all[p90] - i.all[p10])/2.56 }
@@ -116,18 +116,18 @@ function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
 
 ```awk
 
-function _Div(i,a,    n0,n1,lo,hi,bins,b) {
-  if(!sorted) i.sorted=asort(i.all)
-  l = length(i.all)
-  m = l^i.Size
-  while(m < i.Small &&  m < l/2) m *= 1.2
-  b4 = alls = as = 1
-  a[as].lo = a[as].hi = 1
-  while(++alls <= l) {
-    if(alls - b4 > m) 
-      if(i.all[alls] != i.all[alls-1]) 
-        b4 = a[++as].lo = a[as].hi = alls 
-    a[as].hi = alls }}
+function _Div(i,div,    n0,n1,lo,hi,bins,b) {
+  i.sorted = i.sorted ||  asort(i.all)
+  enough = length(i.all)^i.Size
+  while(enough < i.Small &&  enough < length(i.all)/2) 
+    m *= 1.2
+  b4 = alls = divs = div[1].lo = div[1].hi = 1
+  while(++alls <= length(i.all)) {
+    if(alls - b4 > enough) 
+      if(i.all[alls] != i.all[alls-1]) {
+        ++divs
+        b4 = div[divs].lo = div[divs].hi = alls  }
+    div[divs].hi = alls }}
 ```
 </details></ul>
 
