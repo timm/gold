@@ -276,7 +276,6 @@ function _Add(i,x,  tmp) {
 <ul>Returns true if  combing two `Sym`s does not have larger entropy that the parts.
 
 As a side-effect, compute that combined item.
-
 <details><summary>...</summary>
 
 ```awk
