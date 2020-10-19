@@ -159,7 +159,13 @@ function _Merge(i,a,c,    amax,as,b,bs) {
 </ul>
 
 ### class Num
-Incrementally summarize numerics.
+Incrementally summarize a stream of numerics.
+
+e.g.
+
+        Num(x)
+        for(i=1;i<= 500;i++) @Add(x, rand()**2)
+        print(n.mu, n.sd)
 
 <ul>
 
@@ -231,7 +237,7 @@ function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 </details></ul> </ul>
 
 ### class Sym
-Incrementally summarize numerics
+Incrementally summarize a stream of symbols.
 
 <ul>
 
