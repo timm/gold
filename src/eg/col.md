@@ -39,13 +39,11 @@ Incrementally summarize columns
 ### class Some
 Reservoir sampling: just keep up to `i.max` items.
 
-<ul>
 
 #### constructor Some
-<ul>Initialize
-- asdsa
+Initialize
 
-<details><summary>...</summary>
+<details open><summary>...</summary>
 
 ```awk
 function Some(i, pos,txt) { 
@@ -57,7 +55,8 @@ function Some(i, pos,txt) {
   i.txt = txt
   has(i,"all"); i.n=0; i.max=256 }
 ```
-</details></ul>
+</details>
+<ul>
 
 #### method Add
 <ul>Add a new item (if reservoir not full). Else, replace an old item.
@@ -168,12 +167,11 @@ e.g.
     for(i=1; i<= 500; i++) @Add(x, rand()**2 )
     print(x.mu, x.sd)
 
-<ul>
 
 #### constructor  Num
-<ul>Create a new `Num`.
+Create a new `Num`.
 
-<details><summary>...</summary>
+<details open><summary>...</summary>
 
 ```awk
 function Num(i,pos,txt) {
@@ -187,6 +185,7 @@ function Num(i,pos,txt) {
   i.n= i.sd = i.mu = i.md = 0 }
 ```
 </details></ul>
+</ul>
 
 #### method Add
 <ul>Incrementally add new data, update `mu`, `sd`, `n`   
@@ -243,9 +242,9 @@ Incrementally summarize a stream of symbols.
 <ul>
 
 #### constructor Sym
-<ul>Create a new `Sym`.
+Create a new `Sym`.
 
-<details><summary>...</summary>
+<details open><summary>...</summary>
 
 ```awk
 function Sym(i, pos,txt) { 
@@ -258,7 +257,8 @@ function Sym(i, pos,txt) {
   has(i,"seen") }
 ```
 </details></ul>
-  
+<ul>
+
 #### method Add
 <ul>Add new data, update `mu`, `sd`, `n`    
 
