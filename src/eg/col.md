@@ -43,11 +43,12 @@ Reservoir sampling: just keep up to `i.max` items.
 
 #### constructor Some
 <ul>Initialize
+- asdsa
 
 <details><summary>...</summary>
 
 ```awk
-function Some(i, post,txt) { 
+function Some(i, pos,txt) { 
   i.is="Some"; i.sorted=0; 
   i.Size = 0.5
   i.Small = 4
