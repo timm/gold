@@ -215,6 +215,8 @@ Area under the curve between two points
 function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 ```
 
+</ul>
+
 ### class Sym
 Incrementally summarize a stream of symbols.
 
