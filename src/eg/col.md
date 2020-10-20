@@ -11,7 +11,7 @@
 ## Col
 Incrementally summarize columns
 
-<details open><summary>Contents</summary>
+<details><summary>Contents</summary>
 
 - [class Some](#class-some) : Reservoir sampling: just keep up to `i.max` items.
   - [constructor Some](#constructor-some) : Initialize
