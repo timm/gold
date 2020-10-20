@@ -76,8 +76,8 @@ function _Add((i,x) {
 
 #### method Sd
 <ul>Compute the standard deviation of a list of sorted numbers.
-
-Uses the trick that the standard deviation can be approximated using the 90th-10th percentile (divided by 2.56).
+Uses the trick that the standard deviation can be approximated 
+using the 90th-10th percentile (divided by 2.56).
 
 <details><summary>...</summary>
 
@@ -274,7 +274,6 @@ function _Add(i,x,  tmp) {
 
 #### method Merge
 <ul>Returns true if  combing two `Sym`s does not have larger entropy that the parts.
-
 As a side-effect, compute that combined item.
 <details><summary>...</summary>
 
