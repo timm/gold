@@ -43,7 +43,6 @@ Reservoir sampling: just keep up to `i.max` items.
 #### constructor Some
 Initialize
 
-<details open><summary>...</summary>
 
 ```awk
 function Some(i, pos,txt) { 
@@ -55,13 +54,12 @@ function Some(i, pos,txt) {
   i.txt = txt
   has(i,"all"); i.n=0; i.max=256 }
 ```
-</details>
+
 <ul>
 
 #### method Add
-<ul>Add a new item (if reservoir not full). Else, replace an old item.
+Add a new item (if reservoir not full). Else, replace an old item.
 
-<details><summary>...</summary>
 
 ```awk
 @include "/../lib/list" # get "any"
@@ -71,15 +69,13 @@ function _Add((i,x) {
   if (length(i.all) < i.max)     return i.all[1+length(i.all)]=x
   if (rand()        < i.max/i.n) return i.all[     any(i.all)]=x }
 ```
-</details></ul>
 
 
 #### method Sd
-<ul>Compute the standard deviation of a list of sorted numbers.
+Compute the standard deviation of a list of sorted numbers.
 Uses the trick that the standard deviation can be approximated 
 using the 90th-10th percentile (divided by 2.56).
 
-<details><summary>...</summary>
 
 ```awk
 function _Sd(i,lo,hi,   p10,p90) {
@@ -88,13 +84,11 @@ function _Sd(i,lo,hi,   p10,p90) {
   p90 = int(0.5 + (hi - lo)*.9)
   return (i.all[p90] - i.all[p10])/2.56 }
 ```
-</details></ul>
 
 
 #### method Better
-<ul>Returns true if it useful dividing the list `a` to `c` at the point  `b`.  
+Returns true if it useful dividing the list `a` to `c` at the point  `b`.  
 
-<details><summary>...</summary>
 
 ```awk
 function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
@@ -106,13 +100,11 @@ function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
   sd12 = n1/(n1+n2) * sd1 + n2/(n1+n2) * sd2
   return sd0 - sd12 > i.Epsilon }
 ```
-</details></ul>
 
 
 #### method Div
-<ul>Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
+Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
 
-<details><summary>...</summary>
 
 ```awk
 
@@ -129,12 +121,10 @@ function _Div(i,div,    n0,n1,lo,hi,bins,b) {
         b4 = div[divs].lo = div[divs].hi = alls  }
     div[divs].hi = alls }}
 ```
-</details></ul>
 
 #### method Merge
-<ul>Combine adjacent pairs of bins (if they too similar). Loop until there are no more combinable  bins.
+Combine adjacent pairs of bins (if they too similar). Loop until there are no more combinable  bins.
 
-<details><summary>...</summary>
 
 ```awk
 function _Merge(i,a,c,    amax,as,b,bs) {
@@ -154,7 +144,6 @@ function _Merge(i,a,c,    amax,as,b,bs) {
     as++ }
   return bs<as ? _Merge(i,b,c) : copy(b,c) }
 ```
-</details></ul>
 
 </ul>
 
@@ -171,7 +160,6 @@ e.g.
 #### constructor  Num
 Create a new `Num`.
 
-<details open><summary>...</summary>
 
 ```awk
 function Num(i,pos,txt) {
@@ -184,13 +172,11 @@ function Num(i,pos,txt) {
   i.hi= -10^32
   i.n= i.sd = i.mu = i.md = 0 }
 ```
-</details></ul>
-</ul>
+<ul>
 
 #### method Add
 <ul>Incrementally add new data, update `mu`, `sd`, `n`   
 
-<details><summary>...</summary>
 
 ```awk
 function _Add(i,x,   i)  { 
@@ -203,48 +189,39 @@ function _Add(i,x,   i)  {
   i.m2 += d * (x - i.mu) 
   i.sd  = (i.n<2 ?0: (i.m2<0 ?0: (i.m2/(i.n - 1))^0.5)) }
 ```
-</details></ul>
 
 #### method Norm
-<ul>Return a number 0..1, min..max
+Return a number 0..1, min..max
 
-<details><summary>...</summary>
 
 ```awk
 function _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
 ```
-</details></ul>
 
 #### method CDF
-<ul>Return area under the probability curve below `-&infin; &le x`.
+Return area under the probability curve below `-&infin; &le x`.
 
-<details><summary>...</summary>
 
 ```awk
 function _CDF(i,x)      { 
   x=(x-i.mu)/i.sd; return 1/(1 + 2.71828^(-0.07056*x^3 - 1.5976*x)) }
 ```
-</details></ul>
 
 #### method AUC
-<ul>Area under the curve between two points
+Area under the curve between two points
 
-<details><summary>...</summary>
 
 ```awk
 function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 ```
-</details></ul> </ul>
 
 ### class Sym
 Incrementally summarize a stream of symbols.
 
-<ul>
 
 #### constructor Sym
 Create a new `Sym`.
 
-<details open><summary>...</summary>
 
 ```awk
 function Sym(i, pos,txt) { 
@@ -256,13 +233,11 @@ function Sym(i, pos,txt) {
   i.mode =""
   has(i,"seen") }
 ```
-</details></ul>
 <ul>
 
 #### method Add
-<ul>Add new data, update `mu`, `sd`, `n`    
+Add new data, update `mu`, `sd`, `n`    
 
-<details><summary>...</summary>
 
 ```awk
 function _Add(i,x,  tmp) {
@@ -271,12 +246,10 @@ function _Add(i,x,  tmp) {
   tmp = ++i.seen[x]
   if (tmp > i.most) { i.most = tmp; i.mode = x }}
 ```
-</details></ul>
 
 #### method Merge
-<ul>Returns true if  combing two `Sym`s does not have larger entropy that the parts.
+Returns true if  combing two `Sym`s does not have larger entropy that the parts.
 As a side-effect, compute that combined item.
-<details><summary>...</summary>
 
 ```awk
 function _Merge(i,j,k) {
@@ -293,12 +266,10 @@ function _Merge(i,j,k) {
   e12 = _Ent(k);  n12 = k.n
   return e12 - (n1/n12 * e1 + n2/n12*e2) <= i.Epsilon }
 ```
-</details></ul>
 
 #### method Ent
-<ul>Compute the entropy of the stored symbol counts.
+Compute the entropy of the stored symbol counts.
 
-<details><summary>...</summary>
 
 ```awk
 function _Ent(i, e, p) {
@@ -308,16 +279,13 @@ function _Ent(i, e, p) {
       e -= p*log(p)/log(2) }
   return e }
 ```
-</details></ul>
 
 
 
 #### method AUC
-<ul>Area under the curve between two points
+Area under the curve between two points
 
-<details><summary>...</summary>
 
 ```awk
 function _AUC(i,x) { return i.seen[x]/i.n }
 ```
-</details></ul></ul>
