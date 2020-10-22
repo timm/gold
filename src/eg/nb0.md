@@ -33,8 +33,8 @@ func _Add(i,a,      c,x) {
 func Nb(i,f) {
    i.is = "Nb"
    i.Min   = 5  # tuning param
-   i.K     = 1  # tuning param
-   i.M     = 2  # tuning param
+   i.K     = 2  # tuning param
+   i.M     = 1  # tuning param
    i.file  = f  # data source (if empty string, then stdin)
    i.nall  = 0  # total rows seen
    has(i, "cols", "Cols")
@@ -51,19 +51,20 @@ func _Add(i,row,  x,y,c,want,got) {
     if(x != "?")    
       ++i.seen[y][c][x] }}
 
-func _Like(i,row,y,n,    prior,like,c,x,f) {
+func _Like(i,row,y, n,    prior,like,c,x,f) {
   prior = like = (n + i.K)/(i.nall + i.K*length(i.seen))
   like  = log(like)
   for(c in i.cols.x) {
       x = row[c]
       if(x != "?") {
         f = i.seen[y][c][x] 
-        like += log( (f + i.M*prior) / (n + i.M)) }}
+        like +=  log((f + i.M*prior) / (n + i.M)) }}
   return like }
 
 func _MostLiked(i,row,     y,like,most,out) {
   most = -10^32
   for(y in i.seen) {
+    out = out ? out : y
     like = _Like(i, row, y, i.seen[y][i.cols.class][y])
     if (like > most) {
       most = like
