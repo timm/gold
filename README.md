@@ -5,8 +5,8 @@
 <a href="https://github.com/timm/gold/blob/master/src/rows/README.md#top">rows</a> ::
 <a href="http://github.com/timm/gold/blob/master/LICENSE.md#top">&copy;&nbsp;2020</a>&nbsp;by&nbsp;<a href="http://menzies.us">Tim&nbsp;Menzies</a>
 <h1> GOLD = a Gawk Object Layer</h1>
+<img width=250 align=right src="http://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
 <em>A <a href="https://en.wikipedia.org/wiki/Little_auk">little <strike>auk</strike> awk</a>  goes a long way.</em><br>
-<img width=250 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
 
 ## Contents
 
