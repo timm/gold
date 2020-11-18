@@ -1,71 +1,154 @@
 #!/usr/bin/env bash
+# vim: ft=sh ts=2 sw=2 et :
 here=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
+
+alias gold="$here/gold "
+alias ls="ls -G"
 chmod +x $here/gold
+mkdir -p $here/docs
 
-alias gold="sh $here/gold "
-
-want=$here/src/lib/oo.md
-mkdir -p $(dirname $want)
-[ -f "$want" ] || cat<<'EOF'>$want
-```awk
-BEGIN                { List(GOLD) ; DOT=sprintf("%c",46) }
-function has(i,f,k)  { return has0(i, f?f:"List", k?k:1+length(i[k])) }
-function has0(i,f,k) { i[k][0]; @f(i[k]); delete i[k][0]; return k }
-function List(i)     { split("",i,"") }
-function Object(i)   { List(i); i.id = ++GOLD.id }
-```
+want=$here/.gitignore
+[ -f "$want" ] || cat<<EOF>$want
+*.awk
 EOF
 
-for f in $(find $here/src  -type f  -name "[[:lower:]]*.md"); do
+want=$here/.travis.yml
+[ -f "$want" ] || cat<<EOF>$want
+language: C
+
+sudo: true
+
+install:
+  - wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-5.1.0.tar.gz
+  - tar xzf gawk.tar.gz
+  - cd gawk-5.1.0
+  - ./configure; sudo make; sudo make install
+  - cd ..
+
+
+script:
+  - bash gold -t
+EOF
+
+transpile() { gawk  '
+  BEGIN             { RS=""; FS="\n"} 
+  /@include/        { print $0 "\n"; next}
+  $NF !~ /}[ \t]*$/ { for(i=1;i<=NF;i++) print "#" $i 
+                      print ""; next }
+  /^func(tion)?[ \t]+[A-Z][^\(]*\(/ {
+      split($1,a,/[ \t\(]/)
+      PREFIX = a[2]
+  }
+  { gsub(/ _/," " PREFIX,$0)
+    if ($1 ~ /{/) {
+        split($1,a,/{/)
+        gsub(/:[\?"A-Z0-9a-z\*:\|]*/,"", a[1])
+        $1 = a[1] "{" a[2] 
+    } else
+        gsub(/:[\?"A-Z0-9a-z\*:\|]*/,"");
+   for(i=1;i<=NF;i++)
+      print gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
+                   "[\"\\1\\2\"]","g", $i);
+   print ""
+   }
+'; }
+
+toc() { gawk '
+                { Body=Body "\n" $0 }
+    END         { print Body }
+    /^# /       { print "- ["title($0)"](#"            link($0)")" help()}
+    /^## /      { print "  - ["title($0)"](#"          link($0)")" help()}
+    /^### /     { print "    - ["title($0)"](#"        link($0)")" help()}
+    /^#### /    { print "      - ["title($0)"](#"      link($0)")" help()}
+    /^##### /   { print "        - ["title($0)"](#"    link($0)")" help()}
+    /^###### /  { print "          - ["title($0)"](#"  link($0)")" help()}
+    /^####### / { print "           - ["title($0)"](#" link($0)")" help()}
+    
+    function link(x)  { 
+      x=tolower(x)
+      gsub(/[^a-z0-9_]/,"",x); 
+      return trim(x) }
+    
+    function title(x) { 
+      gsub(/^#+[ \t]+/,"",x); 
+      return trim(x) }
+    
+    function help()   { 
+      getline; 
+      Body=Body"\n" $0; 
+      return $0 ~ /^[ \t]*$/ ? "" : " : " $0 }
+    
+    function trim(x)  { 
+      gsub(/^[ \t]*/,"",x); 
+      gsub(/[ \t]*$/,"",x); i
+      return x } 
+'; }
+body() { gawk '
+  BEGIN {
+    Code1= "\n\n<ul><details><summary><tt>"
+    Code2= "</tt></summary>\n\n```awk\n"
+    Code3= "\n```\n\n</details></ul>"
+    RS=""; FS="\n"
+  }
+  /^#-/    { next }
+  /^# /    { Pre="## " }
+  /^## /   { Pre="### " }
+  /^### /  { Pre="#### " }
+  /^#### / { Pre="##### " }
+           { print "\n" ($NF ~ /}[ \t]*$/ ? code($0) : $0) }
+  
+  function code(x,    i,src,txt,sig,a,n,b,sep,name) { 
+    name=src = $1
+    gsub(/(function[ \t]*|\(.*)/,"",name)
+    sig = name "("
+    for(i=2;i<=NF;i++) {
+      if(sub(/^[ \t]+##[ \t]*/,"",$i))
+         txt=txt"\n"$i 
+      else
+          src=src"\n"$i }
+    n = split($1,a, /[\(\)]/)
+    split(a[2],b,/[ ,\t]+/)
+    for(i=1;i<=length(b);i++) 
+      if (b[i] ~ /:/) {
+         sig = sig sep b[i]
+         sep = ", " }
+    return Pre name  txt Code1 sig ")" Code2 src Code3 }
+'; }
+
+for f in *.gold; do
   g=${f%.*}.awk
-  if [ "$f" -nt "$g" ]; then
-    #echo -n "."  2>&1
-    cat $f | gawk -v Slash="$(dirname $f)" '
-      BEGIN            { Comment="#" }
-      sub(/```awk/,"") { Comment=""  ; print; next}
-      sub(/```/,"")    { Comment="# "; print; next}
-      sub(/@include "\//,"@include \""Slash"/") { print $0; next }
-      /^func(tion)?[ \t]+[A-Z][^\(]*\(/ {
-          split($0,a,/[ \t\(]/)
-          PREFIX = a[2]
-      }
-      /@[A-Za-z0-9_]+\(/ { 
-         $0 =  gensub(/(.*)@([A-Z][A-Za-z0-9_]+)\(([^,]+)(,.*$)/,
-                       "\\1method(\\3, \"\\2\")@METHOD(\\3\\4","g",$0) 
-      }
-      { gsub(/ _/," " PREFIX,$0)
-        print Comment gensub( /\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
-                              "[\"\\1\\2\"]","g", $0)
-      }' > $g
+  if [ "$f" -nt "$g" ]; then 
+    cat $f | transpile> $g
   fi
 done
 
-toc() { cat $1 | gawk '
-BEGIN{ print("\n<details><summary>Contents</summary>\n") }
-function ns(n,    s) { while(n-- > 0) s= s "  "      ; return s}
-function trim(s)     { gsub(/(^[ \t]*|[ \t]*$)/,"",s); return s}
-/^##[#]+/ { 
-   prefix = ns(length($1)-3)
-   $1=""
-   link=text = trim($0)
-   gsub(/[ \t]+/,"-",link)
-   getline  
-   help=$0
-   gsub(/^<ul>/,"",help)
-   if (help) print(prefix "- ["text"](#"tolower(link)") : " help)
-}
-END {print "\n</details>\n"}
-'
-}
-
-if [ "$1" == "-t" ]; then
-   toc $2
-   exit 0
-elif [ -n "$1" ]; then
+if [ "$1" == "-d" ]; then
+   for f in *.gold; do
+     g=$here/docs/${f%.*}.md
+     if [ "$f" -nt "$g" ]; then 
+       echo "# $f"
+       echo "# " $f > $g
+       cat $f | body  | toc >> $g
+     fi
+   done
+elif [ "$1" == "-t" ]; then
+  if [ -f "$src/tests.gold" ]; then
+    cd $here/src
+    $here/gold tests.gold
+  fi
+elif [ "$1" == "-p" ]; then
+  git config advice.addIgnoredFile false
+  git add *
+  git commit -am saving
+  git push
+  git status
+elif [[ -n "$1" ]] ; then
   g=${1%.*}.awk
   shift
   if [ -t 1 ]
   then         gawk -f $g $*
   else cat - | gawk -f $g $*
   fi
+elif [ -n "$1" ]; then
+  echo "?"
 fi
