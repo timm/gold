@@ -142,9 +142,10 @@ elif [ "$1" == "-t" ]; then
     $GOLD/gold tests.gold
   fi
 elif [ "$1" == "-p" ]; then
+  shift
   git config advice.addIgnoredFile false
   git add *
-  git commit -am saving
+  git commit
   git push
   git status
 elif [[ -n "$1" ]] ; then
