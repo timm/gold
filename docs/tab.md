@@ -12,8 +12,8 @@
     - [_Far](#_far) : Return something quite far way from `r` (ignoring outliers).
     - [_Around](#_around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
     - [_Clone](#_clone) : Copy the structure of table `i` into a new table `j`.
-  - [# -----------------------------------------------------------](#)
-- [-----------------------------------------------------------](#) : #
+  - [# -----------------------------------------------------------](#-----------------------------------------------------------)
+- [-----------------------------------------------------------](#-----------------------------------------------------------) : #
 - [## TreeNode](#treenode) : #
 - [function TreeNode(i) {](#functiontreenodei) : #   ## notes should be created in the tree;
 - [## Constructor for a tree of clusters](#constructorforatreeofclusters) : #   Object(i)
