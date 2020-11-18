@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 # vim: ft=sh ts=2 sw=2 et :
-here=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
+GOLD=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 
-alias gold="$here/gold "
+alias gold="$GOLD/gold "
 alias ls="ls -G"
-chmod +x $here/gold
-mkdir -p $here/docs
+chmod +x $GOLD/gold
+mkdir -p $GOLD/docs
+mkdir -p $GOLD/src
 
-want=$here/.gitignore
+want=$GOLD/.gitignore
 [ -f "$want" ] || cat<<EOF>$want
 *.awk
 EOF
 
-want=$here/.travis.yml
+repo="https://raw.githubusercontent.com/timm/gold/master/src"
+want=$GOLD/src/lib.gold
+[ -f "$want" ] || curl -s  $repo/lib.gold --output $want
+
+want=$GOLD/.travis.yml
 [ -f "$want" ] || cat<<EOF>$want
 language: C
 
@@ -124,7 +129,7 @@ done
 
 if [ "$1" == "-d" ]; then
    for f in *.gold; do
-     g=$here/docs/${f%.*}.md
+     g=$GOLD/docs/${f%.*}.md
      if [ "$f" -nt "$g" ]; then 
        echo "# $f"
        echo "# " $f > $g
@@ -133,8 +138,8 @@ if [ "$1" == "-d" ]; then
    done
 elif [ "$1" == "-t" ]; then
   if [ -f "$src/tests.gold" ]; then
-    cd $here/src
-    $here/gold tests.gold
+    cd $GOLD/src
+    $GOLD/gold tests.gold
   fi
 elif [ "$1" == "-p" ]; then
   git config advice.addIgnoredFile false
