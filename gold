@@ -53,7 +53,7 @@ toc() { gawk '
     
     function link(x)  { 
       x=tolower(x)
-      gsub(/[ \t]/,"",x)
+      gsub(/[ \t]/,"-",x)
       gsub(/[^a-z0-9_-]/,"",x); 
       return trim(x) }
     

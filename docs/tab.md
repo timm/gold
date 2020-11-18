@@ -1,41 +1,41 @@
 #  tab.gold
-  - [Row](#row) : Storage for one row of data.
-    - [Row](#row) : Constructor
-    - [_Dist](#_dist) : Distance between two rows
-  - [Table](#table) : Storage for many rows of data, with summaries of the columns.
-    - [Tab](#tab) : Constructor
-    - [_Load](#_load) : Load a csv file `f` into the table `i`
-    - [_Add](#_add) : Update `i` with `a`. First update creates the column headers.
-    - [_Header](#_header) : Initialize columns in a table.
-    - [_Data](#_data) : Add an row at some random index within `rows`.
-    - [_Dist](#_dist) : Distance between two rows.
-    - [_Far](#_far) : Return something quite far way from `r` (ignoring outliers).
-    - [_Around](#_around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
-    - [_Clone](#_clone) : Copy the structure of table `i` into a new table `j`.
-  - [# -----------------------------------------------------------](#-----------------------------------------------------------)
-- [-----------------------------------------------------------](#-----------------------------------------------------------) : #
-- [## TreeNode](#treenode) : #
-- [function TreeNode(i) {](#functiontreenodei) : #   ## notes should be created in the tree;
-- [## Constructor for a tree of clusters](#constructorforatreeofclusters) : #   Object(i)
-- [i.enough=64](#ienough64) : #   i.is = "TreeNode"
-- [i.c=i.lo=i.hi=i.mid = ""](#iciloihiimid) : #   has(i,"all")
-- [has(i,"upper")](#hasiupper) : #   has(i,"lower") }
-- [function _X(i,t, r     a,b,x) {](#function_xitrabx) : #    a= TabDist(t,r,i.lo)
-- [b= TabDist(t,r,i.hi)](#btabdisttrihi) : #    x= (a^2 + i.c^2 - b^2)/(2*i.c)
-- [return max(0, min(1, x)) }](#returnmax0min1x) : #
-- [function _Descend(i,t,d,r,   where) {](#function_descenditdrwhere) : #   where =  d < i.mid ? "lower" : "upper" 
-- [return _Add(i[where], t, t) }](#return_addiwherett) : #
-- [function _Add(i, t, r.   n,one,x,tmp) {](#function_additrnonextmp) : #   push(i.all,  r)
-- [if (length(i.all) == i.enough)  {](#iflengthiallienough) : #     i.lo = TabFar(t, r)
-- [i.hi = TabFar(t, i.lo )](#ihitabfartilo) : #     i.c  = TabDist(t, i.lo, i.hi)
-- [for(one in i.all) {](#foroneiniall) : #       tmp[one]  = x = _X(i,t,one)
-- [i.mid    += x/2](#imidx2) : #     }
-- [has(i,"upper","TreeNode")](#hasiuppertreenode) : #     has(i,"lower","TreeNode")
-- [for (one in tmp)](#foroneintmp) : #       _Descend(i,t, tmp[one], one) 
-- [}](#) : #   if (length(i.all)>i.enough) 
-- [return _Descend(i,t, _X(i,t,r),r)](#return_descendit_xitrr) : #   return i.id }
-- [function _Print(i,         lvl,pre) {](#function_printilvlpre) : #    print pre length(i.all)
-- [if (length(i.lower)) _Print(i.lower, lvl+1, "|.. " pre)](#iflengthilower_printilowerlvl1pre) : #    if (length(i.upper)) _Print(i.upper, lvl+1, "|.. " pre) }
+  - [Row](#-row-) : Storage for one row of data.
+    - [Row](#-row) : Constructor
+    - [_Dist](#-_dist) : Distance between two rows
+  - [Table](#-table-) : Storage for many rows of data, with summaries of the columns.
+    - [Tab](#-tab) : Constructor
+    - [_Load](#-_load) : Load a csv file `f` into the table `i`
+    - [_Add](#-_add) : Update `i` with `a`. First update creates the column headers.
+    - [_Header](#-_header) : Initialize columns in a table.
+    - [_Data](#-_data) : Add an row at some random index within `rows`.
+    - [_Dist](#-_dist) : Distance between two rows.
+    - [_Far](#-_far) : Return something quite far way from `r` (ignoring outliers).
+    - [_Around](#-_around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
+    - [_Clone](#-_clone) : Copy the structure of table `i` into a new table `j`.
+  - [# -----------------------------------------------------------](#-------------------------------------------------------------)
+- [-----------------------------------------------------------](#------------------------------------------------------------) : #
+- [## TreeNode](#--treenode) : #
+- [function TreeNode(i) {](#-function-treenodei-) : #   ## notes should be created in the tree;
+- [## Constructor for a tree of clusters](#----constructor-for-a-tree-of-clusters) : #   Object(i)
+- [i.enough=64](#---ienough64) : #   i.is = "TreeNode"
+- [i.c=i.lo=i.hi=i.mid = ""](#---iciloihiimid--) : #   has(i,"all")
+- [has(i,"upper")](#---hasiupper) : #   has(i,"lower") }
+- [function _X(i,t, r     a,b,x) {](#-function-_xit-r-----abx-) : #    a= TabDist(t,r,i.lo)
+- [b= TabDist(t,r,i.hi)](#----b-tabdisttrihi) : #    x= (a^2 + i.c^2 - b^2)/(2*i.c)
+- [return max(0, min(1, x)) }](#----return-max0-min1-x-) : #
+- [function _Descend(i,t,d,r,   where) {](#-function-_descenditdr---where-) : #   where =  d < i.mid ? "lower" : "upper" 
+- [return _Add(i[where], t, t) }](#---return-_addiwhere-t-t-) : #
+- [function _Add(i, t, r.   n,one,x,tmp) {](#-function-_addi-t-r---nonextmp-) : #   push(i.all,  r)
+- [if (length(i.all) == i.enough)  {](#---if-lengthiall--ienough--) : #     i.lo = TabFar(t, r)
+- [i.hi = TabFar(t, i.lo )](#-----ihi--tabfart-ilo-) : #     i.c  = TabDist(t, i.lo, i.hi)
+- [for(one in i.all) {](#-----forone-in-iall-) : #       tmp[one]  = x = _X(i,t,one)
+- [i.mid    += x/2](#-------imid-----x2-) : #     }
+- [has(i,"upper","TreeNode")](#-----hasiuppertreenode) : #     has(i,"lower","TreeNode")
+- [for (one in tmp)](#-----for-one-in-tmp-) : #       _Descend(i,t, tmp[one], one) 
+- [}](#---) : #   if (length(i.all)>i.enough) 
+- [return _Descend(i,t, _X(i,t,r),r)](#-----return-_descendit-_xitrr) : #   return i.id }
+- [function _Print(i,         lvl,pre) {](#--function-_printi---------lvlpre-) : #    print pre length(i.all)
+- [if (length(i.lower)) _Print(i.lower, lvl+1, "|.. " pre)](#----if-lengthilower-_printilower-lvl1---pre) : #    if (length(i.upper)) _Print(i.upper, lvl+1, "|.. " pre) }
 
 
 -----------------------------------------------
