@@ -8,32 +8,14 @@ chmod +x $GOLD/gold
 mkdir -p $GOLD/docs
 mkdir -p $GOLD/src
 
-want=$GOLD/.gitignore
+want=$GOLD/src/.gitignore
 [ -f "$want" ] || cat<<EOF>$want
 *.awk
 EOF
 
-repo="https://raw.githubusercontent.com/timm/gold/master/src"
-want=$GOLD/src/lib.gold
-[ -f "$want" ] || curl -s  $repo/lib.gold --output $want
-
-want=$GOLD/.travis.yml
-[ -f "$want" ] || cat<<EOF>$want
-language: C
-
-sudo: true
-
-install:
-  - wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-5.1.0.tar.gz
-  - tar xzf gawk.tar.gz
-  - cd gawk-5.1.0
-  - ./configure; sudo make; sudo make install
-  - cd ..
-
-
-script:
-  - bash gold -t
-EOF
+repo="https://raw.githubusercontent.com/timm/gold/master"
+want=$GOLD/src/lib.gold; [ -f "$want" ] || curl -s $repo/src/lib.gold --output $want
+want=$GOLD/.travis.yml ; [ -f "$want" ] || curl -s $repo/.travis.yml  --output $want
 
 transpile() { gawk  '
   BEGIN             { RS=""; FS="\n"} 
