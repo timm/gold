@@ -52,10 +52,10 @@ toc() { gawk '
     /^####### / { print "           - ["title($0)"](#" link($0)")" help()}
     
     function link(x)  { 
-      x=tolower(x)
+      x=tolower(trim(x))
       gsub(/[ \t]/,"-",x)
       gsub(/[^a-z0-9_-]/,"",x); 
-      return trim(x) }
+      return x }
     
     function title(x) { 
       gsub(/^#+[ \t]+/,"",x); 

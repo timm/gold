@@ -4,7 +4,7 @@
     - [add](#-add) : Polymorphic update function for columns.
     - [adds](#-adds) : Add many things
     - [dist](#-dist) : Distance between things.
-  - [Columns to be ignored.](#-columns-to-be-ignored-)
+  - [Columns to be ignored.](#-columns-to-be-ignored)
     - [Info](#-info) : Constructor for columns we will not summarize. 
     - [_Add](#-_add) : Do nothing.
   - [Summaries of columns of symbols](#-summaries-of-columns-of-symbols)

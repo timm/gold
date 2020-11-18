@@ -1,8 +1,8 @@
 #  tab.gold
-  - [Row](#-row-) : Storage for one row of data.
+  - [Row](#-row) : Storage for one row of data.
     - [Row](#-row) : Constructor
     - [_Dist](#-_dist) : Distance between two rows
-  - [Table](#-table-) : Storage for many rows of data, with summaries of the columns.
+  - [Table](#-table) : Storage for many rows of data, with summaries of the columns.
     - [Tab](#-tab) : Constructor
     - [_Load](#-_load) : Load a csv file `f` into the table `i`
     - [_Add](#-_add) : Update `i` with `a`. First update creates the column headers.
@@ -29,9 +29,9 @@
 - [if (length(i.all) == i.enough)  {](#---if-lengthiall--ienough--) : #     i.lo = TabFar(t, r)
 - [i.hi = TabFar(t, i.lo )](#-----ihi--tabfart-ilo-) : #     i.c  = TabDist(t, i.lo, i.hi)
 - [for(one in i.all) {](#-----forone-in-iall-) : #       tmp[one]  = x = _X(i,t,one)
-- [i.mid    += x/2](#-------imid-----x2-) : #     }
+- [i.mid    += x/2](#-------imid-----x2) : #     }
 - [has(i,"upper","TreeNode")](#-----hasiuppertreenode) : #     has(i,"lower","TreeNode")
-- [for (one in tmp)](#-----for-one-in-tmp-) : #       _Descend(i,t, tmp[one], one) 
+- [for (one in tmp)](#-----for-one-in-tmp) : #       _Descend(i,t, tmp[one], one) 
 - [}](#---) : #   if (length(i.all)>i.enough) 
 - [return _Descend(i,t, _X(i,t,r),r)](#-----return-_descendit-_xitrr) : #   return i.id }
 - [function _Print(i,         lvl,pre) {](#--function-_printi---------lvlpre-) : #    print pre length(i.all)
