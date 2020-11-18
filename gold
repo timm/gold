@@ -133,7 +133,7 @@ elif [ "$1" == "-p" ]; then
 elif [[ -n "$1" ]] ; then
   g=${1%.*}.awk
   shift
-  if [ -t 1 ]
+  if [ -t 0 ]
   then         gawk -f $g $*
   else cat - | gawk -f $g $*
   fi
