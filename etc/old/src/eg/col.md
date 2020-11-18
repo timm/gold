@@ -4,9 +4,9 @@
 <a href="https://github.com/timm/gold/blob/master/src/cols/README.md#top">cols</a> ::
 <a href="https://github.com/timm/gold/blob/master/src/rows/README.md#top">rows</a> ::
 <a href="http://github.com/timm/gold/blob/master/LICENSE.md#top">&copy;&nbsp;2020</a>&nbsp;by&nbsp;<a href="http://menzies.us">Tim&nbsp;Menzies</a>
+<img width=250 align=right src="http://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
 <h1> GOLD = a Gawk Object Layer</h1>
 <em>A <a href="https://en.wikipedia.org/wiki/Little_auk">little <strike>auk</strike> awk</a>  goes a long way.</em><br>
-<img width=250 src="https://raw.githubusercontent.com/timm/gold/master/etc/img/auk.png">
 
 ## Col
 Incrementally summarize columns
@@ -35,14 +35,11 @@ Incrementally summarize columns
 
 </details>
 
-
 ### class Some
 Reservoir sampling: just keep up to `i.max` items.
 
-
 #### constructor Some
 Initialize
-
 
 ```awk
 function Some(i, pos,txt) { 
@@ -60,7 +57,6 @@ function Some(i, pos,txt) {
 #### method Add
 Add a new item (if reservoir not full). Else, replace an old item.
 
-
 ```awk
 @include "/../lib/list" # get "any"
 
@@ -70,12 +66,10 @@ function _Add((i,x) {
   if (rand()        < i.max/i.n) return i.all[     any(i.all)]=x }
 ```
 
-
 #### method Sd
 Compute the standard deviation of a list of sorted numbers.
 Uses the trick that the standard deviation can be approximated 
 using the 90th-10th percentile (divided by 2.56).
-
 
 ```awk
 function _Sd(i,lo,hi,   p10,p90) {
@@ -85,10 +79,8 @@ function _Sd(i,lo,hi,   p10,p90) {
   return (i.all[p90] - i.all[p10])/2.56 }
 ```
 
-
 #### method Better
 Returns true if it useful dividing the list `a` to `c` at the point  `b`.  
-
 
 ```awk
 function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
@@ -101,10 +93,8 @@ function _Better(i,a,b,c,     sd0,sd1,sd2,sd12,n1,n2) {
   return sd0 - sd12 > i.Epsilon }
 ```
 
-
 #### method Div
 Divide our list `i.all` into `a`; i.e. bins of size `sqrt(n)`. 
-
 
 ```awk
 
@@ -124,7 +114,6 @@ function _Div(i,div,    n0,n1,lo,hi,bins,b) {
 
 #### method Merge
 Combine adjacent pairs of bins (if they too similar). Loop until there are no more combinable  bins.
-
 
 ```awk
 function _Merge(i,a,c,    amax,as,b,bs) {
@@ -156,10 +145,8 @@ e.g.
     for(i=1; i<= 500; i++) @Add(x, rand()**2 )
     print(x.mu, x.sd)
 
-
 #### constructor  Num
 Create a new `Num`.
-
 
 ```awk
 function Num(i,pos,txt) {
@@ -177,7 +164,6 @@ function Num(i,pos,txt) {
 #### method Add
 <ul>Incrementally add new data, update `mu`, `sd`, `n`   
 
-
 ```awk
 function _Add(i,x,   i)  { 
   if (x=="?") return x
@@ -193,14 +179,12 @@ function _Add(i,x,   i)  {
 #### method Norm
 Return a number 0..1, min..max
 
-
 ```awk
 function _Norm(i,x) { return (x - i.lo) / (i.hi - i.lo) }
 ```
 
 #### method CDF
 Return area under the probability curve below `-&infin; &le x`.
-
 
 ```awk
 function _CDF(i,x)      { 
@@ -209,7 +193,6 @@ function _CDF(i,x)      {
 
 #### method AUC
 Area under the curve between two points
-
 
 ```awk
 function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
@@ -220,10 +203,8 @@ function _AUC(i,x,y) {return (x>y)? _AUC(i,y,x): _CDF(i,y) - _CDF(i,x)}
 ### class Sym
 Incrementally summarize a stream of symbols.
 
-
 #### constructor Sym
 Create a new `Sym`.
-
 
 ```awk
 function Sym(i, pos,txt) { 
@@ -239,7 +220,6 @@ function Sym(i, pos,txt) {
 
 #### method Add
 Add new data, update `mu`, `sd`, `n`    
-
 
 ```awk
 function _Add(i,x,  tmp) {
@@ -272,7 +252,6 @@ function _Merge(i,j,k) {
 #### method Ent
 Compute the entropy of the stored symbol counts.
 
-
 ```awk
 function _Ent(i, e, p) {
   for(x in i.seen[x])
@@ -282,11 +261,8 @@ function _Ent(i, e, p) {
   return e }
 ```
 
-
-
 #### method AUC
 Area under the curve between two points
-
 
 ```awk
 function _AUC(i,x) { return i.seen[x]/i.n }
