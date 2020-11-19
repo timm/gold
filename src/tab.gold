@@ -54,7 +54,7 @@ function Tab(i:untyped) {
   Object(i); i.is = "Tab"
   i.klass   = ""
   i.use     = "xs"
-  i.far     = 0.9
+  i.far     = .95
   has(i,"tree")
   has(i,"rows"); has(i,"cols"); has(i,"names")
   has(i,"info"); has(i,"xs");   has(i,"ys") }
@@ -92,8 +92,7 @@ function _Data(i:Tab, a:array,    r,j) {
 
 function _Dist(i:Tab, r1:posint, r2:posint) {
   ## Distance between two rows.
-  print o(i[i.use],">")
-  return  RowDist(i.rows[r1], i.rows[r2], i[i.use]) }
+  return  RowDist(i.rows[r1], i.rows[r2], i,i[i.use]) }
 
 function _Far(i:Tab, r:posint,     n,out) {
   ## Return something quite far way from `r` (ignoring outliers).
@@ -105,9 +104,8 @@ function _Around(i,r1,out,   r2) {
   ## Sorted by distance `d`.
   for(r2 in i.rows) 
     if(r1 != r2) {
-       print("r",r2)
-       out.row = r2
-       out.d   = _Dist(i,r1, r2) }
+       out[r2].row = r2
+       out[r2].d   = _Dist(i,r1, r2) }
   return keysort(out,"d") }
 
 function _Clone(i:Tab, j:Tab) {

@@ -49,13 +49,11 @@ function far1(f,   d,t,n,far,r1,r2) {
   d = Gold.dot 
   Tab(t)
   TabLoad(t,d d "/data/" f d "csv")
-  oo(t); exit
   n=10
   for(r1 in t.rows) {
      if(--n < 0) break
      far = TabFar(t,r1)
-     print(far)
-     print(r1,far, TabDist(t,r1,far),
+     print("far",far,"r1",r1,"d", TabDist(t,r1,far),
              o(t.rows[r1].cells),
              o(t.rows[far].cells)) }}
 
@@ -74,8 +72,8 @@ BEGIN{
   #zs()
   #tests("num1")
   #dists1a("weather")
-  #far1("weather")
-  oo1("11")
+  far1("auto93")
+  #oo1("11")
   rogues()
 }
 
