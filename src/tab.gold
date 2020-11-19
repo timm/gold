@@ -20,7 +20,7 @@ function Row(i:untyped) {
   ## Constructor
   Object(i)
   i.is = "Row"
-  i.p=2
+  i.p  = 2
   has(i,"cells")
   has(i,"ranges") }
 
@@ -129,16 +129,29 @@ function TreeNode(i:untuped) {
   has(i,"lower") }
 
 function _X(i:TreeNode, t:Tab, r:posint     a,b,x) {
-   a= TabDist(t,r,i.lo)
-   b= TabDist(t,r,i.hi)
-   x= (a^2 + i.c^2 - b^2)/(2*i.c)
+   ## Project 
+   a = TabDist(t,r,i.lo)
+   b = TabDist(t,r,i.hi)
+   x = (a^2 + i.c^2 - b^2)/(2*i.c)
    return max(0, min(1, x)) }
 
-function _Descend(i:TreeNode, t:Tab, d:float, r:posint,   where) {
-  where =  d < i.mid ? "lower" : "upper" 
-  return _Add(i[where], t, t) }
+function _Descend(i:TreeNode, top:TreeNode, t:Tab, d:float, r:posint,   where) {
+  where = d < i.mid ? "lower" : "upper" 
+  return _Add1(i[where], top, t, t) }
 
-function _Add(i:TreeNode, t:Tab, r:posint,   n,one,x,tmp) {
+
+function _AddRi:TreeNode, t:Tab, r:posint) {
+  ## Recursively add `i` , forking subtrees when a ## node gets more than `i.enough` items.  
+  ## In a pointer-less language, to add in details deep
+  ## within a recursive structure, work down from
+  ## the root carry along the root node.
+  _Add1(i,
+        i, # payload: top node (place to store clusters)
+        t, # payload: table  (used to access distance calculations).
+        r) }
+
+function _Add1(i:TreeNode, top:TreeNode, t:Tab, r:posint,   n,one,x,tmp) {
+  ## Divide the data
   push(i.all,  r)
   if (length(i.all) == i.enough)  {
     i.lo = TabFar(t, r)
@@ -151,10 +164,10 @@ function _Add(i:TreeNode, t:Tab, r:posint,   n,one,x,tmp) {
     has(i,"upper","TreeNode")
     has(i,"lower","TreeNode")
     for (one in tmp) 
-      _Descend(i,t, tmp[one], one) 
+      _Descend(i,top, t, tmp[one], one) 
   }
   if (length(i.all)>i.enough) 
-    return _Descend(i,t, _X(i,t,r),r)
+    return _Descend(i,top,t, _X(i,t,r),r)
   return i.id }
 
  function _Print(i:TreeNode,         lvl,pre) {
