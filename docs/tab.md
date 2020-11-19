@@ -12,30 +12,13 @@
     - [_Far](#-_far) : Return something quite far way from `r` (ignoring outliers).
     - [_Around](#-_around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
     - [_Clone](#-_clone) : Copy the structure of table `i` into a new table `j`.
-  - [# -----------------------------------------------------------](#-------------------------------------------------------------)
-- [-----------------------------------------------------------](#------------------------------------------------------------) : #
-- [## TreeNode](#--treenode) : #
-- [function TreeNode(i) {](#-function-treenodei-) : #   ## notes should be created in the tree;
-- [## Constructor for a tree of clusters](#----constructor-for-a-tree-of-clusters) : #   Object(i)
-- [i.enough=64](#---ienough64) : #   i.is = "TreeNode"
-- [i.c=i.lo=i.hi=i.mid = ""](#---iciloihiimid--) : #   has(i,"all")
-- [has(i,"upper")](#---hasiupper) : #   has(i,"lower") }
-- [function _X(i,t, r     a,b,x) {](#-function-_xit-r-----abx-) : #    a= TabDist(t,r,i.lo)
-- [b= TabDist(t,r,i.hi)](#----b-tabdisttrihi) : #    x= (a^2 + i.c^2 - b^2)/(2*i.c)
-- [return max(0, min(1, x)) }](#----return-max0-min1-x-) : #
-- [function _Descend(i,t,d,r,   where) {](#-function-_descenditdr---where-) : #   where =  d < i.mid ? "lower" : "upper" 
-- [return _Add(i[where], t, t) }](#---return-_addiwhere-t-t-) : #
-- [function _Add(i, t, r.   n,one,x,tmp) {](#-function-_addi-t-r---nonextmp-) : #   push(i.all,  r)
-- [if (length(i.all) == i.enough)  {](#---if-lengthiall--ienough--) : #     i.lo = TabFar(t, r)
-- [i.hi = TabFar(t, i.lo )](#-----ihi--tabfart-ilo-) : #     i.c  = TabDist(t, i.lo, i.hi)
-- [for(one in i.all) {](#-----forone-in-iall-) : #       tmp[one]  = x = _X(i,t,one)
-- [i.mid    += x/2](#-------imid-----x2) : #     }
-- [has(i,"upper","TreeNode")](#-----hasiuppertreenode) : #     has(i,"lower","TreeNode")
-- [for (one in tmp)](#-----for-one-in-tmp) : #       _Descend(i,t, tmp[one], one) 
-- [}](#---) : #   if (length(i.all)>i.enough) 
-- [return _Descend(i,t, _X(i,t,r),r)](#-----return-_descendit-_xitrr) : #   return i.id }
-- [function _Print(i,         lvl,pre) {](#--function-_printi---------lvlpre-) : #    print pre length(i.all)
-- [if (length(i.lower)) _Print(i.lower, lvl+1, "|.. " pre)](#----if-lengthilower-_printilower-lvl1---pre) : #    if (length(i.upper)) _Print(i.upper, lvl+1, "|.. " pre) }
+  - [TreeNode](#-treenode)
+    - [TreeNode](#-treenode) : notes should be created in the tree;
+    - [_X](#-_x) : Project 
+    - [_Descend](#-_descend)
+    - [_AddRi:TreeNode, t:Tab, r:posint) {](#-_addritreenode-ttab-rposint-) : Recursively add `i` , forking subtrees when a ## node gets more than `i.enough` items.  
+    - [_Add1](#-_add1) : Divide the data
+    - [_Print](#--_print)
 
 
 -----------------------------------------------
@@ -63,7 +46,7 @@ Constructor
 function Row(i:untyped) {
   Object(i)
   i.is = "Row"
-  i.p=2
+  i.p  = 2
   has(i,"cells")
   has(i,"ranges") }
 ```
@@ -113,7 +96,7 @@ function Tab(i:untyped) {
   Object(i); i.is = "Tab"
   i.klass   = ""
   i.use     = "xs"
-  i.far     = 0.9
+  i.far     = .95
   has(i,"tree")
   has(i,"rows"); has(i,"cols"); has(i,"names")
   has(i,"info"); has(i,"xs");   has(i,"ys") }
@@ -191,8 +174,7 @@ Distance between two rows.
 
 ```awk
 function _Dist(i:Tab, r1:posint, r2:posint) {
-  print o(i[i.use],">")
-  return  RowDist(i.rows[r1], i.rows[r2], i[i.use]) }
+  return  RowDist(i.rows[r1], i.rows[r2], i,i[i.use]) }
 ```
 
 </details></ul>
@@ -220,9 +202,8 @@ Sorted by distance `d`.
 function _Around(i,r1,out,   r2) {
   for(r2 in i.rows) 
     if(r1 != r2) {
-       print("r",r2)
-       out.row = r2
-       out.d   = _Dist(i,r1, r2) }
+       out[r2].row = r2
+       out[r2].d   = _Dist(i,r1, r2) }
   return keysort(out,"d") }
 ```
 
@@ -241,59 +222,111 @@ function _Clone(i:Tab, j:Tab) {
 
 </details></ul>
 
-## # -----------------------------------------------------------
+-----------------------------------------------------------
 
-<ul><details><summary><tt># -----------------------------------------------------------()</tt></summary>
+## TreeNode
+
+### TreeNode
+notes should be created in the tree;
+Constructor for a tree of clusters
+
+<ul><details><summary><tt>TreeNode(i:untuped)</tt></summary>
 
 ```awk
-# -----------------------------------------------------------
-#
-# ## TreeNode
-#
-# function TreeNode(i) {
-#   ## notes should be created in the tree;
-#   ## Constructor for a tree of clusters
-#   Object(i)
-#   i.enough=64
-#   i.is = "TreeNode"
-#   i.c=i.lo=i.hi=i.mid = ""
-#   has(i,"all")
-#   has(i,"upper")
-#   has(i,"lower") }
-#
-# function _X(i,t, r     a,b,x) {
-#    a= TabDist(t,r,i.lo)
-#    b= TabDist(t,r,i.hi)
-#    x= (a^2 + i.c^2 - b^2)/(2*i.c)
-#    return max(0, min(1, x)) }
-#
-# function _Descend(i,t,d,r,   where) {
-#   where =  d < i.mid ? "lower" : "upper" 
-#   return _Add(i[where], t, t) }
-#
-# function _Add(i, t, r.   n,one,x,tmp) {
-#   push(i.all,  r)
-#   if (length(i.all) == i.enough)  {
-#     i.lo = TabFar(t, r)
-#     i.hi = TabFar(t, i.lo )
-#     i.c  = TabDist(t, i.lo, i.hi)
-#     for(one in i.all) {
-#       tmp[one]  = x = _X(i,t,one)
-#       i.mid    += x/2 
-#     }
-#     has(i,"upper","TreeNode")
-#     has(i,"lower","TreeNode")
-#     for (one in tmp) 
-#       _Descend(i,t, tmp[one], one) 
-#   }
-#   if (length(i.all)>i.enough) 
-#     return _Descend(i,t, _X(i,t,r),r)
-#   return i.id }
-#
-#  function _Print(i,         lvl,pre) {
-#    print pre length(i.all)
-#    if (length(i.lower)) _Print(i.lower, lvl+1, "|.. " pre)
-#    if (length(i.upper)) _Print(i.upper, lvl+1, "|.. " pre) }
+function TreeNode(i:untuped) {
+  Object(i)
+  i.enough=64
+  i.is = "TreeNode"
+  i.c=i.lo=i.hi=i.mid = ""
+  has(i,"all")
+  has(i,"upper")
+  has(i,"lower") }
+```
+
+</details></ul>
+
+### _X
+Project 
+
+<ul><details><summary><tt>_X(i:TreeNode, t:Tab, r:posint)</tt></summary>
+
+```awk
+function _X(i:TreeNode, t:Tab, r:posint     a,b,x) {
+   a = TabDist(t,r,i.lo)
+   b = TabDist(t,r,i.hi)
+   x = (a^2 + i.c^2 - b^2)/(2*i.c)
+   return max(0, min(1, x)) }
+```
+
+</details></ul>
+
+### _Descend
+
+<ul><details><summary><tt>_Descend(i:TreeNode, top:TreeNode, t:Tab, d:float, r:posint)</tt></summary>
+
+```awk
+function _Descend(i:TreeNode, top:TreeNode, t:Tab, d:float, r:posint,   where) {
+  where = d < i.mid ? "lower" : "upper" 
+  return _Add1(i[where], top, t, t) }
+```
+
+</details></ul>
+
+### _AddRi:TreeNode, t:Tab, r:posint) {
+Recursively add `i` , forking subtrees when a ## node gets more than `i.enough` items.  
+In a pointer-less language, to add in details deep
+within a recursive structure, work down from
+the root carry along the root node.
+
+<ul><details><summary><tt>_AddRi:TreeNode, t:Tab, r:posint) {()</tt></summary>
+
+```awk
+function _AddRi:TreeNode, t:Tab, r:posint) {
+  _Add1(i,
+        i, # payload: top node (place to store clusters)
+        t, # payload: table  (used to access distance calculations).
+        r) }
+```
+
+</details></ul>
+
+### _Add1
+Divide the data
+
+<ul><details><summary><tt>_Add1(i:TreeNode, top:TreeNode, t:Tab, r:posint)</tt></summary>
+
+```awk
+function _Add1(i:TreeNode, top:TreeNode, t:Tab, r:posint,   n,one,x,tmp) {
+  push(i.all,  r)
+  if (length(i.all) == i.enough)  {
+    i.lo = TabFar(t, r)
+    i.hi = TabFar(t, i.lo )
+    i.c  = TabDist(t, i.lo, i.hi)
+    for(one in i.all) {
+      tmp[one]  = x = _X(i,t,one)
+      i.mid    += x/2 
+    }
+    has(i,"upper","TreeNode")
+    has(i,"lower","TreeNode")
+    for (one in tmp) 
+      _Descend(i,top, t, tmp[one], one) 
+  }
+  if (length(i.all)>i.enough) 
+    return _Descend(i,top,t, _X(i,t,r),r)
+  return i.id }
+```
+
+</details></ul>
+
+###  _Print
+
+<ul><details><summary><tt> _Print(i:TreeNode)</tt></summary>
+
+```awk
+ function _Print(i:TreeNode,         lvl,pre) {
+   print pre length(i.all)
+   if (length(i.lower)) _Print(i.lower, lvl+1, "|.. " pre)
+   if (length(i.upper)) _Print(i.upper, lvl+1, "|.. " pre) }
 ```
 
 </details></ul>

@@ -34,11 +34,11 @@
 
 
 ------------------------------------------
-General support code.
+general support code.
  
-Copyright (c) 2020, Tim Menzies.   
-Licensed under the MIT license 
-for full license info, see LICENSE.md in the project root
+copyright (c) 2020, tim menzies.   
+licensed under the mit license 
+for full license info, see license.md in the project root
 
 ------------------------------------------
 
