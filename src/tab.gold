@@ -113,52 +113,52 @@ function _Clone(i:Tab, j:Tab) {
   Tab(j)
   TabHeader(j, i.names) }
 
-# -----------------------------------------------------------
-#
-# ## TreeNode
-#
-# function TreeNode(i) {
-#   ## notes should be created in the tree;
-#   ## Constructor for a tree of clusters
-#   Object(i)
-#   i.enough=64
-#   i.is = "TreeNode"
-#   i.c=i.lo=i.hi=i.mid = ""
-#   has(i,"all")
-#   has(i,"upper")
-#   has(i,"lower") }
-#
-# function _X(i,t, r     a,b,x) {
-#    a= TabDist(t,r,i.lo)
-#    b= TabDist(t,r,i.hi)
-#    x= (a^2 + i.c^2 - b^2)/(2*i.c)
-#    return max(0, min(1, x)) }
-#
-# function _Descend(i,t,d,r,   where) {
-#   where =  d < i.mid ? "lower" : "upper" 
-#   return _Add(i[where], t, t) }
-#
-# function _Add(i, t, r.   n,one,x,tmp) {
-#   push(i.all,  r)
-#   if (length(i.all) == i.enough)  {
-#     i.lo = TabFar(t, r)
-#     i.hi = TabFar(t, i.lo )
-#     i.c  = TabDist(t, i.lo, i.hi)
-#     for(one in i.all) {
-#       tmp[one]  = x = _X(i,t,one)
-#       i.mid    += x/2 
-#     }
-#     has(i,"upper","TreeNode")
-#     has(i,"lower","TreeNode")
-#     for (one in tmp) 
-#       _Descend(i,t, tmp[one], one) 
-#   }
-#   if (length(i.all)>i.enough) 
-#     return _Descend(i,t, _X(i,t,r),r)
-#   return i.id }
-#
-#  function _Print(i,         lvl,pre) {
-#    print pre length(i.all)
-#    if (length(i.lower)) _Print(i.lower, lvl+1, "|.. " pre)
-#    if (length(i.upper)) _Print(i.upper, lvl+1, "|.. " pre) }
+-----------------------------------------------------------
+
+## TreeNode
+
+function TreeNode(i:untuped) {
+  ## notes should be created in the tree;
+  ## Constructor for a tree of clusters
+  Object(i)
+  i.enough=64
+  i.is = "TreeNode"
+  i.c=i.lo=i.hi=i.mid = ""
+  has(i,"all")
+  has(i,"upper")
+  has(i,"lower") }
+
+function _X(i:TreeNode, t:Tab, r:posint     a,b,x) {
+   a= TabDist(t,r,i.lo)
+   b= TabDist(t,r,i.hi)
+   x= (a^2 + i.c^2 - b^2)/(2*i.c)
+   return max(0, min(1, x)) }
+
+function _Descend(i:TreeNode, t:Tab, d:float, r:posint,   where) {
+  where =  d < i.mid ? "lower" : "upper" 
+  return _Add(i[where], t, t) }
+
+function _Add(i:TreeNode, t:Tab, r:posint,   n,one,x,tmp) {
+  push(i.all,  r)
+  if (length(i.all) == i.enough)  {
+    i.lo = TabFar(t, r)
+    i.hi = TabFar(t, i.lo )
+    i.c  = TabDist(t, i.lo, i.hi)
+    for(one in i.all) {
+      tmp[one]  = x = _X(i,t,one)
+      i.mid    += x/2 
+    }
+    has(i,"upper","TreeNode")
+    has(i,"lower","TreeNode")
+    for (one in tmp) 
+      _Descend(i,t, tmp[one], one) 
+  }
+  if (length(i.all)>i.enough) 
+    return _Descend(i,t, _X(i,t,r),r)
+  return i.id }
+
+ function _Print(i:TreeNode,         lvl,pre) {
+   print pre length(i.all)
+   if (length(i.lower)) _Print(i.lower, lvl+1, "|.. " pre)
+   if (length(i.upper)) _Print(i.upper, lvl+1, "|.. " pre) }
 
