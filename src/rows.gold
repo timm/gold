@@ -38,9 +38,9 @@ function _Dist(i:Row,j:Row, tab, cols,  c,pos,x,y,d,d1,n) {
 
 -----------------------------------------------------------
 
-## Table 
+## Rows 
 Storage for many rows of data, with summaries of the columns.
-The first row passed to the `Tab`le initializes the column summary objects.
+The first row passed to `Rows` initializes the column summary objects.
 The other rows are data.  In that first row:
 
 - Column names containing `?` become `Info` columns.
@@ -49,24 +49,25 @@ The other rows are data.  In that first row:
   and all other are independent variables (stored in `xs`).
 - Klass names are marked in `!`.
 
-function Tab(i:untyped) {
+function Rows(i:untyped) {
   ## Constructor
-  Object(i); i.is = "Tab"
+  Object(i); i.is = "Rows"
   i.klass   = ""
   i.use     = "xs"
   i.far     = .95
+  i.arounds = 128
   has(i,"tree")
   has(i,"rows"); has(i,"cols"); has(i,"names")
   has(i,"info"); has(i,"xs");   has(i,"ys") }
 
-function _Load(i:Tab, f:fname,     record) {
+function _Load(i:Rows, f:fname,     record) {
   ## Load a csv file `f` into the table `i`
   while(csv(record,f)) {  add(i,record)} }
 
-function _Add(i:Tab, a:array) {
+function _Add(i:Rows, a:array) {
   ## Update `i` with `a`. First update creates the column headers.
-  if ("cells" in a) return TabAdd(i, a.cells)
-  length(i.cols) ?  TabData(i,a) : TabHeader(i,a) }
+  if ("cells" in a) return RowsAdd(i, a.cells)
+  return length(i.cols) ?  RowsData(i,a) : RowsHeader(i,a) }
 
 function _Header(i,a,   where, what, j) {
   ## Initialize columns in a table.
@@ -81,37 +82,41 @@ function _Header(i,a,   where, what, j) {
     }
     hAS(i.cols, j, what, a[j],j)   
     i[where][j]
-    if (a[j]~/!/) i.klass = j }}
+    if (a[j]~/!/) i.klass = j }
+  return 0}
 
-function _Data(i:Tab, a:array,    r,j) {
+function _Data(i:Rows, a:array,    r,j) {
   ## Add an row at some random index within `rows`.
   r = sprintf("%9.0f",1E9*rand())
   has(i.rows, r, "Row")
   for(j=1; j<=length(a); j++) 
-    i.rows[r].cells[j] = add(i.cols[j], a[j])  }
+    i.rows[r].cells[j] = add(i.cols[j], a[j])  
+  return r }
 
-function _Dist(i:Tab, r1:posint, r2:posint) {
+function _Dist(i:Rows, r1:posint, r2:posint) {
   ## Distance between two rows.
   return  RowDist(i.rows[r1], i.rows[r2], i,i[i.use]) }
 
-function _Far(i:Tab, r:posint,     n,out) {
+function _Far(i:Rows, r:posint,     n,out) {
   ## Return something quite far way from `r` (ignoring outliers).
   n= _Around(i,r, out) 
   return out[int(n*i.far)].row }
 
-function _Around(i,r1,out,   r2) {
+function _Around(i,r1,out,   r2,n) {
   ## Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
   ## Sorted by distance `d`.
+  n = 500#i.arounds; print(">")
   for(r2 in i.rows) 
     if(r1 != r2) {
+       if(--n<0) break
        out[r2].row = r2
        out[r2].d   = _Dist(i,r1, r2) }
   return keysort(out,"d") }
 
-function _Clone(i:Tab, j:Tab) {
+function _Clone(i:Rows, j:Rows) {
   ## Copy the structure of table `i` into a new table `j`.
-  Tab(j)
-  TabHeader(j, i.names) }
+  Rows(j)
+  RowsHeader(j, i.names) }
 
 -----------------------------------------------------------
 
@@ -128,50 +133,49 @@ function TreeNode(i:untuped) {
   has(i,"upper")
   has(i,"lower") }
 
-function _X(i:TreeNode, t:Tab, r:posint     a,b,x) {
+function _X(i:TreeNode, rs:Rows, r:posint,    a,b,x) {
    ## Project 
-   a = TabDist(t,r,i.lo)
-   b = TabDist(t,r,i.hi)
+   a = RowsDist(rs,r,i.lo)
+   b = RowsDist(rs,r,i.hi)
    x = (a^2 + i.c^2 - b^2)/(2*i.c)
    return max(0, min(1, x)) }
 
-function _Descend(i:TreeNode, top:TreeNode, t:Tab, d:float, r:posint,   where) {
-  where = d < i.mid ? "lower" : "upper" 
-  return _Add1(i[where], top, t, t) }
-
-
-function _AddRi:TreeNode, t:Tab, r:posint) {
+function _Adds(i:TreeNode, rs:Rows, r:posint) {
   ## Recursively add `i` , forking subtrees when a ## node gets more than `i.enough` items.  
   ## In a pointer-less language, to add in details deep
   ## within a recursive structure, work down from
   ## the root carry along the root node.
   _Add1(i,
-        i, # payload: top node (place to store clusters)
-        t, # payload: table  (used to access distance calculations).
+        i,  # payload: top node (place to store clusters)
+        rs, # payload: table  (used to access distance calculations).
         r) }
 
-function _Add1(i:TreeNode, top:TreeNode, t:Tab, r:posint,   n,one,x,tmp) {
+function _Add1(i:TreeNode, top:TreeNode, rs:Rows, r:posint,   n,one,x,tmp) {
   ## Divide the data
   push(i.all,  r)
   if (length(i.all) == i.enough)  {
-    i.lo = TabFar(t, r)
-    i.hi = TabFar(t, i.lo )
-    i.c  = TabDist(t, i.lo, i.hi)
+    i.lo = RowsFar(rs, r)
+    i.hi = RowsFar(rs, i.lo )
+    i.c  = RowsDist(rs, i.lo, i.hi)
     for(one in i.all) {
-      tmp[one]  = x = _X(i,t,one)
+      tmp[one]  = x = _X(i,rs,one)
       i.mid    += x/2 
     }
     has(i,"upper","TreeNode")
     has(i,"lower","TreeNode")
     for (one in tmp) 
-      _Descend(i,top, t, tmp[one], one) 
+      _Recurse(i,top, rs, tmp[one], one) 
   }
   if (length(i.all)>i.enough) 
-    return _Descend(i,top,t, _X(i,t,r),r)
+    return _Recurse(i,top,rs, _X(i,rs,r),r)
   return i.id }
 
- function _Print(i:TreeNode,         lvl,pre) {
+function _Recurse(i:TreeNode, top:TreeNode, rs:Rows, d:float, r:posint,   where) {
+  where = d < i.mid ? "lower" : "upper" 
+  return _Add1(i[where], top, top, rs) }
+
+function _Print(i:TreeNode,         lvl,pre) {
    print pre length(i.all)
-   if (length(i.lower)) _Print(i.lower, lvl+1, "|.. " pre)
-   if (length(i.upper)) _Print(i.upper, lvl+1, "|.. " pre) }
+   if (length(i.lower)) _Print(i.lower, lvl+1, "|__ " pre)
+   if (length(i.upper)) _Print(i.upper, lvl+1, "|__ " pre) }
 

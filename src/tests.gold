@@ -1,7 +1,7 @@
 # vim: ft=awk ts=2 sw=2 et :
 @include "lib"
 @include "col"
-@include "tab"
+@include "rows"
 
 function csv1(s,    f,d,a) {
   d = Gold.dot 
@@ -11,8 +11,8 @@ function csv1(s,    f,d,a) {
 
 function tab0(s,rows,f,  d,t) {
   d = Gold.dot 
-  Tab(t)
-  TabLoad(t,d d "/data/" f d "csv")
+  Rows(t)
+  RowsLoad(t,d d "/data/" f d "csv")
   ok(s,rows,length(t.rows))
 }
 
@@ -34,8 +34,8 @@ function num1(s, n,a,i) {
 
 function dists1a(f,   d,t,r1,r2,n) {
   d = Gold.dot 
-  Tab(t)
-  TabLoad(t,d d "/data/" f d "csv")
+  Rows(t)
+  RowsLoad(t,d d "/data/" f d "csv")
   n=50
   for(r1 in t.rows)
     for(r2 in t.rows) 
@@ -47,13 +47,13 @@ function dists1a(f,   d,t,r1,r2,n) {
 
 function far1(f,   d,t,n,far,r1,r2) {
   d = Gold.dot 
-  Tab(t)
-  TabLoad(t,d d "/data/" f d "csv")
+  Rows(t)
+  RowsLoad(t,d d "/data/" f d "csv")
   n=10
   for(r1 in t.rows) {
      if(--n < 0) break
-     far = TabFar(t,r1)
-     print("far",far,"r1",r1,"d", TabDist(t,r1,far),
+     far = RowsFar(t,r1)
+     print("far",far,"r1",r1,"d", RowsDist(t,r1,far),
              o(t.rows[r1].cells),
              o(t.rows[far].cells)) }}
 
@@ -65,6 +65,16 @@ function oo1(f,   a) {
   a[20][1][2]=20
   oo(a,"|")
 }
+function cluster1(f,   rs,tree,d,file,r,record) {
+  Rows(rs)
+  TreeNode(tree)
+  d    = Gold.dot
+  file = d d "/data/" f d "csv"
+  while(csv(record,file)) 
+     if (r=add(rs,record))
+       TreeNodeAdds(tree,rs, r) 
+  TreeNodePrint(tree)}
+
 BEGIN{ 
   srand(1)
   #tests("csv1"); 
@@ -73,7 +83,9 @@ BEGIN{
   #tests("num1")
   #dists1a("weather")
   far1("auto93")
+  #far1("auto93k25")
   #oo1("11")
+  cluster1("auto93")
   rogues()
 }
 
