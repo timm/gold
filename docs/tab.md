@@ -1,24 +1,24 @@
 #  tab.gold
-  - [Row](#-row) : Storage for one row of data.
-    - [Row](#-row) : Constructor
-    - [_Dist](#-_dist) : Distance between two rows
-  - [Table](#-table) : Storage for many rows of data, with summaries of the columns.
-    - [Tab](#-tab) : Constructor
-    - [_Load](#-_load) : Load a csv file `f` into the table `i`
-    - [_Add](#-_add) : Update `i` with `a`. First update creates the column headers.
-    - [_Header](#-_header) : Initialize columns in a table.
-    - [_Data](#-_data) : Add an row at some random index within `rows`.
-    - [_Dist](#-_dist) : Distance between two rows.
-    - [_Far](#-_far) : Return something quite far way from `r` (ignoring outliers).
-    - [_Around](#-_around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
-    - [_Clone](#-_clone) : Copy the structure of table `i` into a new table `j`.
-  - [TreeNode](#-treenode)
-    - [TreeNode](#-treenode) : notes should be created in the tree;
-    - [_X](#-_x) : Project 
-    - [_Descend](#-_descend)
-    - [_AddRi:TreeNode, t:Tab, r:posint) {](#-_addritreenode-ttab-rposint-) : Recursively add `i` , forking subtrees when a ## node gets more than `i.enough` items.  
-    - [_Add1](#-_add1) : Divide the data
-    - [_Print](#--_print)
+  - [Row](#row) : Storage for one row of data.
+    - [Row](#row) : Constructor
+    - [_Dist](#_dist) : Distance between two rows
+  - [Table](#table) : Storage for many rows of data, with summaries of the columns.
+    - [Tab](#tab) : Constructor
+    - [_Load](#_load) : Load a csv file `f` into the table `i`
+    - [_Add](#_add) : Update `i` with `a`. First update creates the column headers.
+    - [_Header](#_header) : Initialize columns in a table.
+    - [_Data](#_data) : Add an row at some random index within `rows`.
+    - [_Dist](#_dist) : Distance between two rows.
+    - [_Far](#_far) : Return something quite far way from `r` (ignoring outliers).
+    - [_Around](#_around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
+    - [_Clone](#_clone) : Copy the structure of table `i` into a new table `j`.
+  - [TreeNode](#treenode)
+    - [TreeNode](#treenode) : notes should be created in the tree;
+    - [_X](#_x) : Project 
+    - [_Descend](#_descend)
+    - [_AddRi:TreeNode, t:Tab, r:posint) {](#_addritreenode-ttab-rposint-) : Recursively add `i` , forking subtrees when a ## node gets more than `i.enough` items.  
+    - [_Add1](#_add1) : Divide the data
+    - [_Print](#_print)
 
 
 -----------------------------------------------

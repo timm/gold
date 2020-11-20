@@ -1,36 +1,36 @@
 #  lib.gold
-  - [Globals](#-globals) : There is only one.
-    - [BEGIN { List](#-begin--list)
-  - [Object stuff](#--object-stuff) : Methods for handling objects.
-    - [List](#-list) : Initialize an empty list
-    - [Object](#-object) : Initialize a new object, give it a unique id (in `i.id`)
-    - [has](#-has) : Create something of class `f` inside of `i` at position `k`
-    - [haS](#-has) : Like `has`, but accepts one constructor argument `x`.
-    - [hAS](#-has) : Like `has`, but accepts two constructor arguments `x` and `y`..
-    - [new](#-new) : Add a new instances of class `f` at the end of `i`.
-    - [asNum](#-asnum) : If `x` can be coerced number, return that. Else return `x`.
-  - [Testing stuff](#-testing-stuff) : Support for unit testing.
-    - [rogues](#-rogues) : Print local variables, escaped from functions
-    - [tests](#-tests) : Run the functions names in the comma-separated string `s`.
-    - [ok](#-ok) : Print "PASS" if `got` same as `want1` (and print "FAIL" otherwise).
-    - [red](#-red)
-  - [Array stuff](#-array-stuff) : Support for managing arrays.
-    - [push](#-push) : Return `x` after adding to the end of `a`.
-    - [keysort](#-keysort) : Sort `a` by field `k`.
-    - [keysort1](#-keysort1)
-    - [sortCompare](#-sortcompare)
-    - [copy](#-copy) : `b` is set to a recursively copy of `a`.
-  - [Maths stuff](#-maths-stuff) : Some mathematical details.
-    - [abs](#-abs) : Return absolute value of `x`.
-    - [max](#-max) : Return max of `x` and `y.
-    - [min](#-min) : Return min of `x` and `y.
-    - [z](#-z) : Sample from a Gaussian.
-    - [Printing stuff](#-printing-stuff)
-      - [o](#-o) : Simple printing of a flat array
-      - [oo](#-oo)
-      - [ooSortOrder](#-oosortorder)
-  - [File stuff](#-file-stuff)
-    - [csv](#-csv) : Loop over a csv file `f`, setting the array `a` to the next record.
+  - [Globals](#globals) : There is only one.
+    - [BEGIN { List](#begin--list)
+  - [Object stuff](#object-stuff) : Methods for handling objects.
+    - [List](#list) : Initialize an empty list
+    - [Object](#object) : Initialize a new object, give it a unique id (in `i.id`)
+    - [has](#has) : Create something of class `f` inside of `i` at position `k`
+    - [haS](#has) : Like `has`, but accepts one constructor argument `x`.
+    - [hAS](#has) : Like `has`, but accepts two constructor arguments `x` and `y`..
+    - [new](#new) : Add a new instances of class `f` at the end of `i`.
+    - [asNum](#asnum) : If `x` can be coerced number, return that. Else return `x`.
+  - [Testing stuff](#testing-stuff) : Support for unit testing.
+    - [rogues](#rogues) : Print local variables, escaped from functions
+    - [tests](#tests) : Run the functions names in the comma-separated string `s`.
+    - [ok](#ok) : Print "PASS" if `got` same as `want1` (and print "FAIL" otherwise).
+    - [red](#red)
+  - [Array stuff](#array-stuff) : Support for managing arrays.
+    - [push](#push) : Return `x` after adding to the end of `a`.
+    - [keysort](#keysort) : Sort `a` by field `k`.
+    - [keysort1](#keysort1)
+    - [sortCompare](#sortcompare)
+    - [copy](#copy) : `b` is set to a recursively copy of `a`.
+  - [Maths stuff](#maths-stuff) : Some mathematical details.
+    - [abs](#abs) : Return absolute value of `x`.
+    - [max](#max) : Return max of `x` and `y.
+    - [min](#min) : Return min of `x` and `y.
+    - [z](#z) : Sample from a Gaussian.
+    - [Printing stuff](#printing-stuff)
+      - [o](#o) : Simple printing of a flat array
+      - [oo](#oo)
+      - [ooSortOrder](#oosortorder)
+  - [File stuff](#file-stuff)
+    - [csv](#csv) : Loop over a csv file `f`, setting the array `a` to the next record.
 
 
 ------------------------------------------

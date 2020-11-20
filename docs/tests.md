@@ -1,12 +1,12 @@
 #  tests.gold
-- [vim: ft=awk ts=2 sw=2 et :](#-vim-ftawk-ts2-sw2-et-) : @include "lib"
-  - [csv1](#-csv1)
-  - [tab0](#-tab0)
-  - [tab1](#-tab1)
-  - [zs](#-zs)
-  - [dists1a](#-dists1a)
-  - [far1](#-far1)
-  - [oo1](#-oo1)
+- [vim: ft=awk ts=2 sw=2 et :](#vim-ftawk-ts2-sw2-et-) : @include "lib"
+  - [csv1](#csv1)
+  - [tab0](#tab0)
+  - [tab1](#tab1)
+  - [zs](#zs)
+  - [dists1a](#dists1a)
+  - [far1](#far1)
+  - [oo1](#oo1)
 
 
 # vim: ft=awk ts=2 sw=2 et :
