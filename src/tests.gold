@@ -65,15 +65,14 @@ function oo1(f,   a) {
   a[20][1][2]=20
   oo(a,"|")
 }
-function cluster1(f,   rs,tree,d,file,r,record) {
+function cluster1(f,   i,rs,tree,d,file,r,out) {
+  d = Gold.dot 
   Rows(rs)
-  TreeNode(tree)
-  d    = Gold.dot
-  file = d d "/data/" f d "csv"
-  while(csv(record,file)) 
-     if (r=add(rs,record))
-       TreeNodeAdds(tree,rs, r) 
-  TreeNodePrint(tree)}
+  RowsLoad(rs,d d "/data/" f d "csv")
+  Rdiv(tree,rs,out)
+  # for(i in out) print i, o(out[i])
+  #RdivPrint(tree)
+}
 
 BEGIN{ 
   srand(1)
@@ -82,7 +81,7 @@ BEGIN{
   #zs()
   #tests("num1")
   #dists1a("weather")
-  far1("auto93")
+  #far1("auto93")
   #far1("auto93k25")
   #oo1("11")
   cluster1("auto93")

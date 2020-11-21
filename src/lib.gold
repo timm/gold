@@ -36,12 +36,20 @@ function has(i:untyped, k:atom, f:?fname) {
   f=f?f:"List";i[k][0]; @f(i[k]); delete i[k][0]; return k}
 
 function haS(i:untyped, k:atom, f:?fname, x:any)  { 
-  ## Like `has`, but accepts one constructor argument `x`.
+  ## Like `has`, but has 1 constructor argument `x`.
   i[k][0]; @f(i[k],x); delete i[k][0] }
 
 function hAS(i:untyped, k:atom, f:fname, x:any, y:any) { 
-  ## Like `has`, but accepts two constructor arguments `x` and `y`..
+  ## Like `has`, but has 2 constructor arguments `x` and `y`..
   i[k][0]; @f(i[k],x,y); delete i[k][0] }
+
+function HAS(i:untyped, k:atom, f:fname, x:any, y:any, z:any) { 
+  ## Like `has`, but has 3 constructor arguments `x`,`y` and `z`..
+  i[k][0]; @f(i[k],x,y,z); delete i[k][0] }
+
+function HASS(i:untyped,k:atom,f:fname,w:any,x:any,y:any,z:any) { 
+  ## Like `has`, but has 4 constructor arguments `w,x,y,z`.
+  i[k][0]; @f(i[k],w,x,y,z); delete i[k][0] }
 
 function new(i:array, f:fname, k) { 
   ## Add a new instances of class `f` at the end of `i`.

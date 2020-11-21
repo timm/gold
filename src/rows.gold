@@ -105,7 +105,7 @@ function _Far(i:Rows, r:posint,     n,out) {
 function _Around(i,r1,out,   r2,n) {
   ## Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
   ## Sorted by distance `d`.
-  n = 500#i.arounds; print(">")
+  n = i.arounds
   for(r2 in i.rows) 
     if(r1 != r2) {
        if(--n<0) break
@@ -120,66 +120,58 @@ function _Clone(i:Rows, j:Rows) {
 
 -----------------------------------------------------------
 
-## TreeNode
+## RDiv
 
-function TreeNode(i:untyped, lvl:posint) {
+function Rdiv(i:untyped,rs:rows,out:untyped,lvl:posint,a:array|) {
   ## notes should be created in the tree;
   ## Constructor for a tree of clusters
   Object(i)
-  i.enough=64
-  i.lvl = lvl
-  i.is = "TreeNode"
+  i.is = "Rdiv"
+  i.enough=16
+  i.lvl = lvl ? lvl : 0
   i.c=i.lo=i.hi=i.mid = ""
-  has(i,"all")
+  has(i,"has")
   has(i,"upper")
-  has(i,"lower") }
+  has(i,"lower") 
+  if ( lvl>0)
+    _Div(i,rs,out,a)
+  else {
+    List(out)
+     _Div(i,rs,out,rs.rows) }}
 
-function _Project(i:TreeNode, rs:Rows, r:posint,    a,b,x) {
+function _Div(i:Rdiv, rs:rs, out:array, a:array, r,b,n,lt,gt) {
+  ## Divide the data
+  for(r in a) break # r is the first item
+  #print nc(i.lvl,"*")":"r
+  i.lo = RowsFar(rs,  r)
+  i.hi = RowsFar(rs,  i.lo)
+  i.c  = RowsDist(rs, i.lo, i.hi)
+  for(r in a) {
+    i.has[r]
+    b[r].row = r
+    b[r].x   = _Project(i,rs,r)
+  }
+  n = keysort(b,"x")
+  i.mid = b[int(n/2)].x
+  print("!!",i.lvl,i.id, b[n].x -  b[1].x)
+  if (length(b) < 2*i.enough)  {
+    n = length(out) + 1
+    for(r in a) out[n][r] = r
+  } else { 
+    for (r in b) 
+      b[r].x  <= i.mid ? lt[ b[r].row ] : gt[ b[r].row ]
+    HASS(i, "upper", "Rdiv", rs, out, i.lvl+1, lt)
+    HASS(i, "lower", "Rdiv", rs, out, i.lvl+1, gt) }}
+
+function _Project(i:Rdiv, rs:Rows, r:posint,    a,b,x) {
    ## Project 
    a = RowsDist(rs,r,i.lo)
    b = RowsDist(rs,r,i.hi)
    x = (a^2 + i.c^2 - b^2)/(2*i.c)
    return max(0, min(1, x)) }
 
-function _Adds(i:TreeNode, rs:Rows, r:posint) {
-  ## Recursively add `i` , forking subtrees when a ## node gets more than `i.enough` items.  
-  ## In a pointer-less language, to add in details deep
-  ## within a recursive structure, work down from
-  ## the root carry along the root node.
-  print length(rs.rows)
-  _Add1(i,
-        i,  # payload: top node (place to store clusters)
-        rs, # payload: table  (used to access distance calculations).
-        r) }
-
-function _Add1(i:TreeNode, top:TreeNode, rs:Rows, r:posint,   n,one,x,tmp) {
-  ## Divide the data
-  print nc(i.lvl,"*")r
-  i.all[r]
-  if (length(i.all) == i.enough)  {
-    i.lo = RowsFar(rs, r)
-    i.hi = RowsFar(rs, i.lo )
-    i.c  = RowsDist(rs, i.lo, i.hi)
-    for(one in i.all) {
-      tmp[one] = x = _Project(i,rs,one)
-      i.mid   += x/2 
-    }
-    haS(i,"upper","TreeNode",i.lvl+1)
-    haS(i,"lower","TreeNode",i.lvl+1)
-    for (one in tmp) 
-      _Recurse(i,top, rs, tmp[one], one) 
-  }
-  if (length(i.all)>i.enough)  {
-    print "l",  length(i.all), i.enough 
-    return _Recurse(i,top,rs, _Project(i,rs,r),r) }
-  return i.id }
-
-function _Recurse(i:TreeNode, top:TreeNode, rs:Rows, d:float, r:posint,   where) {
-  where = d < i.mid ? "lower" : "upper" 
-  return _Add1(i[where], top, rs, r) }
-
-function _Print(i:TreeNode,         lvl,pre) {
-   print pre length(i.all)
-   if (length(i.lower)) _Print(i.lower, lvl+1, "|__ " pre)
-   if (length(i.upper)) _Print(i.upper, lvl+1, "|__ " pre) }
-
+function _Print(i:Rdiv,         lvl,pre,d) {
+   d = Gold.dot
+   print pre length(i.has)
+   if (length(i.lower)) _Print(i.lower, lvl+1, "|" d d " " pre)
+   if (length(i.upper)) _Print(i.upper, lvl+1, "|" d d " " pre) }
