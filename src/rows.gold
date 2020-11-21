@@ -153,10 +153,11 @@ function _Div(i:Rdiv, rs:rs, out:array, a:array, r,b,n,lt,gt) {
   }
   n = keysort(b,"x")
   i.mid = b[int(n/2)].x
-  print("!!",i.lvl,i.id, b[n].x -  b[1].x)
+  #print("!!",i.lvl,i.id, b[n].x -  b[1].x)
   if (length(b) < 2*i.enough)  {
-    n = length(out) + 1
-    for(r in a) out[n][r] = r
+    n = new(out,"Rows")
+    RowsHeader(out[n],rs.names)
+    for(r in a) RowsData(out[n], rs.rows[r].cells)
   } else { 
     for (r in b) 
       b[r].x  <= i.mid ? lt[ b[r].row ] : gt[ b[r].row ]
