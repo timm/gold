@@ -169,9 +169,9 @@ function _Add1(i:TreeNode, top:TreeNode, rs:Rows, r:posint,   n,one,x,tmp) {
     for (one in tmp) 
       _Recurse(i,top, rs, tmp[one], one) 
   }
-  print "l",  length(i.all), i.enough 
-  if (length(i.all)>i.enough) 
-    return _Recurse(i,top,rs, _Project(i,rs,r),r)
+  if (length(i.all)>i.enough)  {
+    print "l",  length(i.all), i.enough 
+    return _Recurse(i,top,rs, _Project(i,rs,r),r) }
   return i.id }
 
 function _Recurse(i:TreeNode, top:TreeNode, rs:Rows, d:float, r:posint,   where) {
