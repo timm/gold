@@ -72,7 +72,7 @@ function cluster1(f,   i,rs,tree,d,file,r,out) {
   Rdiv(tree,rs,out)
   # for(i in out) print i, o(out[i])
   #oo(out)
-  #RdivPrint(tree)
+  RdivPrint(tree)
 }
 
 BEGIN{ 

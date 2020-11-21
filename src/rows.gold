@@ -57,8 +57,9 @@ function Rows(i:untyped) {
   i.far     = .95
   i.arounds = 128
   has(i,"tree")
-  has(i,"rows"); has(i,"cols"); has(i,"names")
-  has(i,"info"); has(i,"xs");   has(i,"ys") }
+  has(i,"rows");  has(i,"cols"); has(i,"names")
+  has(i, "nums"); has(i, "syms")
+  has(i,"info");  has(i,"xs");   has(i,"ys") }
 
 function _Load(i:Rows, f:fname,     record) {
   ## Load a csv file `f` into the table `i`
@@ -81,6 +82,7 @@ function _Header(i,a,   where, what, j) {
       where= a[j] ~ /[!<>]/ ?  "ys"  : "xs"
     }
     hAS(i.cols, j, what, a[j],j)   
+    what == "Num" ? i.nums[j] : i.syms[j]
     i[where][j]
     if (a[j]~/!/) i.klass = j }
   return 0}
@@ -128,6 +130,7 @@ function Rdiv(i:untyped,rs:rows,out:untyped,lvl:posint,a:array|) {
   Object(i)
   i.is = "Rdiv"
   i.enough=16
+  i.table = 0
   i.lvl = lvl ? lvl : 0
   i.c=i.lo=i.hi=i.mid = ""
   has(i,"has")
@@ -153,11 +156,11 @@ function _Div(i:Rdiv, rs:rs, out:array, a:array, r,b,n,lt,gt) {
   }
   n = keysort(b,"x")
   i.mid = b[int(n/2)].x
-  #print("!!",i.lvl,i.id, b[n].x -  b[1].x)
   if (length(b) < 2*i.enough)  {
-    n = new(out,"Rows")
+    n = i.about = new(out,"Rows")
     RowsHeader(out[n],rs.names)
-    for(r in a) RowsData(out[n], rs.rows[r].cells)
+    for(r in a) 
+      RowsData(out[n], rs.rows[r].cells)
   } else { 
     for (r in b) 
       b[r].x  <= i.mid ? lt[ b[r].row ] : gt[ b[r].row ]
@@ -176,3 +179,9 @@ function _Print(i:Rdiv,         lvl,pre,d) {
    print pre length(i.has)
    if (length(i.lower)) _Print(i.lower, lvl+1, "|" d d " " pre)
    if (length(i.upper)) _Print(i.upper, lvl+1, "|" d d " " pre) }
+
+-----------------------------------------------------------
+
+## Contrast
+
+function Contrast(i:Rows,j:Rows) { fr }
