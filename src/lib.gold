@@ -125,6 +125,17 @@ function copy(a:array,b:array,   j) {
 
 ------------------------------------------
 
+## String stuff
+
+function nc(n:posint, s:string|*,  out) {
+  ## Return a string of length `n` containing character `s`.
+  s = s ? s : "*"
+  while(n-- > 0) out = out s 
+  return out
+}
+
+------------------------------------------
+
 ## Maths stuff 
 Some mathematical details.
 
