@@ -60,8 +60,8 @@ function _Some(i,rs,a,  r,x,y,n) {
 function _Merge(i,a,out,   j,both) {
   while(++j <= length(a)) {
     if ( j < length(a)  && _Better(a[j+1], a[j], both)) {
-      attach(both, b)
+      copy2end(b, both)
       j++
-    } else { attach(a[j], b) }
+    } else { copy2end(b, a[j]) }
   }
   return length(b) < length(a) ? _Merge(i,b,out) : copy(b,out)}
