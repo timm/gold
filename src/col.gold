@@ -51,6 +51,8 @@ function Sym(i:untyped, s:string, n:posint) {
   ## Constructor for summary of symbolic columns.
   ## `s` is the name of a column appearing in positive `n`.
   Col(i,s,n); i.is="Sym"
+  i.trivial = 1.025
+  has(i, "seen")
   i.mode= i.most= "" }
 
 function _Add(i:Sym, x:atom,    n) {
@@ -64,6 +66,30 @@ function _Add(i:Sym, x:atom,    n) {
 function _Dist(i:Sym, x:atom, y:atom) {
   ## Distance calcs for `Sym`bols.
   return x == y ? 0 : 1 }
+
+function _Var(i:Sym,      n,p,e) {
+  ## Distance calcs for `Sym`bols.
+  for(x in i.seen) 
+    if((n = i.seen[x]) > 0)
+      e -= (n/i.n)*log(n/i.n)/log(2)
+  return e
+
+function _Better(i:Sym,j:Sym,k:untypes, x,n,ei,ej,ek) {
+  ## Return true if the union of `i,j` has less entropy than i.
+  ## As a side effect, compute `k` (the union of the `i,j`).
+  delete k
+  copy(i,k)
+  k.n = i.n + j.n
+  for(x in j.seen) {
+    n = k.seen[x] = k.seen[x] + j.seen[x]
+    if (n> k.most) { k.mode=x; k.most=n } 
+  }
+  ei = _Var(i) * i.n/k.n
+  ej = _Var(j) * j.n/k.n
+  ek = _Var(k)
+  return  (ei + ej)*i.trivial > ek }
+  
+
 
 -----------------------------------------------
 

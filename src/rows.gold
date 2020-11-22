@@ -49,17 +49,17 @@ The other rows are data.  In that first row:
   and all other are independent variables (stored in `xs`).
 - Klass names are marked in `!`.
 
-function Rows(i:untyped) {
+function Rows(i:untyped, a:array|) {
   ## Constructor
   Object(i); i.is = "Rows"
   i.klass   = ""
   i.use     = "xs"
   i.far     = .95
   i.arounds = 128
-  has(i,"tree")
   has(i,"rows");  has(i,"cols"); has(i,"names")
   has(i, "nums"); has(i, "syms")
-  has(i,"info");  has(i,"xs");   has(i,"ys") }
+  has(i,"info");  has(i,"xs");   has(i,"ys") 
+  if (length(wals)) _Add(i,a)}
 
 function _Load(i:Rows, f:fname,     record) {
   ## Load a csv file `f` into the table `i`
@@ -119,69 +119,3 @@ function _Clone(i:Rows, j:Rows) {
   ## Copy the structure of table `i` into a new table `j`.
   Rows(j)
   RowsHeader(j, i.names) }
-
------------------------------------------------------------
-
-## RDiv
-
-function Rdiv(i:untyped,rs:rows,out:untyped,lvl:posint,a:array|) {
-  ## notes should be created in the tree;
-  ## Constructor for a tree of clusters
-  Object(i)
-  i.is = "Rdiv"
-  i.enough=16
-  i.table = 0
-  i.lvl = lvl ? lvl : 0
-  i.c=i.lo=i.hi=i.mid = ""
-  has(i,"has")
-  has(i,"upper")
-  has(i,"lower") 
-  if ( lvl>0)
-    _Div(i,rs,out,a)
-  else {
-    List(out)
-     _Div(i,rs,out,rs.rows) }}
-
-function _Div(i:Rdiv, rs:rs, out:array, a:array, r,b,n,lt,gt) {
-  ## Divide the data
-  for(r in a) break # r is the first item
-  #print nc(i.lvl,"*")":"r
-  i.lo = RowsFar(rs,  r)
-  i.hi = RowsFar(rs,  i.lo)
-  i.c  = RowsDist(rs, i.lo, i.hi)
-  for(r in a) {
-    i.has[r]
-    b[r].row = r
-    b[r].x   = _Project(i,rs,r)
-  }
-  n = keysort(b,"x")
-  i.mid = b[int(n/2)].x
-  if (length(b) < 2*i.enough)  {
-    n = i.about = new(out,"Rows")
-    RowsHeader(out[n],rs.names)
-    for(r in a) 
-      RowsData(out[n], rs.rows[r].cells)
-  } else { 
-    for (r in b) 
-      b[r].x  <= i.mid ? lt[ b[r].row ] : gt[ b[r].row ]
-    HASS(i, "upper", "Rdiv", rs, out, i.lvl+1, lt)
-    HASS(i, "lower", "Rdiv", rs, out, i.lvl+1, gt) }}
-
-function _Project(i:Rdiv, rs:Rows, r:posint,    a,b,x) {
-   ## Project 
-   a = RowsDist(rs,r,i.lo)
-   b = RowsDist(rs,r,i.hi)
-   x = (a^2 + i.c^2 - b^2)/(2*i.c)
-   return max(0, min(1, x)) }
-
-function _Print(i:Rdiv,         lvl,pre,d) {
-   d = Gold.dot
-   print pre length(i.has)
-   if (length(i.lower)) _Print(i.lower, lvl+1, "|" d d " " pre)
-   if (length(i.upper)) _Print(i.upper, lvl+1, "|" d d " " pre) }
-
------------------------------------------------------------
-
-## Contrast
-
-function Contrast(i:Rows,j:Rows) { fr }

@@ -130,6 +130,12 @@ function copy(a:array,b:array,   j) {
     } else
       b[j] = a[j] 
 }
+function append1(a:array, b:array,  n) {
+   ## Append nested list `a to position length+1 of `b`
+   ## Returns size of appended list.
+   n = length(b)+1
+   copy(a, b[n][0])
+   return n }
 
 ------------------------------------------
 

@@ -2,6 +2,7 @@
 @include "lib"
 @include "col"
 @include "rows"
+@include "cluster"
 
 function csv1(s,    f,d,a) {
   d = Gold.dot 
@@ -65,14 +66,15 @@ function oo1(f,   a) {
   a[20][1][2]=20
   oo(a,"|")
 }
-function cluster1(f,   i,rs,tree,d,file,r,out) {
+function cluster1(f,   i,rs,cl,d,file,r,out) {
   d = Gold.dot 
   Rows(rs)
   RowsLoad(rs,d d "/data/" f d "csv")
-  Rdiv(tree,rs,out)
-  # for(i in out) print i, o(out[i])
+  Cluster(cl,rs)
+  for(i in cl.all)
+     print(i, length(cl.all[i].rows))
   #oo(out)
-  RdivPrint(tree)
+  #ClusterPrint(cl)
 }
 
 BEGIN{ 

@@ -1,0 +1,67 @@
+#- vim: ft=awk ts=2 sw=2 et :
+
+-----------------------------------------------
+Discrete ranges
+ 
+Copyright (c) 2020, Tim Menzies.  Licensed under the MIT license.
+For full license info, see LICENSE.md in the project root
+
+-----------------------------------------------
+
+@include "lib"   
+@include "col"   
+@include "rows"
+
+-----------------------------------------------------------
+
+
+function Range(i:untyped,rs:Rows,c:posint,out:untyped,   as,lo,s,ho,x,y) {
+  ## Constructor
+  Object(i)
+  i.is    = "Range"
+  i.sample = 128
+  i.small = 0.5
+  i.col   = c
+  i.small = _Size(i,rs)
+  as       = _Some(i,rs,a)
+  lo      = 1
+  List(out)
+  s = new(out,"Sym")
+  for(hi=1; hi<=as; hi++) {
+    x = a[hi].x
+    y = a[hi].y
+    add(out[s], y)
+    if (hi - lo >= i.small)
+     if (as - hi >= i.small) 
+       if (x != a[hi+1].x ) {
+         out[s].cut = x
+         s  = new(out, "Sym")
+         lo = hi  }}
+  return length(out) }
+      
+function _Size(i,rs,   m,n) {
+  ## Return bin size. Forbid sizes less than 4 or more than half.
+  n = length(rs.rows)
+  m = n^i.small 
+  while(m < 4 && m < n/2) m *= 1.2
+  return m }    
+
+function _Some(i,rs,a,  r,x,y,n) {
+  ## Set `a` to a sample of rows'  col and klass value.
+  ## Dodge rows with columns that contain missing values
+  for(r in rs.rows) {
+    x = rs.rows[r].cells[i.col]
+    if(v != "?") {
+      if(--n>0) break
+      a[r].x = x
+      a[r].y = rs.rows[r].cells[rs.klass] }}
+  return keysort(a,"x") }
+
+function _Merge(i,a,out,   j,both) {
+  while(++j <= length(a)) {
+    if ( j < length(a)  && _Better(a[j+1], a[j], both)) {
+      attach(both, b)
+      j++
+    } else { attach(a[j], b) }
+  }
+  return length(b) < length(a) ? _Merge(i,b,out) : copy(b,out)}
