@@ -59,7 +59,7 @@ function Rows(i:untyped, a:array|) {
   has(i,"rows");  has(i,"cols"); has(i,"names")
   has(i, "nums"); has(i, "syms")
   has(i,"info");  has(i,"xs");   has(i,"ys") 
-  if (length(wals)) _Add(i,a)}
+  if (length(a)) _Add(i,a)}
 
 function _Load(i:Rows, f:fname,     record) {
   ## Load a csv file `f` into the table `i`
@@ -119,3 +119,15 @@ function _Clone(i:Rows, j:Rows) {
   ## Copy the structure of table `i` into a new table `j`.
   Rows(j)
   RowsHeader(j, i.names) }
+
+function _Sample(i:Rows,a:untyped,c:posint,n:posint|128, r,v) {
+  ## Set `a` to a sample of `enough` rows from column `c`.
+  ## Avoid cells with empty values
+  n = n ? n : 128
+  for(r in i.rows) {
+    v = i.rows[r].cells[c]
+    if(v != "?") {
+      if(--n>0) 
+        a[r] = v
+      else
+        break }} }

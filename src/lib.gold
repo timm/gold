@@ -128,13 +128,13 @@ function copy(a:array,b:array,   j) {
       delete b[j][0]
       copy(a[j], b[j]) 
     } else
-      b[j] = a[j] 
-}
+      b[j] = a[j] }
+
 function copy2end(a:array, b:array,  n) {
    ## Append nested list `a to position length+1 of `b`
    ## Returns size of appended list.
    n = length(a)+1
-   copy(b, a[n][0])
+   copy(b, a[n][0] )
    return n }
 
 ------------------------------------------
@@ -170,6 +170,37 @@ function z(mu:nummber|0, sd:number|0) {
   mu = mu?mu:0
   sd = sd?sd:1  
   return mu + sd*sqrt(-2*log(rand()))*cos(2*Gold.pi*rand())}
+
+function sd(a:array, lo:postint,hi:posint,n,ten,nine) {
+  ## Return standard deviation of those nums.
+  n  = length(a)
+  lo = lo ? lo : 1
+  hi = hi ? hi : n
+  ten  = lo + (hi - lo)*.1
+  nine = lo + (hi - lo)*.9
+  return (a[ int(nine) ] - a[ int(ten) ] ) / 2.54
+
+function mid(a:array, lo:postint,hi:posint,n,give) {
+  ## Return median  
+  n  = length(a)
+  lo = lo ? lo : 1
+  hi = hi ? hi : n
+  five  = int(lo + (hi - lo)*.5)
+  return (n%2) ? a[five] : (a[five+1] - a[five]) /2
+
+function div(a:array,b:untyped, d:float:.3,n:float|.5,lo,hi) {
+  asort(a)
+  d = d*sd(a)
+  n  = length(a)^n
+  while(n < 4 && n < length(n)/2) n *= 1.2
+  lo = 1
+  for(hi=1; hi<length(a)-n; hi++) {
+    if (hi - lo > n)
+      if (a[hi] != a[hi+1])
+        if (a[hi] - a[lo] > d) {
+          b[hi]
+          lo  = hi;
+          hi += n}}}
 
 ------------------------------------------
 

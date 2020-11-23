@@ -73,6 +73,8 @@ function cluster1(f,   i,rs,cl,d,file,r,out) {
   Cluster(cl,rs)
   for(i in cl.all)
      print(i, length(cl.all[i].rows))
+  RowsSample(rs,a,2)
+  print o(a)
   #oo(out)
   #ClusterPrint(cl)
 }

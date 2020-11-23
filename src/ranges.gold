@@ -46,22 +46,15 @@ function _Size(i,rs,   m,n) {
   while(m < 4 && m < n/2) m *= 1.2
   return m }    
 
-function _Some(i,rs,a,  r,x,y,n) {
-  ## Set `a` to a sample of rows'  col and klass value.
-  ## Dodge rows with columns that contain missing values
-  for(r in rs.rows) {
-    x = rs.rows[r].cells[i.col]
-    if(v != "?") {
-      if(--n>0) break
-      a[r].x = x
-      a[r].y = rs.rows[r].cells[rs.klass] }}
-  return keysort(a,"x") }
-
-function _Merge(i,a,out,   j,both) {
-  while(++j <= length(a)) {
-    if ( j < length(a)  && _Better(a[j+1], a[j], both)) {
+function _Merge(i,a,out,   j,b,both) {
+  j=1
+  while(j <= length(a)) {
+    if ( j < length(a)  && _Better(a[j], a[j+1], both)) {
+      both.cut = a[j+1].cut
       copy2end(b, both)
-      j++
-    } else { copy2end(b, a[j]) }
-  }
+      j += 2
+    } else { 
+      copy2end(b, a[j]) 
+      j += 1
+  }}
   return length(b) < length(a) ? _Merge(i,b,out) : copy(b,out)}
