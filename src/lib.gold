@@ -171,16 +171,16 @@ function z(mu:nummber|0, sd:number|0) {
   sd = sd?sd:1  
   return mu + sd*sqrt(-2*log(rand()))*cos(2*Gold.pi*rand())}
 
-function sd(a:array, lo:postint,hi:posint,n,ten,nine) {
+function asd(a:array, lo:postint,hi:posint,n,ten,nine) {
   ## Return standard deviation of those nums.
   n  = length(a)
   lo = lo ? lo : 1
   hi = hi ? hi : n
   ten  = lo + (hi - lo)*.1
   nine = lo + (hi - lo)*.9
-  return (a[ int(nine) ] - a[ int(ten) ] ) / 2.54
+  return (a[ int(nine) ] - a[ int(ten) ] ) / 2.54 }
 
-function mid(a:array, lo:postint,hi:posint,n,give) {
+function amid(a:array, lo:postint,hi:posint,n,give) {
   ## Return median  
   n  = length(a)
   lo = lo ? lo : 1
@@ -188,19 +188,29 @@ function mid(a:array, lo:postint,hi:posint,n,give) {
   five  = int(lo + (hi - lo)*.5)
   return (n%2) ? a[five] : (a[five+1] - a[five]) /2
 
-function div(a:array,b:untyped, d:float:.3,n:float|.5,lo,hi) {
-  asort(a)
-  d = d*sd(a)
-  n  = length(a)^n
-  while(n < 4 && n < length(n)/2) n *= 1.2
+function div(a:array,b:untyped, d:float:.3,n:float|.5,as) {
+  d  = d ? d: .3
+  n  = n ? n: .5
+  as = asort(a)
+  div1(a, b, d*asd(a), as^n, as) }
+
+function div1(a,b,d,n,as,lo,hi,j) {
+  while(n < 4 && n < as/2) n *= 1.2
+  n = int(n)
   lo = 1
-  for(hi=1; hi<length(a)-n; hi++) {
-    if (hi - lo > n)
+  for(hi=n; hi<=as-n; hi++) {
+    if (hi - lo >= n)
       if (a[hi] != a[hi+1])
         if (a[hi] - a[lo] > d) {
-          b[hi]
+          b[++j] = a[hi]
           lo  = hi;
-          hi += n}}}
+          hi += n }}}
+
+function bin(a,x, n,j) {
+  n = length(a)
+  for(j=1; j<=n; j++) 
+    if (x <= a[j]) return j"/"(n+1)
+  return (n+1)"/"(n+1) }
 
 ------------------------------------------
 

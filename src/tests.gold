@@ -66,7 +66,7 @@ function oo1(f,   a) {
   a[20][1][2]=20
   oo(a,"|")
 }
-function cluster1(f,   i,rs,cl,d,file,r,out) {
+function cluster1(f,   i,rs,cl,d,file,r,out,a,b) {
   d = Gold.dot 
   Rows(rs)
   RowsLoad(rs,d d "/data/" f d "csv")
@@ -74,7 +74,13 @@ function cluster1(f,   i,rs,cl,d,file,r,out) {
   for(i in cl.all)
      print(i, length(cl.all[i].rows))
   RowsSample(rs,a,2)
-  print o(a)
+  div(a,b)
+  print "::",o(a) , "\n=", asd(a),"\n:" o(b)
+  RowsBins(rs)
+  for(r in rs.rows) {
+     print r ","o(rs.rows[r].cells)
+     print r ","o(rs.rows[r].bins)
+  }
   #oo(out)
   #ClusterPrint(cl)
 }
