@@ -141,7 +141,7 @@ function _Crossover(i:Num,j:Num,   x1,x2,d,min,x,y,out) {
 
 function _Norm(i:Num, x:number) {
   ## Distance calcs for `Num`bols.
-  return  (x - i.lo) / (i.hi - i.lo + 1E-32) }
+  return  (x - i.lo) / (i.hi - i.lo ) } # 1E-30) }
 
 function _Dist(i:Num, x:atom, y:atom|20) {
   ## Return normalized distance 0..1 between two numbers `x` and `y`.

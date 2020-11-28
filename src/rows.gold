@@ -157,7 +157,7 @@ function _BinsHeader(i:Rows, out:untyped,      col) {
 function _SomeBins(i:Rows,a:array,out:array,    n,head,r) {
   ## Add a new table to `out` with discretized values for some rows. 
   n = new(out,"Rows")
-  RowsBinsHeader(i,head)
+  RowsBinsHeader(i,  head)
   RowsHeader(out[n], head)
   for(r in a) 
     RowsData(out[n], i.rows[r].bins) 

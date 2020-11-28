@@ -75,14 +75,14 @@ function cluster1(f,   r,d,rs,cl,i,j,k,out,dom) {
   RowsBins(rs)
   Cluster(cl,rs)
   #oo(cl.leaves)
-  for(i in cl.leaves) 
+  for(i in cl.leaves)  {
      for(j in cl.leaves) 
-       if(i != j)
-         if (dominates(cl.leaves[i],cl.leaves[j]))  
-            if (i!dominates(cl.leaves[j],cl.leaves[i]))  
+       if(i != j) {
+         if (dominates(cl.leaves[i],cl.leaves[j],rs))  
+            if (i!dominates(cl.leaves[j],cl.leaves[i],rs))  
             {
             dom[i].name=i
-            dom[i].dom++ }
+            dom[i].dom++ }}}
   keysort(dom, "dom")
   for(i in dom) 
     print dom[i].name, dom[i].dom,RowsY(cl.leaves[dom[i].name]) }
