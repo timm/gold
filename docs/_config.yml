@@ -1,3 +1,5 @@
 theme: jekyll-theme-minimal
-baseURL: "http://menzies.us/gold/"
-canonifyURLs: true
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
