@@ -139,7 +139,7 @@ if [ "$1" == "-h" ]; then
 	USAGE: gold [OPTIONS]
 	
 	Always update any *.gold files to *.awk. 
-	Optionally, runs the following commands.
+	Also, handle any of the following optional arguments.
 	
 	 -d           Create doco files in /docs
 	 -h           show help

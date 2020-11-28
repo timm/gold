@@ -1,3 +1,4 @@
 theme: jekyll-theme-minimal
 markdown: GFM
 highlighter: rouge
+logo: /assets/img/logo.jpg
