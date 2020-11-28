@@ -130,9 +130,9 @@ if [ "$1" == "-h" ]; then
        /  (    \     
       /   )    ;     
  jgs /   /     /     
-   ,/_."`  _.-`      while not simple; do
-    /_/`"\\___         rewrite
-          `~~~`      done > /opt/gold
+   ,/_."`  _.-`       do {
+    /_/`"\\___          rewrite
+          `~~~`       } while (! simple) 
 	EOF
   tput bold; tput setaf 32; cat <<-'EOF'
 
