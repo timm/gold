@@ -1,4 +1,6 @@
 theme: jekyll-theme-minimal
 markdown: GFM
+title: "GOLD: the Gawk object layer"
+description: ""
 highlighter: rouge
 logo: /assets/img/logo.jpg
