@@ -52,13 +52,13 @@ toc() {
 gawk '
                 { Body=Body "\n" $0 }
     END         { print Body }
-    /^# /       { print "- ["title($0)"]('$1'#"link($0)")" help()}
-    /^## /      { print "  - ["title($0)"]('$1'#"link($0)")" help()}
-    /^### /     { print "    - ["title($0)"]('$1'#"link($0)")" help()}
-    /^#### /    { print "      - ["title($0)"]('$1'#"link($0)")" help()}
-    /^##### /   { print "        - ["title($0)"]('$1'#"link($0)")" help()}
-    /^###### /  { print "          - ["title($0)"]('$1'#"ink($0)")" help()}
-    /^####### / { print "           - ["title($0)"]('$1'#"ink($0)")" help()}
+    /^# /       { print "- ["title($0)"](#"link($0)")" help()}
+    /^## /      { print "  - ["title($0)"](#"link($0)")" help()}
+    /^### /     { print "    - ["title($0)"](#"link($0)")" help()}
+    /^#### /    { print "      - ["title($0)"](#"link($0)")" help()}
+    /^##### /   { print "        - ["title($0)"](#"link($0)")" help()}
+    /^###### /  { print "          - ["title($0)"](#"ink($0)")" help()}
+    /^####### / { print "           - ["title($0)"](#"ink($0)")" help()}
     
     function link(x)  { 
       x=tolower(trim(x))
