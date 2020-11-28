@@ -1,5 +1,4 @@
 theme: jekyll-theme-minimal
+title: aa
 markdown: kramdown
 highlighter: rouge
-kramdown:
-  input: GFM
