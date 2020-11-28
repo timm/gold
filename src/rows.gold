@@ -141,3 +141,18 @@ function _Bin(i:Rows,n:posint,   tmp,r,a,bins) {
   for(r in i.rows)  
     i.rows[r].bins[n] = bin(bins, i.rows[r].bins[n]) }
 
+function _BinsHeader(i:Rows, out:untyped,      col) {
+  ## Return a header where all the independent columns are not numbers
+  for(col in i.cols) {
+    out[col] = i.cols[col].txt
+    if (col in i.xs) gsub(/:/,"",out[col] ) } }
+
+function _SomeBins(i:Rows,a,out,    n,head,r) {
+  ## Add a new table to `out` with descretized ranges for 
+  n = new(out,"Rows")
+  RowsBinsHeader(i,head)
+  RowsHeader(out[n], head)
+  for(r in a)
+    RowsData(out[n], rs.rows[r].bins) 
+  return n }
+  

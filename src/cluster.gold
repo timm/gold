@@ -10,47 +10,40 @@ Recursively split the data using two distant points.
 @include "lib"
 @include "rows"
 
-function Cluster(i:untyped,rs:rows,out:untyped,lvl:posint,a:array|) {
+function Cluster(i:untyped,rs:rows,lvl:posint,a:array|) {
   ## Constructor for a tree of clusters
   Object(i)
   i.is = "Cluster"
   i.enough=16
-  i.table = 0
   i.lvl = lvl ? lvl : 0
-  i.c=i.lo=i.hi=i.mid = ""
-  has(i,"has")
-  has(i,"all")
+  i.c = i.lo = i.hi = i.mid = ""
+  has(i,"leaves")
   has(i,"upper")
   has(i,"lower") 
   if ( lvl>0)
-    _Div(i,rs,out,a)
+    _Div(i,rs,a)
   else {
-    List(out)
-     _Div(i,rs,i.all,rs.rows) }}
+    _Div(i,rs,rs.rows) }}
 
-function _Div(i:Cluster, rs:rs, out:array, a:array, r,b,n,lt,gt) {
-  ## Divide the data
+function _Div(i:Cluster,rs:rs,a:array,     r,b,n,lt,gt) {
+  ## Divide the data 
   for(r in a) break # r is the first item
   i.lo = RowsFar(rs,  r)
   i.hi = RowsFar(rs,  i.lo)
   i.c  = RowsDist(rs, i.lo, i.hi)
   for(r in a) {
-    i.has[r]
     b[r].row = r
     b[r].x   = _Project(i,rs,r)
   }
   n = keysort(b,"x")
   i.mid = b[int(n/2)].x
-  if (length(b) < 2*i.enough)  {
-    n = i.about = new(out,"Rows")
-    RowsHeader(out[n],rs.names)
-    for(r in a) 
-      RowsData(out[n], rs.rows[r].cells)
-  } else { 
+  if (length(b) < 2*i.enough)  
+    i.about = RowsSomeBins(rs, a, i.leaves)
+  else { 
     for (r in b) 
       b[r].x  <= i.mid ? lt[ b[r].row ] : gt[ b[r].row ]
-    HASS(i, "upper", "Cluster", rs, out, i.lvl+1, lt)
-    HASS(i, "lower", "Cluster", rs, out, i.lvl+1, gt) }}
+    HASS(i, "upper", "Cluster", rs, i.lvl+1, lt)
+    HASS(i, "lower", "Cluster", rs, i.lvl+1, gt) }}
 
 function _Project(i:Cluster, rs:Rows, r:posint,    a,b,x) {
    ## Return how far `r` falls between `i.lo` and `i.hi`. 

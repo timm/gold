@@ -194,7 +194,7 @@ function div(a:array,b:untyped, d:float:.3,n:float|.5,as) {
   as = asort(a)
   div1(a, b, d*asd(a), as^n, as) }
 
-function div1(a,b,d,n,as,lo,hi,j) {
+function div1(a,out,d,n,as,       lo,hi,j) {
   while(n < 4 && n < as/2) n *= 1.2
   n = int(n)
   lo = 1
@@ -202,11 +202,11 @@ function div1(a,b,d,n,as,lo,hi,j) {
     if (hi - lo >= n)
       if (a[hi] != a[hi+1])
         if (a[hi] - a[lo] > d) {
-          b[++j] = a[hi]
+          out[++j] = a[hi]
           lo  = hi;
           hi += n }}}
 
-function bin(a,x, n,j) {
+function bin(a,x,       n,j) {
   n = length(a)
   for(j=1; j<=n; j++) 
     if (x <= a[j]) return j"/"(n+1)
