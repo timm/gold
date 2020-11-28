@@ -1,24 +1,24 @@
 #  col.gold
-  - [Abstract class: parent of all column](#abstract-class-parent-of-all-column)
-    - [Col](#col) : Abstract constructor for our column.
-    - [add](#add) : Polymorphic update function for columns.
-    - [adds](#adds) : Add many things
-    - [dist](#dist) : Distance between things.
-  - [Columns to be ignored.](#columns-to-be-ignored)
-    - [Info](#info) : Constructor for columns we will not summarize. 
-    - [_Add](#_add) : Do nothing.
-  - [Summaries of columns of symbols](#summaries-of-columns-of-symbols)
-    - [Sym](#sym) : Constructor for summary of symbolic columns.
-    - [_Add](#_add) : Update frequency counts, and `mode`.
-    - [_Dist](#_dist) : Distance calcs for `Sym`bols.
-  - [Summaries of columns of numbers](#summaries-of-columns-of-numbers)
-    - [Num](#num) : Constructor of summary of numeric columms
-    - [_Add](#_add) : Update self, return `x`.
-    - [_Pdf](#_pdf) : Return height of the Gaussian at `x`.
-    - [_Cdf](#_cdf) : Return the area under the Gaussian from negative infinity to `x`.
-    - [_Crossover](#_crossover) : Return where two Gaussians cross in-between their means.
-    - [_Norm](#_norm) : Distance calcs for `Num`bols.
-    - [_Dist](#_dist) : Return normalized distance 0..1 between two numbers `x` and `y`.
+  - [Abstract class: parent of all column](/docs/col.md#abstract-class-parent-of-all-column)
+    - [Col](/docs/col.md#col) : Abstract constructor for our column.
+    - [add](/docs/col.md#add) : Polymorphic update function for columns.
+    - [adds](/docs/col.md#adds) : Add many things
+    - [dist](/docs/col.md#dist) : Distance between things.
+  - [Columns to be ignored.](/docs/col.md#columns-to-be-ignored)
+    - [Info](/docs/col.md#info) : Constructor for columns we will not summarize. 
+    - [_Add](/docs/col.md#_add) : Do nothing.
+  - [Summaries of columns of symbols](/docs/col.md#summaries-of-columns-of-symbols)
+    - [Sym](/docs/col.md#sym) : Constructor for summary of symbolic columns.
+    - [_Add](/docs/col.md#_add) : Update frequency counts, and `mode`.
+    - [_Dist](/docs/col.md#_dist) : Distance calcs for `Sym`bols.
+  - [Summaries of columns of numbers](/docs/col.md#summaries-of-columns-of-numbers)
+    - [Num](/docs/col.md#num) : Constructor of summary of numeric columms
+    - [_Add](/docs/col.md#_add) : Update self, return `x`.
+    - [_Pdf](/docs/col.md#_pdf) : Return height of the Gaussian at `x`.
+    - [_Cdf](/docs/col.md#_cdf) : Return the area under the Gaussian from negative infinity to `x`.
+    - [_Crossover](/docs/col.md#_crossover) : Return where two Gaussians cross in-between their means.
+    - [_Norm](/docs/col.md#_norm) : Distance calcs for `Num`bols.
+    - [_Dist](/docs/col.md#_dist) : Return normalized distance 0..1 between two numbers `x` and `y`.
 
 
 -----------------------------------------------
@@ -125,6 +125,8 @@ Constructor for summary of symbolic columns.
 ```awk
 function Sym(i:untyped, s:string, n:posint) { 
   Col(i,s,n); i.is="Sym"
+  i.trivial = 1.025
+  has(i, "seen")
   i.mode= i.most= "" }
 ```
 
@@ -157,6 +159,29 @@ function _Dist(i:Sym, x:atom, y:atom) {
 ```
 
 </details></ul>
+
+function _Var(i:Sym,      n,p,e) {
+  ## Distance calcs for `Sym`bols.
+  for(x in i.seen) 
+    if((n = i.seen[x]) > 0)
+      e -= (n/i.n)*log(n/i.n)/log(2)
+  return e
+
+function _Better(i:Sym,j:Sym,k:untypes, x,n,ei,ej,ek) {
+  ## Return true if the union of `i,j` has less entropy than i.
+  ## As a side effect, compute `k` (the union of the `i,j`).
+  delete k
+  copy(i,k)
+  k.n = i.n + j.n
+  for(x in j.seen) {
+    n = k.seen[x] = k.seen[x] + j.seen[x]
+    if (n> k.most) { k.mode=x; k.most=n } 
+  }
+  ei = _Var(i) * i.n/k.n
+  ej = _Var(j) * j.n/k.n
+  ek = _Var(k)
+  return  (ei + ej)*i.trivial > ek }
+  
 
 -----------------------------------------------
 
@@ -253,7 +278,7 @@ Distance calcs for `Num`bols.
 
 ```awk
 function _Norm(i:Num, x:number) {
-  return  (x - i.lo) / (i.hi - i.lo + 1E-32) }
+  return  (x - i.lo) / (i.hi - i.lo ) } # 1E-30) }
 ```
 
 </details></ul>

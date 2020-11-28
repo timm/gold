@@ -1,36 +1,45 @@
 #  lib.gold
-  - [Globals](#globals) : There is only one.
-    - [BEGIN { List](#begin--list)
-  - [Object stuff](#object-stuff) : Methods for handling objects.
-    - [List](#list) : Initialize an empty list
-    - [Object](#object) : Initialize a new object, give it a unique id (in `i.id`)
-    - [has](#has) : Create something of class `f` inside of `i` at position `k`
-    - [haS](#has) : Like `has`, but accepts one constructor argument `x`.
-    - [hAS](#has) : Like `has`, but accepts two constructor arguments `x` and `y`..
-    - [new](#new) : Add a new instances of class `f` at the end of `i`.
-    - [asNum](#asnum) : If `x` can be coerced number, return that. Else return `x`.
-  - [Testing stuff](#testing-stuff) : Support for unit testing.
-    - [rogues](#rogues) : Print local variables, escaped from functions
-    - [tests](#tests) : Run the functions names in the comma-separated string `s`.
-    - [ok](#ok) : Print "PASS" if `got` same as `want1` (and print "FAIL" otherwise).
-    - [red](#red)
-  - [Array stuff](#array-stuff) : Support for managing arrays.
-    - [push](#push) : Return `x` after adding to the end of `a`.
-    - [keysort](#keysort) : Sort `a` by field `k`.
-    - [keysort1](#keysort1)
-    - [sortCompare](#sortcompare)
-    - [copy](#copy) : `b` is set to a recursively copy of `a`.
-  - [Maths stuff](#maths-stuff) : Some mathematical details.
-    - [abs](#abs) : Return absolute value of `x`.
-    - [max](#max) : Return max of `x` and `y.
-    - [min](#min) : Return min of `x` and `y.
-    - [z](#z) : Sample from a Gaussian.
-    - [Printing stuff](#printing-stuff)
-      - [o](#o) : Simple printing of a flat array
-      - [oo](#oo)
-      - [ooSortOrder](#oosortorder)
-  - [File stuff](#file-stuff)
-    - [csv](#csv) : Loop over a csv file `f`, setting the array `a` to the next record.
+  - [Globals](/docs/lib.md#globals) : There is only one.
+    - [BEGIN { List](/docs/lib.md#begin--list)
+  - [Object stuff](/docs/lib.md#object-stuff) : Methods for handling objects.
+    - [List](/docs/lib.md#list) : Initialize an empty list
+    - [Object](/docs/lib.md#object) : Initialize a new object, give it a unique id (in `i.id`)
+    - [has](/docs/lib.md#has) : Create something of class `f` inside of `i` at position `k`
+    - [haS](/docs/lib.md#has) : Like `has`, but has 1 constructor argument `x`.
+    - [hAS](/docs/lib.md#has) : Like `has`, but has 2 constructor arguments `x` and `y`..
+    - [HAS](/docs/lib.md#has) : Like `has`, but has 3 constructor arguments `x`,`y` and `z`..
+    - [HASS](/docs/lib.md#hass) : Like `has`, but has 4 constructor arguments `w,x,y,z`.
+    - [new](/docs/lib.md#new) : Add a new instances of class `f` at the end of `i`.
+    - [asNum](/docs/lib.md#asnum) : If `x` can be coerced number, return that. Else return `x`.
+  - [Testing stuff](/docs/lib.md#testing-stuff) : Support for unit testing.
+    - [rogues](/docs/lib.md#rogues) : Print local variables, escaped from functions
+    - [tests](/docs/lib.md#tests) : Run the functions names in the comma-separated string `s`.
+    - [ok](/docs/lib.md#ok) : Print "PASS" if `got` same as `want1` (and print "FAIL" otherwise).
+    - [red](/docs/lib.md#red)
+  - [Array stuff](/docs/lib.md#array-stuff) : Support for managing arrays.
+    - [push](/docs/lib.md#push) : Return `x` after adding to the end of `a`.
+    - [keysort](/docs/lib.md#keysort) : Sort `a` by field `k`.
+    - [keysort1](/docs/lib.md#keysort1)
+    - [sortCompare](/docs/lib.md#sortcompare)
+    - [copy](/docs/lib.md#copy) : `b` is set to a recursively copy of `a`.
+    - [copy2end](/docs/lib.md#copy2end) : Append nested list `a to position length+1 of `b`
+  - [String stuff](/docs/lib.md#string-stuff)
+    - [nc](/docs/lib.md#nc) : Return a string of length `n` containing character `s`.
+  - [Maths stuff](/docs/lib.md#maths-stuff) : Some mathematical details.
+    - [abs](/docs/lib.md#abs) : Return absolute value of `x`.
+    - [max](/docs/lib.md#max) : Return max of `x` and `y.
+    - [min](/docs/lib.md#min) : Return min of `x` and `y.
+    - [z](/docs/lib.md#z) : Sample from a Gaussian.
+    - [asd](/docs/lib.md#asd) : Return standard deviation of those nums.
+    - [div](/docs/lib.md#div)
+    - [div1](/docs/lib.md#div1)
+    - [bin](/docs/lib.md#bin)
+    - [Printing stuff](/docs/lib.md#printing-stuff)
+      - [o](/docs/lib.md#o) : Simple printing of a flat array
+      - [oo](/docs/lib.md#oo)
+      - [ooSortOrder](/docs/lib.md#oosortorder)
+  - [File stuff](/docs/lib.md#file-stuff)
+    - [csv](/docs/lib.md#csv) : Loop over a csv file `f`, setting the array `a` to the next record.
 
 
 ------------------------------------------
@@ -101,7 +110,7 @@ function has(i:untyped, k:atom, f:?fname) {
 </details></ul>
 
 ### haS
-Like `has`, but accepts one constructor argument `x`.
+Like `has`, but has 1 constructor argument `x`.
 
 <ul><details><summary><tt>haS(i:untyped, k:atom, f:?fname, x:any)</tt></summary>
 
@@ -113,13 +122,37 @@ function haS(i:untyped, k:atom, f:?fname, x:any)  {
 </details></ul>
 
 ### hAS
-Like `has`, but accepts two constructor arguments `x` and `y`..
+Like `has`, but has 2 constructor arguments `x` and `y`..
 
 <ul><details><summary><tt>hAS(i:untyped, k:atom, f:fname, x:any, y:any)</tt></summary>
 
 ```awk
 function hAS(i:untyped, k:atom, f:fname, x:any, y:any) { 
   i[k][0]; @f(i[k],x,y); delete i[k][0] }
+```
+
+</details></ul>
+
+### HAS
+Like `has`, but has 3 constructor arguments `x`,`y` and `z`..
+
+<ul><details><summary><tt>HAS(i:untyped, k:atom, f:fname, x:any, y:any, z:any)</tt></summary>
+
+```awk
+function HAS(i:untyped, k:atom, f:fname, x:any, y:any, z:any) { 
+  i[k][0]; @f(i[k],x,y,z); delete i[k][0] }
+```
+
+</details></ul>
+
+### HASS
+Like `has`, but has 4 constructor arguments `w,x,y,z`.
+
+<ul><details><summary><tt>HASS(i:untyped, k:atom, f:fname, w:any, x:any, y:any, z:any)</tt></summary>
+
+```awk
+function HASS(i:untyped,k:atom,f:fname,w:any,x:any,y:any,z:any) { 
+  i[k][0]; @f(i[k],w,x,y,z); delete i[k][0] }
 ```
 
 </details></ul>
@@ -286,7 +319,40 @@ function copy(a:array,b:array,   j) {
       delete b[j][0]
       copy(a[j], b[j]) 
     } else
-      b[j] = a[j] 
+      b[j] = a[j] }
+```
+
+</details></ul>
+
+### copy2end
+Append nested list `a to position length+1 of `b`
+Returns size of appended list.
+
+<ul><details><summary><tt>copy2end(a:array, b:array)</tt></summary>
+
+```awk
+function copy2end(a:array, b:array,  n) {
+   n = length(a)+1
+   copy(b, a[n][0] )
+   return n }
+```
+
+</details></ul>
+
+------------------------------------------
+
+## String stuff
+
+### nc
+Return a string of length `n` containing character `s`.
+
+<ul><details><summary><tt>nc(n:posint, s:string|*)</tt></summary>
+
+```awk
+function nc(n:posint, s:string|*,  out) {
+  s = s ? s : "*"
+  while(n-- > 0) out = out s 
+  return out
 }
 ```
 
@@ -343,6 +409,79 @@ function z(mu:nummber|0, sd:number|0) {
   mu = mu?mu:0
   sd = sd?sd:1  
   return mu + sd*sqrt(-2*log(rand()))*cos(2*Gold.pi*rand())}
+```
+
+</details></ul>
+
+### asd
+Return standard deviation of those nums.
+
+<ul><details><summary><tt>asd(a:array, lo:postint, hi:posint)</tt></summary>
+
+```awk
+function asd(a:array, lo:postint,hi:posint,n,ten,nine) {
+  n  = length(a)
+  lo = lo ? lo : 1
+  hi = hi ? hi : n
+  ten  = lo + (hi - lo)*.1
+  nine = lo + (hi - lo)*.9
+  return (a[ int(nine) ] - a[ int(ten) ] ) / 2.54 }
+```
+
+</details></ul>
+
+function amid(a:array, lo:postint,hi:posint,n,give) {
+  ## Return median  
+  n  = length(a)
+  lo = lo ? lo : 1
+  hi = hi ? hi : n
+  five  = int(lo + (hi - lo)*.5)
+  return (n%2) ? a[five] : (a[five+1] - a[five]) /2
+
+### div
+
+<ul><details><summary><tt>div(a:array, b:untyped, d:float:.3, n:float|.5)</tt></summary>
+
+```awk
+function div(a:array,b:untyped, d:float:.3,n:float|.5,as) {
+  d  = d ? d: .3
+  n  = n ? n: .5
+  as = asort(a)
+  div1(a, b, d*asd(a), as^n, as) }
+```
+
+</details></ul>
+
+### div1
+
+<ul><details><summary><tt>div1()</tt></summary>
+
+```awk
+function div1(a,out,d,n,as,       lo,hi,j) {
+  while(n < 4 && n < as/2) n *= 1.2
+  n = int(n)
+  lo = 1
+  for(hi=n; hi<=as-n; hi++) {
+    if (hi - lo >= n)
+      if (a[hi] != a[hi+1])
+        if (a[hi] - a[lo] > d) {
+          out[++j] = a[hi]
+          lo  = hi;
+          hi += n }}}
+```
+
+</details></ul>
+
+### bin
+
+<ul><details><summary><tt>bin()</tt></summary>
+
+```awk
+function bin(a,x,       n,j) {
+  n = length(a)
+  for(j=1; j<=n; j++) 
+    if (x <= a[j]) return j"/"(n+1)
+  return (n+1)"/"(n+1) }
 ```
 
 </details></ul>
