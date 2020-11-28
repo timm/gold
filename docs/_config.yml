@@ -1,4 +1,4 @@
 theme: jekyll-theme-minimal
-title: aa
-markdown: kramdown
+title: bbb
+markdown: GFM
 highlighter: rouge
