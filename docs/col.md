@@ -1,24 +1,24 @@
 #  col.gold
-  - [Abstract class: parent of all column](/docs/col.md#abstract-class-parent-of-all-column)
-    - [Col](/docs/col.md#col) : Abstract constructor for our column.
-    - [add](/docs/col.md#add) : Polymorphic update function for columns.
-    - [adds](/docs/col.md#adds) : Add many things
-    - [dist](/docs/col.md#dist) : Distance between things.
-  - [Columns to be ignored.](/docs/col.md#columns-to-be-ignored)
-    - [Info](/docs/col.md#info) : Constructor for columns we will not summarize. 
-    - [_Add](/docs/col.md#_add) : Do nothing.
-  - [Summaries of columns of symbols](/docs/col.md#summaries-of-columns-of-symbols)
-    - [Sym](/docs/col.md#sym) : Constructor for summary of symbolic columns.
-    - [_Add](/docs/col.md#_add) : Update frequency counts, and `mode`.
-    - [_Dist](/docs/col.md#_dist) : Distance calcs for `Sym`bols.
-  - [Summaries of columns of numbers](/docs/col.md#summaries-of-columns-of-numbers)
-    - [Num](/docs/col.md#num) : Constructor of summary of numeric columms
-    - [_Add](/docs/col.md#_add) : Update self, return `x`.
-    - [_Pdf](/docs/col.md#_pdf) : Return height of the Gaussian at `x`.
-    - [_Cdf](/docs/col.md#_cdf) : Return the area under the Gaussian from negative infinity to `x`.
-    - [_Crossover](/docs/col.md#_crossover) : Return where two Gaussians cross in-between their means.
-    - [_Norm](/docs/col.md#_norm) : Distance calcs for `Num`bols.
-    - [_Dist](/docs/col.md#_dist) : Return normalized distance 0..1 between two numbers `x` and `y`.
+  - [Abstract class: parent of all column](#abstract-class-parent-of-all-column)
+    - [Col](#col) : Abstract constructor for our column.
+    - [add](#add) : Polymorphic update function for columns.
+    - [adds](#adds) : Add many things
+    - [dist](#dist) : Distance between things.
+  - [Columns to be ignored.](#columns-to-be-ignored)
+    - [Info](#info) : Constructor for columns we will not summarize. 
+    - [_Add](#_add) : Do nothing.
+  - [Summaries of columns of symbols](#summaries-of-columns-of-symbols)
+    - [Sym](#sym) : Constructor for summary of symbolic columns.
+    - [_Add](#_add) : Update frequency counts, and `mode`.
+    - [_Dist](#_dist) : Distance calcs for `Sym`bols.
+  - [Summaries of columns of numbers](#summaries-of-columns-of-numbers)
+    - [Num](#num) : Constructor of summary of numeric columms
+    - [_Add](#_add) : Update self, return `x`.
+    - [_Pdf](#_pdf) : Return height of the Gaussian at `x`.
+    - [_Cdf](#_cdf) : Return the area under the Gaussian from negative infinity to `x`.
+    - [_Crossover](#_crossover) : Return where two Gaussians cross in-between their means.
+    - [_Norm](#_norm) : Distance calcs for `Num`bols.
+    - [_Dist](#_dist) : Return normalized distance 0..1 between two numbers `x` and `y`.
 
 
 -----------------------------------------------

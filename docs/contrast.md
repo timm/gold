@@ -1,7 +1,7 @@
 #  contrast.gold
-- [vim: ft=awk ts=2 sw=2 et :](/docs/contrast.md#vim-ftawk-ts2-sw2-et-)
-  - [bore](/docs/contrast.md#bore)
-  - [dominates](/docs/contrast.md#dominates)
+- [vim: ft=awk ts=2 sw=2 et :](#vim-ftawk-ts2-sw2-et-)
+  - [bore](#bore)
+  - [dominates](#dominates)
 
 
 # vim: ft=awk ts=2 sw=2 et :

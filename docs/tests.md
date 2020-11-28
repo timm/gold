@@ -1,15 +1,15 @@
 #  tests.gold
-- [vim: ft=awk ts=2 sw=2 et :](/docs/tests.md#vim-ftawk-ts2-sw2-et-) : @include "lib"
-  - [csv1](/docs/tests.md#csv1)
-  - [tab0](/docs/tests.md#tab0)
-  - [tab1](/docs/tests.md#tab1)
-  - [zs](/docs/tests.md#zs)
-  - [dists1a](/docs/tests.md#dists1a)
-  - [far1](/docs/tests.md#far1)
-  - [oo1](/docs/tests.md#oo1)
-  - [cluster1](/docs/tests.md#cluster1)
-- [print "better" RowsY(cl.leaves[i])](/docs/tests.md#print-better-rowsyclleavesi) :  #          print "worse"  RowsY(cl.leaves[j])
-  - [BEGIN{](/docs/tests.md#begin)
+- [vim: ft=awk ts=2 sw=2 et :](#vim-ftawk-ts2-sw2-et-) : @include "lib"
+  - [csv1](#csv1)
+  - [tab0](#tab0)
+  - [tab1](#tab1)
+  - [zs](#zs)
+  - [dists1a](#dists1a)
+  - [far1](#far1)
+  - [oo1](#oo1)
+  - [cluster1](#cluster1)
+- [print "better" RowsY(cl.leaves[i])](#print-better-rowsyclleavesi) :  #          print "worse"  RowsY(cl.leaves[j])
+  - [BEGIN{](#begin)
 
 
 # vim: ft=awk ts=2 sw=2 et :

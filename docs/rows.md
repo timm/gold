@@ -1,23 +1,23 @@
 #  rows.gold
-  - [Row](/docs/rows.md#row) : Storage for one row of data.
-    - [Row](/docs/rows.md#row) : Constructor
-    - [_Dist](/docs/rows.md#_dist) : Distance between two rows
-  - [Rows](/docs/rows.md#rows) : Storage for many rows of data, with summaries of the columns.
-    - [Rows](/docs/rows.md#rows) : Constructor
-    - [_Load](/docs/rows.md#_load) : Load a csv file `f` into the table `i`
-    - [_Add](/docs/rows.md#_add) : Update `i` with `a`. First update creates the column headers.
-    - [_Header](/docs/rows.md#_header) : Initialize columns in a table.
-    - [_Data](/docs/rows.md#_data) : Add an row at some random index within `rows`.
-    - [_Dist](/docs/rows.md#_dist) : Distance between two rows.
-    - [_Far](/docs/rows.md#_far) : Return something quite far way from `r` (ignoring outliers).
-    - [_Around](/docs/rows.md#_around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
-    - [_Clone](/docs/rows.md#_clone) : Copy the structure of table `i` into a new table `j`.
-    - [_Y](/docs/rows.md#_y)
-    - [_Sample](/docs/rows.md#_sample) : Set `a` to a sample of `enough` rows from column `c`.
-    - [_Bins](/docs/rows.md#_bins) : Discretize all numeric columns in each row's `bins`.
-    - [_Bin](/docs/rows.md#_bin) : Discretize one column of numeric values in each row's `bins`.
-    - [_BinsHeader](/docs/rows.md#_binsheader) : Return a header where all the independent columns are not numbers
-    - [_SomeBins](/docs/rows.md#_somebins) : Add a new table to `out` with discretized values for some rows. 
+  - [Row](#row) : Storage for one row of data.
+    - [Row](#row) : Constructor
+    - [_Dist](#_dist) : Distance between two rows
+  - [Rows](#rows) : Storage for many rows of data, with summaries of the columns.
+    - [Rows](#rows) : Constructor
+    - [_Load](#_load) : Load a csv file `f` into the table `i`
+    - [_Add](#_add) : Update `i` with `a`. First update creates the column headers.
+    - [_Header](#_header) : Initialize columns in a table.
+    - [_Data](#_data) : Add an row at some random index within `rows`.
+    - [_Dist](#_dist) : Distance between two rows.
+    - [_Far](#_far) : Return something quite far way from `r` (ignoring outliers).
+    - [_Around](#_around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
+    - [_Clone](#_clone) : Copy the structure of table `i` into a new table `j`.
+    - [_Y](#_y)
+    - [_Sample](#_sample) : Set `a` to a sample of `enough` rows from column `c`.
+    - [_Bins](#_bins) : Discretize all numeric columns in each row's `bins`.
+    - [_Bin](#_bin) : Discretize one column of numeric values in each row's `bins`.
+    - [_BinsHeader](#_binsheader) : Return a header where all the independent columns are not numbers
+    - [_SomeBins](#_somebins) : Add a new table to `out` with discretized values for some rows. 
 
 
 -----------------------------------------------

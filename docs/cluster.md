@@ -1,9 +1,9 @@
 #  cluster.gold
-  - [Cluster](/docs/cluster.md#cluster) : Recursively split the data using two distant points.
-    - [Cluster](/docs/cluster.md#cluster) : Constructor for a tree of clusters
-    - [_Div](/docs/cluster.md#_div) : Divide the data 
-    - [_Project](/docs/cluster.md#_project) : Return how far `r` falls between `i.lo` and `i.hi`. 
-    - [_Print](/docs/cluster.md#_print)
+  - [Cluster](#cluster) : Recursively split the data using two distant points.
+    - [Cluster](#cluster) : Constructor for a tree of clusters
+    - [_Div](#_div) : Divide the data 
+    - [_Project](#_project) : Return how far `r` falls between `i.lo` and `i.hi`. 
+    - [_Print](#_print)
 
 
 -----------------------------------------------------------
