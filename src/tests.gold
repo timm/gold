@@ -3,6 +3,8 @@
 @include "col"
 @include "rows"
 @include "cluster"
+@include "contrast"
+
 
 function csv1(s,    f,d,a) {
   d = Gold.dot 
@@ -64,26 +66,42 @@ function oo1(f,   a) {
   a[10][300]=30
   a[10][400][4] = 40 
   a[20][1][2]=20
-  oo(a,"|")
-}
-function cluster1(f,   i,rs,cl,d,file,r,out,a,b) {
+  oo(a,"|") }
+
+function cluster1(f,   r,d,rs,cl,i,j,k,out,dom) {
   d = Gold.dot 
   Rows(rs)
   RowsLoad(rs,d d "/data/" f d "csv")
-  Cluster(cl,rs)
-  for(i in cl.all)
-     print(i, length(cl.all[i].rows))
-  RowsSample(rs,a,2)
-  div(a,b)
-  print "::",o(a) , "\n=", asd(a),"\n:" o(b)
   RowsBins(rs)
-  for(r in rs.rows) {
-     print r ","o(rs.rows[r].cells)
-     print r ","o(rs.rows[r].bins)
-  }
+  Cluster(cl,rs)
+  #oo(cl.leaves)
+  for(i in cl.leaves) 
+     for(j in cl.leaves) 
+       if(i != j)
+         if (dominates(cl.leaves[i],cl.leaves[j]))  
+            if (i!dominates(cl.leaves[j],cl.leaves[i]))  
+            {
+            dom[i].name=i
+            dom[i].dom++ }
+  keysort(dom, "dom")
+  for(i in dom) 
+    print dom[i].name, dom[i].dom,RowsY(cl.leaves[dom[i].name]) }
+
+
+#           print "better" RowsY(cl.leaves[i])
+ #          print "worse"  RowsY(cl.leaves[j])
+  #         delete out
+   #        bore(cl.leaves[i], cl.leaves[j],out)
+    #       print("")
+     #      for(k in out) print out[k].str
+  #print(">>", i, length(cl.leaves[i].rows))
+  #for(r in rs.rows) {
+  #   print " "
+  #   print r ","o(rs.rows[r].cells)
+  #   print r ","o(rs.rows[r].bins)
+  #}
   #oo(out)
   #ClusterPrint(cl)
-}
 
 BEGIN{ 
   srand(1)

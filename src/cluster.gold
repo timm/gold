@@ -10,7 +10,7 @@ Recursively split the data using two distant points.
 @include "lib"
 @include "rows"
 
-function Cluster(i:untyped,rs:rows,lvl:posint,a:array|) {
+function Cluster(i:untyped,rs:rows,top:array,lvl:posint,a:array|) {
   ## Constructor for a tree of clusters
   Object(i)
   i.is = "Cluster"
@@ -21,11 +21,11 @@ function Cluster(i:untyped,rs:rows,lvl:posint,a:array|) {
   has(i,"upper")
   has(i,"lower") 
   if ( lvl>0)
-    _Div(i,rs,a)
+    _Div(i,rs,a,top)
   else {
-    _Div(i,rs,rs.rows) }}
+    _Div(i,rs,rs.rows, i.leaves) }}
 
-function _Div(i:Cluster,rs:rs,a:array,     r,b,n,lt,gt) {
+function _Div(i:Cluster,rs:rs,a:array,top:array,     r,b,n,lt,gt) {
   ## Divide the data 
   for(r in a) break # r is the first item
   i.lo = RowsFar(rs,  r)
@@ -38,12 +38,12 @@ function _Div(i:Cluster,rs:rs,a:array,     r,b,n,lt,gt) {
   n = keysort(b,"x")
   i.mid = b[int(n/2)].x
   if (length(b) < 2*i.enough)  
-    i.about = RowsSomeBins(rs, a, i.leaves)
+    i.about = RowsSomeBins(rs, a, top)
   else { 
     for (r in b) 
       b[r].x  <= i.mid ? lt[ b[r].row ] : gt[ b[r].row ]
-    HASS(i, "upper", "Cluster", rs, i.lvl+1, lt)
-    HASS(i, "lower", "Cluster", rs, i.lvl+1, gt) }}
+    HASS(i, "upper", "Cluster", rs, top, i.lvl+1, lt)
+    HASS(i, "lower", "Cluster", rs, top, i.lvl+1, gt) }}
 
 function _Project(i:Cluster, rs:Rows, r:posint,    a,b,x) {
    ## Return how far `r` falls between `i.lo` and `i.hi`. 

@@ -120,6 +120,12 @@ function _Clone(i:Rows, j:Rows) {
   Rows(j)
   RowsHeader(j, i.names) }
 
+function _Y(i:Rows,   c,s,sep) {
+  for(c in i.ys) { 
+    s = s sep i.cols[c].txt "=" i.cols[c].mu
+    sep = ", " }
+  return s }
+
 function _Sample(i:Rows,a:untyped,c:posint,n:posint|128, r,v) {
   ## Set `a` to a sample of `enough` rows from column `c`.
   ## Avoid cells with empty values
@@ -130,14 +136,15 @@ function _Sample(i:Rows,a:untyped,c:posint,n:posint|128, r,v) {
       if(--n>0) {a[r] = v} else {break}}}}
 
 function _Bins(i:Rows,   n) {
+  ## Discretize all numeric columns in each row's `bins`.
   for(n in i.nums) 
     if (n in i.xs) 
       _Bin(i,n) }
 
 function _Bin(i:Rows,n:posint,   tmp,r,a,bins) {
+  ## Discretize one column of numeric values in each row's `bins`.
   _Sample(i,a,n)
   div(a,bins)
-  print ":: "n " "  o(bins)
   for(r in i.rows)  
     i.rows[r].bins[n] = bin(bins, i.rows[r].bins[n]) }
 
@@ -145,14 +152,13 @@ function _BinsHeader(i:Rows, out:untyped,      col) {
   ## Return a header where all the independent columns are not numbers
   for(col in i.cols) {
     out[col] = i.cols[col].txt
-    if (col in i.xs) gsub(/:/,"",out[col] ) } }
+    if (col in i.xs) gsub(/:/,"",out[col] ) }}
 
-function _SomeBins(i:Rows,a,out,    n,head,r) {
-  ## Add a new table to `out` with descretized ranges for 
+function _SomeBins(i:Rows,a:array,out:array,    n,head,r) {
+  ## Add a new table to `out` with discretized values for some rows. 
   n = new(out,"Rows")
   RowsBinsHeader(i,head)
   RowsHeader(out[n], head)
-  for(r in a)
-    RowsData(out[n], rs.rows[r].bins) 
+  for(r in a) 
+    RowsData(out[n], i.rows[r].bins) 
   return n }
-  
