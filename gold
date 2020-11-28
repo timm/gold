@@ -121,18 +121,20 @@ for f in *.gold; do
 done
 
 if [ "$1" == "-h" ]; then 
-  tput bold; tput setaf 32; cat <<-'EOF'
+  tput bold; tput setaf 3; cat <<-'EOF'
 
-        .-"-.
-        /  ,~a\_
-        \  \__))>    GOLD
-        ,) ." \      The Gawk Object Layer
-       /  (    \     (ↄ) 2020 Tim Menzies
-      /   )    ;     MIT license
- jgs /   /     /
-   ,/_."`  _.-`
-    /_/`"\\___
-         `~~~`
+        .-"-.        GOLD
+        /  ,~a\_     The Gawk Object Layer
+        \  \__))>    (ↄ) 2020 Tim Menzies, MIT licence
+        ,) ." \      
+       /  (    \     
+      /   )    ;     
+ jgs /   /     /     
+   ,/_."`  _.-`      while not simple; do
+    /_/`"\\___         rewrite
+         `~~~`       done > /opt/gold
+	EOF
+  tput bold; tput setaf 32; cat <<-'EOF'
 
 	USAGE: gold [OPTIONS]
 	

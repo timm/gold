@@ -1,1 +1,3 @@
 theme: jekyll-theme-midnight
+baseURL: "http://menzies.us/gold/"
+canonifyURLs: true
