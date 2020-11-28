@@ -123,7 +123,7 @@ done
 if [ "$1" == "-h" ]; then 
   tput bold; tput setaf 3; cat <<-'EOF'
 
-        .-"-.        GOLD
+         .-"-.       GOLD
         /  ,~a\_     The Gawk Object Layer
         \  \__))>    (ↄ) 2020 Tim Menzies, MIT licence
         ,) ." \      
