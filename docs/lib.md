@@ -1,3 +1,5 @@
+<small>
+
 #  lib.gold
   - [Globals](#globals) : There is only one.
     - [BEGIN { List](#begin--list)
@@ -41,6 +43,7 @@
   - [File stuff](#file-stuff)
     - [csv](#csv) : Loop over a csv file `f`, setting the array `a` to the next record.
 
+</small>
 
 ------------------------------------------
 general support code.
