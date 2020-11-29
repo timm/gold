@@ -1,4 +1,4 @@
-theme: jekyll-theme-minimal
+theme: jekyll-theme-dinky
 markdown: GFM
 title: "GOLD: the Gawk object layers"
 highlighter: rouge
