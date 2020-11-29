@@ -165,27 +165,27 @@ function min(x:number, y:number) {
   ## Return min of `x` and `y.
   return x>y ? y : x }
 
-function z(mu:nummber|0, sd:number|0) {
+function z(mu:nummber|0, sd:number|1) {
   ## Sample from a Gaussian.
   mu = mu?mu:0
   sd = sd?sd:1  
   return mu + sd*sqrt(-2*log(rand()))*cos(2*Gold.pi*rand())}
 
-function asd(a:array, lo:postint,hi:posint,n,ten,nine) {
+function asd(a:array,lo:postint,hi:posint,     n,ten,nine) {
   ## Return standard deviation of those nums.
-  n  = length(a)
-  lo = lo ? lo : 1
-  hi = hi ? hi : n
+  n    = length(a)
+  lo   = lo ? lo : 1
+  hi   = hi ? hi : n
   ten  = lo + (hi - lo)*.1
   nine = lo + (hi - lo)*.9
   return (a[ int(nine) ] - a[ int(ten) ] ) / 2.54 }
 
-function amid(a:array, lo:postint,hi:posint,n,give) {
+function amid(a:array, lo:postint,hi:posint,n,five) {
   ## Return median  
-  n  = length(a)
-  lo = lo ? lo : 1
-  hi = hi ? hi : n
-  five  = int(lo + (hi - lo)*.5)
+  n    = length(a)
+  lo   = lo ? lo : 1
+  hi   = hi ? hi : n
+  five = int(lo + (hi - lo)*.5)
   return (n%2) ? a[five] : (a[five+1] - a[five]) /2
 
 function div(a:array,b:untyped, d:float:.3,n:float|.5,as) {
