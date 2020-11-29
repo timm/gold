@@ -1,5 +1,5 @@
-theme: jekyll-theme-minimal
 markdown: GFM
 title: "GOLD: the Gawk object layers"
 highlighter: rouge
 logo: /assets/img/logo.jpg
+remote_theme: pmarsceill/just-the-docs

@@ -48,6 +48,26 @@ transpile() { gawk  '
    }
 '; }
 
+mytmux() {
+  if [ -z "$TMUX" ]; then
+    want=$HOME/.tmux.conf ; [ -f "$want" ] || 
+    curl -s $repo/etc/dottmux  --output $want
+    session=$RANDOM
+    tmux start-server
+    sleep 1
+    tmux new-session -d -s $session  
+    tmux send-keys ". $GOLD/gold" C-m clear C-m
+    tmux splitw -h -p 20
+    tmux selectp -t 1
+    tmux send-keys ". $GOLD/gold" C-m clear C-m
+    tmux splitw -v  -p 5
+    tmux selectp -t 2
+    tmux send-keys ". $GOLD/gold" C-m clear C-m
+    tmux selectp -t 0
+    tmux attach-session -t $session
+  fi
+}
+
 indexmd() {
   cd $GOLD/docs
   gawk 'BEGIN { RS=""; FS="\n"} 
@@ -134,7 +154,7 @@ for f in *.gold; do
 done
 
 if [ "$1" == "-h" ]; then 
-  tput bold; tput setaf 3; cat <<-'EOF'
+  tput bold; tput setaf 180; cat <<-'EOF'
 
          .-"-.       GOLD
         /  ,~a\_     The Gawk Object Layer
@@ -147,7 +167,8 @@ if [ "$1" == "-h" ]; then
     /_/`"\\___          rewrite
           `~~~`       } while (! simple) 
 	EOF
-  tput bold; tput setaf 32; cat <<-'EOF'
+  #tput bold; tput setaf 32; cat <<-'EOF'
+  tput sgr0; cat <<-'EOF'
 
 	USAGE: gold [OPTIONS]
 	
@@ -160,10 +181,12 @@ if [ "$1" == "-h" ]; then
 	 -p  [words]  Git add commit push status 
 	              (using "words" as the commit message)
 	 -t           Run /src/tests.gold
+	 -T           A three-screen tmux session 
 	 file[.ext]   Runs file.gold (extension is ignored, 
 	              need not be specified)
 	              
-	Also, note that running ". gold" defines the following aliases:   
+	Also, if running under Bash,, then executing ". gold" 
+	defines the following aliases:
 	              
 	EOF
   tput sgr0
@@ -186,6 +209,8 @@ elif [ "$1" == "-d" ]; then
      fi
    done
    indexmd
+elif [ "$1" == "-T" ]; then
+  mytmux
 elif [ "$1" == "-t" ]; then
   if [ -f "$src/tests.gold" ]; then
     cd $GOLD/src
