@@ -20,7 +20,7 @@ function Row(i:untyped) {
   ## Constructor
   Object(i)
   i.is = "Row"
-  i.p  = 2
+  i.P  = 2
   has(i,"cells")
   has(i,"bins") }
 
@@ -32,9 +32,9 @@ function _Dist(i:Row,j:Row, tab, cols,  c,pos,x,y,d,d1,n) {
     x   = i.cells[pos]
     y   = j.cells[pos]
     d1  = (x=="?" && y=="?") ? 1 : dist(tab.cols[c], x,y)
-    d  += d1^i.p
+    d  += d1^i.P
     n++ }
-  return (d/n)^(1/i.p) }
+  return (d/n)^(1/i.P) }
 
 -----------------------------------------------------------
 
@@ -52,7 +52,7 @@ The other rows are data.  In that first row:
 function Rows(i:untyped, a:array|) {
   ## Constructor
   Object(i); i.is = "Rows"
-  i.klass   = ""
+ i.klass   = ""
   i.use     = "xs"
   i.far     = .95
   i.arounds = 128

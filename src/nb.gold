@@ -1,0 +1,45 @@
+#- vim: ft=awk ts=2 sw=2 et formatoptions+=cro :
+
+@include "lib"
+@include "rows"
+
+ function NB(i:nil) {
+  i.K = 2
+  i.M = 1
+  has(i,"all")
+  has(i,"some")
+
+function _Learn(i,NB,f:fname,              record) {
+  while( _LOad1(i,f,record) ) {
+    if (length(i.all.rows) > i.Enough) return 1}}
+
+function _Load1(i:NB,f:fnmae,record:nil,    status,klassrecord) {
+  if (csv(record,f)) {
+    if (add(i.all,record)) {
+      klass = record[i.all.klass]
+      if (! (klass in i.some))  
+        has(i.some,klass,"Rows",i.all.names); 
+      add(i.some[klass], record) }
+    return 1}}
+
+function _Classify(i:NB,,a:array,     x,l,most,out) {
+  most = -1E-128
+  for(x in i.some) {
+    out = out ? out : x
+    l = like(i.some[x],a,length(i.some[x].rows),length(i.some),i.M,i.K)
+    if (l > most) {
+        most = tmp
+        out  = x }}
+  return out }
+
+function _Like(i:Row,a:array,y, n,hs,m,k,    prior,like,c,x) {
+  prior = like = (length(i.rows) + k)/(n + k*hs)
+  like  = log(like)
+  for(c in a) 
+    if(c in i.xs) {
+      x = a[c]
+      if(x != "?") 
+        like += log( like(i.cols[c], x, prior, k, m)) }
+  return like }
+
+

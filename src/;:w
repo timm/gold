@@ -31,9 +31,9 @@ function dist(c:Col, x,y,  f) {
   ## Distance between things.
   f=c.is "Dist"; return @f(c,x,y) }
 
-function like(c:Col, x,prior,m,k,  f) {
+function like(c:Col, x,prior,  f) {
   ## Return likelihood `x` belongs to `c`
-  f=c.is "Like"; return @f(c,x,prior,m,k) }
+  f=c.is "Like"; return @f(c,x,prior) }
 
 -----------------------------------------------
 
