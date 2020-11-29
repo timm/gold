@@ -1,3 +1,5 @@
+# License
+
 GOLD   
 The Gawk Object Layer   
 Copyright (ↄ) 2020 Tim Menzies, http://menzies.us <timm@ieee.org>
