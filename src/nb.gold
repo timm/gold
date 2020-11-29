@@ -9,18 +9,15 @@
   has(i,"all")
   has(i,"some")
 
-function _Learn(i,NB,f:fname,              record) {
-  while( _LOad1(i,f,record) ) {
-    if (length(i.all.rows) > i.Enough) return 1}}
-
-function _Load1(i:NB,f:fnmae,record:nil,    status,klassrecord) {
+function _Looping(i:NB,f:fnmae,record:nil,    status,klassrecord) {
+  ## If reading data, returns its klass
+  ## As a side-effect, ensure that there is a thing of this class
   if (csv(record,f)) {
     if (add(i.all,record)) {
       klass = record[i.all.klass]
       if (! (klass in i.some))  
-        has(i.some,klass,"Rows",i.all.names); 
-      add(i.some[klass], record) }
-    return 1}}
+        has(i.some,klass,"Rows",i.all.names) ;
+      add(i.some[klass], a) }}
 
 function _Classify(i:NB,,a:array,     x,l,most,out) {
   most = -1E-128

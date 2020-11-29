@@ -1,4 +1,5 @@
-GOLD: the Gawk Object Layer
+GOLD   
+The Gawk Object Layer   
 Copyright (ↄ) 2020 Tim Menzies, http://menzies.us <timm@ieee.org>
 
 Permission is hereby granted, free of charge, to any person obtaining
