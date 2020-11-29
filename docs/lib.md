@@ -1,6 +1,7 @@
+#  lib.gold
+
 <small>
 
-#  lib.gold
   - [Globals](#globals) : There is only one.
     - [BEGIN { List](#begin--list)
   - [Object stuff](#object-stuff) : Methods for handling objects.
@@ -44,6 +45,8 @@
     - [csv](#csv) : Loop over a csv file `f`, setting the array `a` to the next record.
 
 </small>
+
+
 
 ------------------------------------------
 general support code.
@@ -405,10 +408,10 @@ function min(x:number, y:number) {
 ### z
 Sample from a Gaussian.
 
-<ul><details><summary><tt>z(mu:nummber|0, sd:number|0)</tt></summary>
+<ul><details><summary><tt>z(mu:nummber|0, sd:number|1)</tt></summary>
 
 ```awk
-function z(mu:nummber|0, sd:number|0) {
+function z(mu:nummber|0, sd:number|1) {
   mu = mu?mu:0
   sd = sd?sd:1  
   return mu + sd*sqrt(-2*log(rand()))*cos(2*Gold.pi*rand())}
@@ -422,10 +425,10 @@ Return standard deviation of those nums.
 <ul><details><summary><tt>asd(a:array, lo:postint, hi:posint)</tt></summary>
 
 ```awk
-function asd(a:array, lo:postint,hi:posint,n,ten,nine) {
-  n  = length(a)
-  lo = lo ? lo : 1
-  hi = hi ? hi : n
+function asd(a:array,lo:postint,hi:posint,     n,ten,nine) {
+  n    = length(a)
+  lo   = lo ? lo : 1
+  hi   = hi ? hi : n
   ten  = lo + (hi - lo)*.1
   nine = lo + (hi - lo)*.9
   return (a[ int(nine) ] - a[ int(ten) ] ) / 2.54 }
@@ -433,12 +436,12 @@ function asd(a:array, lo:postint,hi:posint,n,ten,nine) {
 
 </details></ul>
 
-function amid(a:array, lo:postint,hi:posint,n,give) {
+function amid(a:array, lo:postint,hi:posint,n,five) {
   ## Return median  
-  n  = length(a)
-  lo = lo ? lo : 1
-  hi = hi ? hi : n
-  five  = int(lo + (hi - lo)*.5)
+  n    = length(a)
+  lo   = lo ? lo : 1
+  hi   = hi ? hi : n
+  five = int(lo + (hi - lo)*.5)
   return (n%2) ? a[five] : (a[five+1] - a[five]) /2
 
 ### div

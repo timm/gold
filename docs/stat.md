@@ -1,8 +1,14 @@
 #  stat.gold
+
+<small>
+
 - [Incremental calculator for accuracy, precion, recall, etc](#incremental-calculator-for-accuracy-precion-recall-etc) : e.g.
   - [Abcd](#abcd)
-  - [_Adds](#_adds)
-  - [_Report](#_report)
+  - [_Adds](#adds)
+  - [_Report](#report)
+
+</small>
+
 
 
 ------------------------------------------

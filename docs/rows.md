@@ -1,23 +1,29 @@
 #  rows.gold
+
+<small>
+
   - [Row](#row) : Storage for one row of data.
     - [Row](#row) : Constructor
-    - [_Dist](#_dist) : Distance between two rows
+    - [_Dist](#dist) : Distance between two rows
   - [Rows](#rows) : Storage for many rows of data, with summaries of the columns.
     - [Rows](#rows) : Constructor
-    - [_Load](#_load) : Load a csv file `f` into the table `i`
-    - [_Add](#_add) : Update `i` with `a`. First update creates the column headers.
-    - [_Header](#_header) : Initialize columns in a table.
-    - [_Data](#_data) : Add an row at some random index within `rows`.
-    - [_Dist](#_dist) : Distance between two rows.
-    - [_Far](#_far) : Return something quite far way from `r` (ignoring outliers).
-    - [_Around](#_around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
-    - [_Clone](#_clone) : Copy the structure of table `i` into a new table `j`.
-    - [_Y](#_y)
-    - [_Sample](#_sample) : Set `a` to a sample of `enough` rows from column `c`.
-    - [_Bins](#_bins) : Discretize all numeric columns in each row's `bins`.
-    - [_Bin](#_bin) : Discretize one column of numeric values in each row's `bins`.
-    - [_BinsHeader](#_binsheader) : Return a header where all the independent columns are not numbers
-    - [_SomeBins](#_somebins) : Add a new table to `out` with discretized values for some rows. 
+    - [_Load](#load) : Load a csv file `f` into the table `i`
+    - [_Add](#add) : Update `i` with `a`. First update creates the column headers.
+    - [_Header](#header) : Initialize columns in a table.
+    - [_Data](#data) : Add an row at some random index within `rows`.
+    - [_Dist](#dist) : Distance between two rows.
+    - [_Far](#far) : Return something quite far way from `r` (ignoring outliers).
+    - [_Around](#around) : Compute `out`; i.e.  pairs <row,d> listing neighbors of `r1`.
+    - [_Clone](#clone) : Copy the structure of table `i` into a new table `j`.
+    - [_Y](#y)
+    - [_Sample](#sample) : Set `a` to a sample of `enough` rows from column `c`.
+    - [_Bins](#bins) : Discretize all numeric columns in each row's `bins`.
+    - [_Bin](#bin) : Discretize one column of numeric values in each row's `bins`.
+    - [_BinsHeader](#binsheader) : Return a header where all the independent columns are not numbers
+    - [_SomeBins](#somebins) : Add a new table to `out` with discretized values for some rows. 
+
+</small>
+
 
 
 -----------------------------------------------
@@ -45,7 +51,7 @@ Constructor
 function Row(i:untyped) {
   Object(i)
   i.is = "Row"
-  i.p  = 2
+  i.P  = 2
   has(i,"cells")
   has(i,"bins") }
 ```
@@ -65,9 +71,9 @@ function _Dist(i:Row,j:Row, tab, cols,  c,pos,x,y,d,d1,n) {
     x   = i.cells[pos]
     y   = j.cells[pos]
     d1  = (x=="?" && y=="?") ? 1 : dist(tab.cols[c], x,y)
-    d  += d1^i.p
+    d  += d1^i.P
     n++ }
-  return (d/n)^(1/i.p) }
+  return (d/n)^(1/i.P) }
 ```
 
 </details></ul>
@@ -93,7 +99,7 @@ Constructor
 ```awk
 function Rows(i:untyped, a:array|) {
   Object(i); i.is = "Rows"
-  i.klass   = ""
+ i.klass   = ""
   i.use     = "xs"
   i.far     = .95
   i.arounds = 128

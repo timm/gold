@@ -1,4 +1,7 @@
 #  tests.gold
+
+<small>
+
 - [vim: ft=awk ts=2 sw=2 et :](#vim-ftawk-ts2-sw2-et-) : @include "lib"
   - [csv1](#csv1)
   - [tab0](#tab0)
@@ -10,6 +13,9 @@
   - [cluster1](#cluster1)
 - [print "better" RowsY(cl.leaves[i])](#print-better-rowsyclleavesi) :  #          print "worse"  RowsY(cl.leaves[j])
   - [BEGIN{](#begin)
+
+</small>
+
 
 
 # vim: ft=awk ts=2 sw=2 et :

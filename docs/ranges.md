@@ -1,5 +1,11 @@
 #  ranges.gold
 
+<small>
+
+
+</small>
+
+
 
 -----------------------------------------------
 Discrete ranges

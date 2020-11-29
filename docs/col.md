@@ -1,24 +1,33 @@
 #  col.gold
+
+<small>
+
   - [Abstract class: parent of all column](#abstract-class-parent-of-all-column)
     - [Col](#col) : Abstract constructor for our column.
     - [add](#add) : Polymorphic update function for columns.
     - [adds](#adds) : Add many things
     - [dist](#dist) : Distance between things.
+    - [like](#like) : Return likelihood `x` belongs to `c`
   - [Columns to be ignored.](#columns-to-be-ignored)
     - [Info](#info) : Constructor for columns we will not summarize. 
-    - [_Add](#_add) : Do nothing.
+    - [_Add](#add) : Do nothing.
   - [Summaries of columns of symbols](#summaries-of-columns-of-symbols)
     - [Sym](#sym) : Constructor for summary of symbolic columns.
-    - [_Add](#_add) : Update frequency counts, and `mode`.
-    - [_Dist](#_dist) : Distance calcs for `Sym`bols.
+    - [_Add](#add) : Update frequency counts, and `mode`.
+    - [_Dist](#dist) : Distance calcs for `Sym`bols.
+    - [_Like](#like)
   - [Summaries of columns of numbers](#summaries-of-columns-of-numbers)
     - [Num](#num) : Constructor of summary of numeric columms
-    - [_Add](#_add) : Update self, return `x`.
-    - [_Pdf](#_pdf) : Return height of the Gaussian at `x`.
-    - [_Cdf](#_cdf) : Return the area under the Gaussian from negative infinity to `x`.
-    - [_Crossover](#_crossover) : Return where two Gaussians cross in-between their means.
-    - [_Norm](#_norm) : Distance calcs for `Num`bols.
-    - [_Dist](#_dist) : Return normalized distance 0..1 between two numbers `x` and `y`.
+    - [_Add](#add) : Update self, return `x`.
+    - [_Pdf](#pdf) : Return height of the Gaussian at `x`.
+    - [_Cdf](#cdf) : Return the area under the Gaussian from negative infinity to `x`.
+    - [_Crossover](#crossover) : Return where two Gaussians cross in-between their means.
+    - [_Norm](#norm) : Distance calcs for `Num`bols.
+    - [_Dist](#dist) : Return normalized distance 0..1 between two numbers `x` and `y`.
+    - [_Like](#like)
+
+</small>
+
 
 
 -----------------------------------------------
@@ -84,6 +93,18 @@ function dist(c:Col, x,y,  f) {
 
 </details></ul>
 
+### like
+Return likelihood `x` belongs to `c`
+
+<ul><details><summary><tt>like(c:Col)</tt></summary>
+
+```awk
+function like(c:Col, x,prior,m,k,  f) {
+  f=c.is "Like"; return @f(c,x,prior,m,k) }
+```
+
+</details></ul>
+
 -----------------------------------------------
 
 ## Columns to be ignored. 
@@ -125,7 +146,7 @@ Constructor for summary of symbolic columns.
 ```awk
 function Sym(i:untyped, s:string, n:posint) { 
   Col(i,s,n); i.is="Sym"
-  i.trivial = 1.025
+  i.Trivial = 1.025
   has(i, "seen")
   i.mode= i.most= "" }
 ```
@@ -180,8 +201,20 @@ function _Better(i:Sym,j:Sym,k:untypes, x,n,ei,ej,ek) {
   ei = _Var(i) * i.n/k.n
   ej = _Var(j) * j.n/k.n
   ek = _Var(k)
-  return  (ei + ej)*i.trivial > ek }
+  return  (ei + ej)*i.Trivial > ek }
   
+
+### _Like
+
+<ul><details><summary><tt>_Like(i:Sym, x:any, prior:float, m:num, k:ignore)</tt></summary>
+
+```awk
+function _Like(i:Sym,x:any,prior:float,m:num,k:ignore,   f) {
+   f = x in i.seen ? i.seen[x] : 0
+   return (f+ i.M*prior) / (i.n + i.M) }
+```
+
+</details></ul>
 
 -----------------------------------------------
 
@@ -295,6 +328,20 @@ function _Dist(i:Num, x:atom, y:atom|20) {
   else             { x= _Norm(i,x)
                      y= _Norm(i,y) }
   return abs(x- y) }
+```
+
+</details></ul>
+
+### _Like
+
+<ul><details><summary><tt>_Like(i:Num, x:any, prior:ignore, m:ignore, k:ignore)</tt></summary>
+
+```awk
+function _Like(i:Num, x:any, prior:ignore, m:ignore,k:ignore var,denom,num) {
+  var   = i.sd^2
+  denom = (Gold.pi*2*var)^.5
+  num   =  Gold.e^(-(x-i.mu)^2/(2*var+0.0001))
+  return num/(denom + 1E-64) }
 ```
 
 </details></ul>
