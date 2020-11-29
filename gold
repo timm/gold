@@ -67,24 +67,15 @@ mytmux() {
     tmux attach-session -t $session
   fi
 }
-
-indexmd() {
-  cd $GOLD/docs
-  gawk 'BEGIN { RS=""; FS="\n"} 
-        FNR==1 { gsub(/\(#/, "(" FILENAME "#")
-                 print "\n" 
-                 for(i=1;i<=NF;i++)
-                   if ($i !~ /^   /) 
-                     print $i
-       }
-       ' `ls *.md | grep -v index.md`  > index.md
-}
 toc() { 
 
 
 gawk '
+    BEGIN       { print "<small>" }
                 { Body=Body "\n" $0 }
-    END         { print Body }
+    END         { print "</small>"
+                  print Body 
+                }
     /^# /       { print "- ["title($0)"](#"link($0)")" help()}
     /^## /      { print "  - ["title($0)"](#"link($0)")" help()}
     /^### /     { print "    - ["title($0)"](#"link($0)")" help()}
@@ -96,7 +87,7 @@ gawk '
     function link(x)  { 
       x=tolower(trim(x))
       gsub(/[ \t]+/,"-",x)
-      gsub(/[^a-z0-9_-]/,"",x); 
+      gsub(/[^a-z0-9-]/,"",x); 
       gsub(/^-/,"",x)
       return x }
     
@@ -208,7 +199,6 @@ elif [ "$1" == "-d" ]; then
        cat $f | body  | toc /docs/$(basename $g) >> $g
      fi
    done
-   indexmd
 elif [ "$1" == "-T" ]; then
   mytmux
 elif [ "$1" == "-t" ]; then
