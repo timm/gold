@@ -52,7 +52,11 @@ indexmd() {
   cd $GOLD/docs
   gawk 'BEGIN { RS=""; FS="\n"} 
         FNR==1 { gsub(/\(#/, "(" FILENAME "#")
-                 print "\n" $0 }
+                 print "\n" 
+                 for(i=1;i<=NF;i++)
+                   if ($i !~ /^   /) 
+                     print $i
+       }
        ' `ls *.md | grep -v index.md`  > index.md
 }
 toc() { 
@@ -181,6 +185,7 @@ elif [ "$1" == "-d" ]; then
        cat $f | body  | toc /docs/$(basename $g) >> $g
      fi
    done
+   indexmd
 elif [ "$1" == "-t" ]; then
   if [ -f "$src/tests.gold" ]; then
     cd $GOLD/src
