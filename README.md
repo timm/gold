@@ -8,7 +8,7 @@
 ![](https://img.shields.io/badge/platform-osx%20,%20linux-orange)    
 ![](https://img.shields.io/badge/language-gawk,bash-blue)  
 ![](https://img.shields.io/badge/purpose-ai%20,%20se-blueviolet)  
-[![Build Status](https://travis-ci.com/timm/gold.svg?branch=main)](https://travis-ci.com/timm/gold)   
+[![Build Status](https://travis-ci.com/timm/gold.svg?branch=master)](https://travis-ci.com/timm/gold)
 ![](https://img.shields.io/badge/license-mit-lightgrey)  
 [home](http://menzies.us/gold)  ::
 [about](http://menzies.us/keys/about.html) ::
