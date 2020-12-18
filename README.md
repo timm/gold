@@ -1,4 +1,4 @@
-<img align=right width=250
+<img align=right width=400
  src="https://raw.githubusercontent.com/timm/gold/master/etc/img/coins.png">
 
 # GOLD= Gawk + Goodies
