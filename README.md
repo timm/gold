@@ -4,11 +4,11 @@
 # GOLD= Gawk + Goodies
 
 
-[![DOI](https://zenodo.org/badge/318809834.svg)](https://zenodo.org/badge/latestdoi/318809834)  
+[![DOI](https://zenodo.org/badge/237838701.svg)](https://zenodo.org/badge/latestdoi/237838701)
 ![](https://img.shields.io/badge/platform-osx%20,%20linux-orange)    
 ![](https://img.shields.io/badge/language-gawk,bash-blue)  
 ![](https://img.shields.io/badge/purpose-ai%20,%20se-blueviolet)  
-[![Build Status](https://travis-ci.com/timm/keys.svg?branch=main)](https://travis-ci.com/timm/keys)   
+[![Build Status](https://travis-ci.com/timm/gold.svg?branch=main)](https://travis-ci.com/timm/gold)   
 ![](https://img.shields.io/badge/license-mit-lightgrey)  
 [home](http://menzies.us/gold)  ::
 [about](http://menzies.us/keys/about.html) ::
