@@ -25,23 +25,23 @@ GOLD: a preprocessor for AWK code
 (c) 2020 MIT License, Tim Menzies timm@ieee.org
 
         _.-'~~`~~'-._
-     .'`  J   E   C  `'.
-    / B               T \
+     .'`  M   P   L  `'.
+    / I               E \
   /`       .-'~"-.       `\
- ; O      / `-    \      S ;
+ ; S      / `-    \      R ;
 ;        />  `.  -.|        ;
 |       /_     '-.__)       |
 |        |-  _.' \ |        |
 ;        `~~;     \\        ;
- ; IN awk  /      \\)P    ;
-  \WE TRUST '.___.-'`"     /
+ ; IN AWK  /      \\)P    ;
+  \WE TRUST'.___.-'`"     /
    `\                   /`
      '._   2 0 2 0   _.'
  jgs    `'-..,,,..-'`
 
 EOF
   tput sgr0; tput setaf 7; cat<<'EOF'
-Augments standard awk with polymorphism, encapsulation, objects, 
+Augments standard gawk with polymorphism, encapsulation, objects, 
 attributes, methods, iterators, unit tests, multi-line comments.
 
 INSTALL:
@@ -64,7 +64,7 @@ chmod +x xx.awk and add the top line:
 If called via ". gold.sh" then the following alias are defined:
 EOF
   tput setaf 9; echo ""
-  awk 'sub(/^[ \t]*alias/,"alias") {print $0}' $Gold/gold.sh
+  gawk 'sub(/^[ \t]*alias/,"alias") {print $0}' $Gold/gold.sh
   tput sgr0
 }
 
@@ -84,7 +84,7 @@ exists() {
 }
 
 ## any line containing FAIL or PASS gets shown in RED or GREEN
-redgreen() { awk '
+redgreen() { gawk '
      /^---/ { $0="\033[01;36m"$0"\033[0m" }
      /FAIL/ { bad++; $0="\033[31m"$0"\033[0m" }
      /PASS/ { $0="\033[32m"$0"\033[0m" }
@@ -108,7 +108,7 @@ for i in $(find $Golds -name "*.awk"); do
   g=$(basename $f)
   g=$Lib/${g%.*}.awk
   if [ "$f" -nt "$g" ]; then 
-     awk -f $Lib/gold.awk --source 'BEGIN { gold2awk("'$f'")}' > $g 
+     gawk -f $Lib/gold.awk --source 'BEGIN { gold2awk("'$f'")}' > $g 
   fi
 done
 
@@ -156,7 +156,7 @@ elif [ "$1" == "-p" ]; then
   g=$Lib/${g%.*}.awk
   shift; shift
   AWKPATH="$Lib:./:$AWKPATH"
-  COM="awk -p -f $Lib/gold.awk -f $g $*"
+  COM="gawk -p -f $Lib/gold.awk -f $g $*"
   if [ -t 0 ]
     then         AWKPATH="$AWKPATH" $COM
     else cat - | AWKPATH="$AWKPATH" $COM
@@ -169,7 +169,7 @@ elif [ -n "$1" ]; then
   g=$Lib/${g%.*}.awk
   shift
   AWKPATH="$Lib:./:$AWKPATH"
-  COM="awk -f $Lib/gold.awk -f $g $*"
+  COM="gawk -f $Lib/gold.awk -f $g $*"
   if [ -t 0 ]
     then         AWKPATH="$AWKPATH" $COM
     else cat - | AWKPATH="$AWKPATH" $COM
