@@ -9,6 +9,6 @@ install:
 
 script:
   - gawk -W version
-  - chmod +x auk.sh
-  - bash auk.sh -T
+  - chmod +x gold.sh
+  - bash gold.sh -T
 
