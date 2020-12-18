@@ -29,8 +29,8 @@ function gold2awk(f,  klass,tmp) {
 ### object creation stuff
 function Obj(i)   { i["id"] = ++Gold["id"] }
 
-function is(i, new,old) {
-  if ("is" in i) Gold["is"][new] = old
+function is(i, new) {
+  if ("is" in i) Gold["is"][new] = i["is"]
   i["is"] = new }
 
 function new(i,k) { i[k]["\127"]; delete i[k]["\127"] }
@@ -60,7 +60,11 @@ function morE(i,f,x)     { haS(i,length(i)+1,f,x)     }
 function moRE(i,f,x,y)   { hAS(i,length(i)+1,f,x,y)   }
 function mORE(i,f,x,y,z) { HAS(i,length(i)+1,f,x,y,z) }
 
-### list stuff
+### math stuff
+function abs(x)   { return x<0? -1*x : x }
+function max(x,y) { return x<y? y : x }
+function min(x,y) { return x>y? y : x }
+
 ## push to end of list
 function push(x,a) { a[length(a)+1]=x; return x }
 

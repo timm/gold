@@ -1,7 +1,7 @@
 <img align=right width=400
  src="https://raw.githubusercontent.com/timm/gold/master/etc/img/coins.png">
 
-# GOLD= Gawk + Goodies
+# GOLD= Gawk Goodies
 
 
 [![DOI](https://zenodo.org/badge/237838701.svg)](https://zenodo.org/badge/latestdoi/237838701)  
@@ -23,7 +23,7 @@ attributes, methods, iterators, unit tests, multi-line comments.
 
 Interestingly,  most of that comes from:
 
-- [13 lines of a Gawk transpiler](https://github.com/timm/gold/blob/master/goal.awk#L13-L26)
+- [13 lines of a Gawk transpiler](https://github.com/timm/gold/blob/master/gold.awk#L13-L26)
 from Gold code into the standard Gawk syntax.
 - About [25 lines of runtime support](https://github.com/timm/gold/blob/master/gold.awk#L28-L52)
   code.
@@ -32,7 +32,6 @@ from Gold code into the standard Gawk syntax.
 
 - Install everything in [requirements.txt](requirements.txt).
 - See [INSTALL.md](INSTALL.md)
-
  
 
 ## USAGE:

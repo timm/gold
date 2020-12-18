@@ -23,7 +23,7 @@ def. scale (v):
 BEGIN {   
   Gold.scale.Tab.samples = 64
   Gold.scale.Some.div.min = 0.5
-  Gold.scale.Some.div.epsilon = 0.3
+  Gold.scale.Some.div.epsilon = 0.35
 }
 
 ### shortcuts
@@ -67,24 +67,13 @@ function _Ent(i,      p,e,x) {
       e -= p*log(p)/log(2);
   return e }
 
-function _Combine(i,j,k,  x) {
-  Sym(k) 
-  copy(i,k)
-  k.n = i.n + j.n
-  k.xlo = i.xlo < j.xlo ? i.xlo : j.xlo
-  k.xhi = i.xhi > j.xhi ? i.xhi : j.xhi
-  for(x in j.seen) {
-    k.seen[x] += j.seen[x]
-    if (k.seen[x] > k.most) {
-       k.most = k.seen[x]
-       k.mode = x  }}}
-
-function _Seperate(i,j,k,       ei,ej,ek) {
+function _Seperate(i,j,k,       ei,ej,both,parts) {
   _Combine(i,j,k) 
   ei = _Ent(i)
   ej = _Ent(j)
-  ek = _Ent(k)
-  return (ei*i.n + ej*j.n)/k.n < ek }
+  both = _Ent(k)
+  parts = (ei*i.n + ej*j.n)/k.n 
+  return  abs(both - parts)/both > 0.05 }
 
 ##columns of numbers, from which we will keep a sample
 function Some(i,pos,txt) {
@@ -138,7 +127,7 @@ function _Discretize(i,x,     j) {
       if( x<=i.bins[j] ) return j
     return j }}
      
-function _Bins(i,     eps,min,b,n,lo,hi,b4,len) {
+function _Bins(i,     eps,min,b,n,lo,hi,b4,len,merge) {
   if (!length(i.bins)) {
      _Ok(i)
     eps = Gold.scale.Some.div.epsilon
@@ -152,12 +141,13 @@ function _Bins(i,     eps,min,b,n,lo,hi,b4,len) {
     b   = b4 = 0
     for(hi=n; hi <= len-n; hi++) {
       if (hi - lo > n) 
-        if (i.all[hi] != i.all[hi+1]) 
-          if (b4==0 || (   _Mid(i,lo,hi) - b4) >= eps) {
-            i.bins[++b]   = i.all[hi]
-            b4  = _Mid(i,lo,hi)
-            lo  = hi
-            hi += n }}}}
+        if (i.all[hi] != i.all[hi+1])  
+          if ((i.all[hi] - i.all[lo]) >= eps)  
+            if (b4==0 || (   _Mid(i,lo,hi) - b4) >= eps) {
+              i.bins[++b]   = i.all[hi]
+              b4  = _Mid(i,lo,hi)
+              lo  = hi
+              hi += n }}}}
 
 ### rows of data
 function Row(i,a,t,     j) {

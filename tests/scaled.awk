@@ -18,8 +18,10 @@ function main(f,    c,i,j,n,s,order,len) {
   Tab(i)
   TabRead(i,data(f ? f : "weather") )
   TabDom(i,order)
-  len=length(i.rows)
-  for(j in i.rows) { print i.rows[j].group  } # j } # i.rows[j].group }
+  SomeBins(i.cols[4])
+  print o(i.cols[4].bins)
+  print(len)
+  #for(j in i.rows) { print i.rows[j].group  } # j } # i.rows[j].group }
 }
 
 function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }
