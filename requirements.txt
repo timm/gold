@@ -1,0 +1,9 @@
+# essential
+bash
+gawk > 5.1
+curl
+tput
+
+# optional. useful for command-line junkies
+vim 
+tmux

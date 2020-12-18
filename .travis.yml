@@ -1,6 +1,4 @@
-language: C
-
-sudo: true
+language: c
 
 install:
   - wget -O gawk.tar.gz https://ftp.gnu.org/gnu/gawk/gawk-5.1.0.tar.gz
@@ -9,8 +7,8 @@ install:
   - ./configure; sudo make; sudo make install
   - cd ..
 
-
 script:
-  - chmod +x gold.sh
-  - sh gold.sh --tests
+  - awk -W version
+  - chmod +x auk.sh
+  - bash auk.sh -T
 
