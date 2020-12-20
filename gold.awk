@@ -85,7 +85,8 @@ function copy(a,b,   j) {
       b[j] = a[j] }
 
 function append(a, x,k) { 
-   k = new(a, length(a)+1) 
+   k = length(a) 
+   new(a,k)
    copy(x, a[k]) }
 
 ### sort a list on some named field `k`
