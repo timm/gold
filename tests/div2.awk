@@ -26,7 +26,7 @@ function div2sd(a,  n) {
   return (a[int(.9*n)].x - a[int(.1*n)].x) / 2.56 }
 
 function div2gather(p,lst1,lst2,max,at,    j,v,n) {
-#  split("",lst2,"")
+  split("",lst2,"")
   for(j in lst1) 
     if(rand() < p) {
       v = x(lst1[j],at)
@@ -49,11 +49,12 @@ function div2split(lst2,lst3,eps,min,goal,
   for(hi=1; hi <= len; hi++) {
     if (hi - lo > n) 
       if (hi <= len - n)
-        if (lst2[hi].x != lst2[hi+1].x)  {
+        if (lst2[hi].x != lst2[hi+1].x)  
+          if (lst2[hi].x - lst2[lo].x >= eps)
             if (all==1 || ( div2mid(lst2,lo,hi) - b4) >= eps) {
               lst3[ ++all ].x = lst2[hi].x
               b4 = div2mid(lst2,lo,hi)
-              lo = hi }}
+              lo = hi }
     lst3[all].n++
     y = lst2[hi].y 
     y = goal=="" ? y : (y==goal ? goal : - goal) 
@@ -64,6 +65,7 @@ function div2merge(b4,out,    shorter,n1,n2,j,now,tmp) {
   j= 1
   while(j <= n1) {
     new(tmp,++n2)
+    delete now
     if (j < n1)
       if(div2merge1(b4[j], b4[j+1], now)) {
         copy(now, tmp[n2])
@@ -75,7 +77,6 @@ function div2merge(b4,out,    shorter,n1,n2,j,now,tmp) {
   shorter ? div2merge(tmp,out) : copy(b4,out) }
 
 function div2merge1(one,two,three,    y,e1,e2,e3) {
-  delete three
   copy(one,three)
   three.x = max(one.x,two.x)
   for(y in two.y) three.y[y] += two.y[y]
