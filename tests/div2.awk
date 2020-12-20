@@ -56,7 +56,7 @@ function div2split(lst2,lst3,eps,min,goal,
               lo = hi }}
     lst3[all].n++
     y = lst2[hi].y 
-    y = goal=="" ? y : (y==goal ? goal : -1*goal)
+    y = goal=="" ? y : (y==goal ? goal : - goal) 
     lst3[all].y[ y ]++ }}
      
 function div2merge(b4,out,    shorter,n1,n2,j,now,tmp) {
@@ -83,7 +83,6 @@ function div2merge1(one,two,three,    y,e1,e2,e3) {
   e1      = ent(one.y,   one.n)
   e2      = ent(two.y,   two.n)
   e3      = ent(three.y, three.n)
-  #print(o(one.y) "|",o(two.y) "|", one.n, two.n, three.n, "e1",e1,"e2",e2,"e3",e3)
   return (e1*one.n + e2*two.n)/three.n <= e3*.95 }
 
 function main(f,    i,c,bins,goal) {
