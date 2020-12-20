@@ -204,7 +204,9 @@ function _Dom(i,  n,j,k,s) {
         i.rows[j].dom += RowDom(i.rows[j], i.rows[k],i)}
     add(s,i.rows[j].dom) }
    for(j in i.rows)
-      i.rows[j].y = SomeDiscretize(s, i.rows[j].dom)  }
+      i.rows[j].y = SomeDiscretize(s, i.rows[j].dom)  
+   return length(s.bins)+1 }
+
 
 function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
 

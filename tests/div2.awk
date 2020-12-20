@@ -13,12 +13,13 @@ function div2(lst1,lst4, max,at,eps,min,goal,
               lst2,lst3) {
   div2gather(max/length(lst1),lst1,lst2,max,at) 
   div2split(lst2,lst3,eps,min,goal) 
+  print(length(lst3))
   div2merge(lst3, lst4)  }   
 
 function div2mid(a,lo,hi) { 
   lo = lo ? lo : 1
   hi = hi ? hi : length(a)
-  return a[ int(.5*length(a)) ].x }
+  return a[ int(lo + .5*(hi-lo)) ].x }
 
 function div2sd(a,  n) { 
   n = length(a)
@@ -48,14 +49,14 @@ function div2split(lst2,lst3,eps,min,goal,
   for(hi=1; hi <= len; hi++) {
     if (hi - lo > n) 
       if (hi <= len - n)
-        if (lst2[hi].x != lst2[hi+1].x)  
-            if (b4=="" || ( div2mid(lst2,lo,hi) - b4) >= eps) {
+        if (lst2[hi].x != lst2[hi+1].x)  {
+            if (all==1 || ( div2mid(lst2,lo,hi) - b4) >= eps) {
               lst3[ ++all ].x = lst2[hi].x
               b4 = div2mid(lst2,lo,hi)
-              lo = hi }
+              lo = hi }}
     lst3[all].n++
     y = lst2[hi].y 
-    y = goal=="" ? y : y==goal
+    y = goal=="" ? y : (y==goal ? goal : -1*goal)
     lst3[all].y[ y ]++ }}
      
 function div2merge(b4,out,    shorter,n1,n2,j,now,tmp) {
@@ -82,15 +83,17 @@ function div2merge1(one,two,three,    y,e1,e2,e3) {
   e1      = ent(one.y,   one.n)
   e2      = ent(two.y,   two.n)
   e3      = ent(three.y, three.n)
-  return (e1*one.n + e2*two.n)/three.n < e3 }
+  #print(o(one.y) "|",o(two.y) "|", one.n, two.n, three.n, "e1",e1,"e2",e2,"e3",e3)
+  return (e1*one.n + e2*two.n)/three.n <= e3*.95 }
 
-function main(f,    i,c) {
+function main(f,    i,c,bins,goal) {
   Tab(i)
   TabRead(i,data(f ? f : "weather") )
-  TabDom(i)
+  goal=TabDom(i)
+  print("goal",goal)
   for(c in i.cols)
     if(i.cols[c].is=="Some") {
-      div2(i.rows, bins, 128, i.cols[c].pos, .35, .5)
+      div2(i.rows, bins, 128, i.cols[c].pos, .2, .5,goal)
       print("=============")
       oo(bins,":"i.cols[c].pos)}}
 
