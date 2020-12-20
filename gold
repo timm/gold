@@ -9,7 +9,7 @@ Lib=$HOME/opt/share/awk
 ## Where to get missing files
 Repo="https://raw.githubusercontent.com/timm/gold/master"
 
-## install directory for gold. defaults to where the gold.sh is
+## install directory for gold. defaults to where the gold is
 Gold=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 
 ## where to find code to compile
@@ -45,26 +45,26 @@ Augments standard gawk with polymorphism, encapsulation, objects,
 attributes, methods, iterators, unit tests, multi-line comments.
 
 INSTALL:
-   chmod +x gold.sh; ./gold.sh -i
+   chmod +x gold; ./gold -i
 
 USAGE:
-  ./gold.sh               convert .awk files in src and test to shared
-  ./gold.sh -h            as above, also prints this help text
-  ./gold.sh xx.awk        as above, then runs xx.awk
-  ./gold.sh xx            ditto
-  Com | ./gold.sh xx.awk  as above, taking input from Com
-  Com | ./gold.sh xx      ditto
-  . gold.sh               adds some bash tools to local enviroment
+  ./gold               convert .awk files in src and test to shared
+  ./gold -h            as above, also prints this help text
+  ./gold xx.awk        as above, then runs xx.awk
+  ./gold xx            ditto
+  Com | ./gold xx.awk  as above, taking input from Com
+  Com | ./gold xx      ditto
+  . gold               adds some bash tools to local enviroment
 
 Alternatively, to execute your source file directly using ./xx.awk,
 chmod +x xx.awk and add the top line:
 
-  #!/usr/bin/env path2gold.sh
+  #!/usr/bin/env path2gold
 
-If called via ". gold.sh" then the following alias are defined:
+If called via ". gold" then the following alias are defined:
 EOF
   tput setaf 9; echo ""
-  gawk 'sub(/^[ \t]*alias/,"alias") {print $0}' $Gold/gold.sh
+  gawk 'sub(/^[ \t]*alias/,"alias") {print $0}' $Gold/gold
   tput sgr0
 }
 
@@ -122,13 +122,13 @@ if [ "$1" == "-h" ]; then
 ## test one file in $Gold/tests
 elif [ "$1" == "-t" ]; then
   cd $Gold/tests
-  $Gold/gold.sh $2.awk | redgreen
+  $Gold/gold $2.awk | redgreen
   exit $?
 
 ## test all files in $Gold/tests, 
 elif [ "$1" == "-T" ]; then
   cd $Gold/tests
-  $Gold/gold.sh tests.awk | redgreen
+  $Gold/gold tests.awk | redgreen
   exit $?
 
 ## install lots of important files
@@ -177,11 +177,11 @@ elif [ -n "$1" ]; then
 
 ## if none of the above, install some cool Bash toys
 else
-  alias gold='$Gold/gold.sh '                 # short cut to this code
+  alias gold='$Gold/gold '                 # short cut to this code
   alias gp='git add *;git commit -am save;git push;git status' # gh stuff
   alias gs='git status'                    # status 
   alias ls='ls -G'                         # ls
-  alias reload='. $Gold/gold.sh'             # reload these tools
+  alias reload='. $Gold/gold'             # reload these tools
   alias vims="vim +PluginInstall +qall"    # install vim plugins 
   alias vi="vim -u $Gold/etc/.vimrc"        # run a configured vim
 fi

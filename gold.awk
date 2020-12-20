@@ -33,7 +33,8 @@ function is(i, new) {
   if ("is" in i) Gold["is"][new] = i["is"]
   i["is"] = new }
 
-function new(i,k) { i[k]["\127"]; delete i[k]["\127"] }
+function new(i,k) { 
+  i[k]["\127"]; delete i[k]["\127"]; return k}
 
 function does(i,f,      s,k0,k) {
   k = k0 = i["is"]
@@ -64,6 +65,11 @@ function mORE(i,f,x,y,z) { HAS(i,length(i)+1,f,x,y,z) }
 function abs(x)   { return x<0? -1*x : x }
 function max(x,y) { return x<y? y : x }
 function min(x,y) { return x>y? y : x }
+function ent(d,n,   x,p,e) {
+  for(x in d) 
+    if((p = d[x]/n) > 0)
+       e  -= p*log(p)/log(2)
+  return e }
 
 ## push to end of list
 function push(x,a) { a[length(a)+1]=x; return x }
@@ -78,6 +84,10 @@ function copy(a,b,   j) {
     else
       b[j] = a[j] }
 
+function append(a, x,k) { 
+   k = new(a, length(a)+1) 
+   copy(x, a[k]) }
+
 ### sort a list on some named field `k`
 # `keysort` modifies the urinal list while `keysorT` returns
 # a sorted copy.
@@ -90,7 +100,7 @@ function keysrt(i1,x,i2,y) {
 
 function keysrtCompare(x,y) { return x<y ? -1 : (x==y?0:1) }
 
-## flat list to string. optionally, show `prefix`
+## flat list to string. Optionally, show `prefix`
 function o(a, prefix,     i,sep,s) {
   for(i in a) {s = s sep prefix a[i]; sep=","}
   return  s }

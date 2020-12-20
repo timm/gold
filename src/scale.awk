@@ -158,7 +158,7 @@ function Row(i,a,t,     j) {
   for(j in a) i.cells[j] = add(t.cols[j], a[j]) }
 
 function _Dom(i,j,t,   
-                 n,e,c,w,x,y,sum1,sum2) {
+              n,e,c,w,x,y,sum1,sum2) {
   n = length(t.ys)
   for(c in t.ys) {
     w     = t.cols[c].w
@@ -194,7 +194,7 @@ function _Add(i,a,    j) {
     for(j in a)
       hAS(i.cols, j,  _What(i,j,a[j]), j, a[j]) }
 
-function _Dom(i,order,   n,j,k,s) {
+function _Dom(i,  n,j,k,s) {
   Some(s)
   for(j in i.rows) {
     n= Gold.scale.Tab.samples
@@ -204,7 +204,7 @@ function _Dom(i,order,   n,j,k,s) {
         i.rows[j].dom += RowDom(i.rows[j], i.rows[k],i)}
     add(s,i.rows[j].dom) }
    for(j in i.rows)
-      i.rows[j].group = SomeDiscretize(s, i.rows[j].dom)  }
+      i.rows[j].y = SomeDiscretize(s, i.rows[j].dom)  }
 
 function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
 
@@ -218,7 +218,7 @@ function Nb(i,cols,rows) {
 function _Adds(i,cols,rows,    r,y,c,x) {
   for(r in rows)  {
     i.n++
-    y = rows[r].group
+    y = rows[r].y
     i.h[y]++
     for(c in i.cols) 
       if(x= discretize(i.cols[c], r.cells[c])) {

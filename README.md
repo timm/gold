@@ -38,28 +38,28 @@ from Gold code into the standard Gawk syntax.
 
 |com|notes|
 |---|-----|
-|  ./gold.sh              | convert .awk files in src and test to shared|
-|  ./gold.sh -h           | as above, also prints this help text|
-|  ./gold.sh xx.awk       | as above, then runs xx.awk|
-|  ./gold.sh xx           | ditto|
-|  Com \| ./gold.sh xx.awk | as above, taking input from Com|
-|  Com \| ./gold.sh xx     | ditto|
-|  . gold.sh               |adds some bash tools to local environment|
+|  ./gold               | convert .awk files in src and test to shared|
+|  ./gold -h            | as above, also prints this help text|
+|  ./gold xx.awk        | as above, then runs xx.awk|
+|  ./gold xx            | ditto|
+|  Com \| ./gold xx.awk | as above, taking input from Com|
+|  Com \| ./gold xx     | ditto|
+|  . gold               |adds some bash tools to local environment|
 
 Alternatively, to execute your source file directly using ./xx.awk,
 chmod +x xx.awk and add the top line:
 
-      #!/usr/bin/env path2gold.sh
+      #!/usr/bin/env path2gold
 
-If called via ". Gold.sh" then the following alias are defined:
+If called via ". gold" then the following alias are defined:
 
 ```
-  Gold= directory of gold.sh
-  alias gold='$Gold/gold.sh '              # short cut to this code
+  Gold= directory of gold
+  alias gold='$Gold/gold '              # short cut to this code
   alias gp='git add *;git commit -am save;git push;git status' # gh stuff
-  alias gs='git status'                    # status 
-  alias ls='ls -G'                         # ls
-  alias reload='. $Gold/gold.sh'           # reload these tools
-  alias vims="vim +PluginInstall +qall"    # install vim plugins 
-  alias vi="vim -u $Gold/etc/.vimrc"       # run a configured vim
+  alias gs='git status'                 # status 
+  alias ls='ls -G'                      # ls
+  alias reload='. $Gold/gold'           # reload these tools
+  alias vims="vim +PluginInstall +qall" # install vim plugins 
+  alias vi="vim -u $Gold/etc/.vimrc"    # run a configured vim
 ```  
