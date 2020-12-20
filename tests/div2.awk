@@ -26,7 +26,7 @@ function div2sd(a,  n) {
   return (a[int(.9*n)].x - a[int(.1*n)].x) / 2.56 }
 
 function div2gather(p,lst1,lst2,max,at,    j,v,n) {
-  split("",lst2,"")
+#  split("",lst2,"")
   for(j in lst1) 
     if(rand() < p) {
       v = x(lst1[j],at)
