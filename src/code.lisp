@@ -24,10 +24,26 @@
         (setf most now
               mode x)))))
 
-; (defmethod add ((i num) x)
-;   (with-slots (ok l max)
-;     (cond ((< (length l) max) (setf ok nil) (push x l))
-;           ((= (length l) max) (setf ok nil) (push x l) (sort l #<))
-;           (t 1))))
+(defmethod add1 ((i sample) x)
+  (with-slots (ok l max) i
+    (cond ((< (length l) max) 
+           (push x l) 
+           (setf ok nil))
+          ((< (randi) (/ max (length l))) 
+           (setf (nth (randi (length l)) l) x) 
+           (setf ok nil)))))
 
-(dotimes (_ 100) (print (randf 1)))
+(defmethod items ((i sample))
+  (with-slots (ok l) i
+    (unless ok
+      (setf ok t)
+      (sort (? i l) #'<))
+    l))
+
+; add optionals lo hi
+(defmethod mid  ((i sample)) (per i .5))
+(defmethod sd   ((i sample)) (/ (- (per i .9) (per i .1)) 2.56))
+(defmethod per ((i sample) &optional (p 0.5) (lo 0) (hi (length (? i l))))
+  (nth (floor (+ lo (* p (- hi lo)))) (items i)))
+
+

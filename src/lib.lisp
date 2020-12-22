@@ -38,6 +38,8 @@
                 (sort slots  #'string<))))
     (format nil "~a#<~a~{ ~a~}>#" pre (class-name (class-of it)) lst)))
 
+(defun symbol< (x y) (string< (symbol-name x) (symbol-name y)))
+
 (let* ((seed0      10013)
        (seed       seed0)
        (multiplier 16807.0d0)
