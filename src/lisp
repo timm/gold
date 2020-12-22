@@ -1,0 +1,7 @@
+l() {
+  f=$1
+  shift
+  $(which sbcl) --script $f $* 2> >(gawk '{print}
+                                          /^5:/ {exit}')
+}
+
