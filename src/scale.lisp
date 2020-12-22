@@ -7,7 +7,7 @@
                more  #\>
                num   #\$
                klass #\!)
-    sample (     max 128
+    sample (   max 128
                step .5
                cohen .3
                trivial 1.05)
