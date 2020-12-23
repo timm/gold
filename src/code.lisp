@@ -1,3 +1,5 @@
+; vim: noai:ts=2:sw=2:et:
+
 (defklass col    ()    (pos 0) (txt "") (n 0) (w 1))
 (defklass sym    (col) seen (most 0) mode)
 (defklass sample (col) ok l (max (my sample max)) bins)
@@ -5,7 +7,7 @@
 
 (defun col+ (&key (isa 'num) (pos 0) (txt ""))
   (let ((tmp (make-instance isa :txt txt :pos pos)))
-    (setf  (? tmp w) (if  (is 'less txt) -1 1))
+    (setf  (? tmp w) (if  (has txt :less ) -1 1))
     tmp))
 
 (defmethod add ((i col) x)
@@ -55,6 +57,9 @@
               (/ (x - (per i 0) 
                     (- (per i 1) (per i 0) x) 1E-32)))))
 
+(defmethod prep((i col) x)    (string-trim '(#\Space #\Tab #\Newline) x))
+(defmethod prep((i sample) x) (read-from-string x))
+
 (defmethod split ((i sample))
   (let*((a   (items i))
         (all (length a))
@@ -90,5 +95,22 @@
       (incf out)
       (if (< x n) (return-from discretize out)))))
 
-
+(defun csv (file f)
+  (let (metas (pos -1))
+    (labels 
+      ((words (s &optional (x 0) (y (position #\, s :start (1+ x))))
+              (cons (subseq s x y)) (and y (words s (1+ y))))
+       (what (txt) (cond ((has txt :skip) 'skip)
+                         ((has txt :less :more :num) 'sample)
+                         (t 'sym)))
+       (meta (txt) 
+              (make-instance  (what txt) :txt txt :pos (incf pos))))
+      (with-open-file (str file) 
+        (loop 
+          (let* ((s  (or (read-line str nil)
+                         (return-from csv)))
+                 (xs (words s)))
+            (if metas
+              (funcall f (mapcar #'(lambda(i x) (prep i x)) meta xs))
+              (setf metas (mapcar #'meta xs)))))))))
 
