@@ -3,12 +3,31 @@
 (defklass col    (thing)    (pos 0) (txt "") (n 0) (w 1))
 (defklass sym    (col) seen (most 0) mode)
 (defklass sample (col) ok l (max (my sample max)) bins)
-(defklass skip  (col))
+(defklass skip   (col))
+(defklass row    (thing) (dom 0) cells)
+(defklass tbl    (thing) xs ys rows cols)
+
+(defun tbl+ (&optional lst &aux (tbl (make-instance 'tbl)))
+  (dolist (one lst tbl) (add tbl one)))
+
+(defmethod add ((i tbl) (r row)) (add i (? r cells)))
+(defmethod add ((i tbl) (lst cons)) 
+  (with-slots (cells rows) i
+    (if cols
+      (push (row+ lst i) rows)
+      (setf cols (cols+ i lst)))))
+
+(defmethod cols+ ((i tbl) lst &aux (n 0))
+  (labels ((what (txt) (if (has txt :less :more :num) 'sample 'sym)))
+    (mapcar #'(lambda (x) (col+ :isa (what x):pos (incf n) :txt x)) lst))
 
 (defun col+ (&key (isa 'sym) (pos 0) (txt ""))
   (let ((tmp (make-instance isa :txt txt :pos pos)))
     (setf  (? tmp w) (if  (has txt :less ) -1 1))
     tmp))
+
+(defun row+ (lst tbl &aux (make-instance 'row))
+  (setf (? r cells) (mapcar #'add (? tbl cols) lst)))
 
 (defmethod add ((i col) x)
   (unless (equal x "?")
@@ -46,16 +65,13 @@
 
 (defmethod mix((i sym))
  (let ((ent 0))
-  (loop for (key . val) in (? i seen) 
+  (loop for (key . val) in (? i seen) do
+    (print `(key ,key val ,val))
     (when (> val 0)
       (let ((p (/ val (? i n))))
-       (decf ent (* p (log p))) )))
+       (decf ent (* p (log p 2))) )))
   ent))
 
-(let ((s (make-sym)))
-  (dolist (a '(a b c d e f))
-     (add s a))
-  (print (mix s)))
 
 (defmethod items ((i sample))
   (with-slots (ok l) i
