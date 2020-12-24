@@ -1,11 +1,11 @@
 ; vim: noai:ts=2:sw=2:et:
 
-(defklass col    ()    (pos 0) (txt "") (n 0) (w 1))
+(defklass col    (thing)    (pos 0) (txt "") (n 0) (w 1))
 (defklass sym    (col) seen (most 0) mode)
 (defklass sample (col) ok l (max (my sample max)) bins)
 (defklass skip  (col))
 
-(defun col+ (&key (isa 'num) (pos 0) (txt ""))
+(defun col+ (&key (isa 'sym) (pos 0) (txt ""))
   (let ((tmp (make-instance isa :txt txt :pos pos)))
     (setf  (? tmp w) (if  (has txt :less ) -1 1))
     tmp))
@@ -40,9 +40,22 @@
 
 ; add optionals lo hi
 (defmethod mid  ((i sample)) (per i .5))
-(defmethod sd   ((i sample)) (/ (- (per i .9) (per i .1)) 2.56))
+(defmethod mix  ((i sample)) (/ (- (per i .9) (per i .1)) 2.56))
 (defmethod per ((i sample) &optional (p 0.5) (lo 0) (hi (length (? i l))))
   (nth (floor (+ lo (* p (- hi lo)))) (items i)))
+
+(defmethod mix((i sym))
+ (let ((ent 0))
+  (loop for (key . val) in (? i seen) 
+    (when (> val 0)
+      (let ((p (/ val (? i n))))
+       (decf ent (* p (log p))) )))
+  ent))
+
+(let ((s (make-sym)))
+  (dolist (a '(a b c d e f))
+     (add s a))
+  (print (mix s)))
 
 (defmethod items ((i sample))
   (with-slots (ok l) i
@@ -57,23 +70,15 @@
               (/ (x - (per i 0) 
                     (- (per i 1) (per i 0) x) 1E-32)))))
 
-(defmethod prep((i col) x)    (string-trim '(#\Space #\Tab #\Newline) x))
-(defmethod prep((i sample) x) (read-from-string x))
-
 (defmethod split ((i sample))
   (let*((a   (items i))
         (all (length a))
         (eps (* (sd i) (my  sample cohen)))
         (n   (expt all  (my sample step))))
-    (loop while (and (< n 4)
-                     (< n (/ all 2))) do
+    (loop while (and (< n 4) (< n (/ all 2))) do
           (setf n (* 1.2 n)))
     (setf n (floor n))
-    (let (out
-           (xlo (nth 0 a))
-           (lo  0)
-           (b4  0)
-           (hi  n))
+    (let (out (lo 0) (b4 0) (hi n) (xlo (nth 0 a)))
       (loop while (<= hi (- all n)) do
             (let ((xhi    (nth hi a))
                   (xafter (nth (1+ hi) a))
@@ -94,23 +99,3 @@
     (dolist (n (? i bins) (1+ out))
       (incf out)
       (if (< x n) (return-from discretize out)))))
-
-(defun csv (file f)
-  (let (metas (pos -1))
-    (labels 
-      ((words (s &optional (x 0) (y (position #\, s :start (1+ x))))
-              (cons (subseq s x y)) (and y (words s (1+ y))))
-       (what (txt) (cond ((has txt :skip) 'skip)
-                         ((has txt :less :more :num) 'sample)
-                         (t 'sym)))
-       (meta (txt) 
-              (make-instance  (what txt) :txt txt :pos (incf pos))))
-      (with-open-file (str file) 
-        (loop 
-          (let* ((s  (or (read-line str nil)
-                         (return-from csv)))
-                 (xs (words s)))
-            (if metas
-              (funcall f (mapcar #'(lambda(i x) (prep i x)) meta xs))
-              (setf metas (mapcar #'meta xs)))))))))
-

@@ -2,6 +2,10 @@
 (defmacro ? (obj f &rest fs)
   (if fs `(? (slot-value ,obj ',f) ,@fs) `(slot-value ,obj ',f)))
 
+(defmacro aif (test then &optional else)
+   `(let ((it ,test))
+          (if it ,then ,else)))
+
 (defmacro has (s &rest cs) 
   (let ((c (gensym)))
     `(dolist (,c ',cs)
@@ -28,19 +32,20 @@
                 :accessor ,(intern (up class '- slot)))))
     `(defclass ,class ,parents ,(mapcar #'tweak slots))))
 
-(defun oo (it &optional (pre "")) (format t "~a~%" (o it pre)))
+(defklass thing ())
 
-(defun o (it &optional (pre ""))
+(defmethod print-object ((i thing) str)
   (let* ((slots
            (remove-if
              #'(lambda (x) (and (symbolp x)
                                 (equal (elt (symbol-name x) 0) #\_)))
              (mapcar #'sb-mop:slot-definition-name 
-                     (sb-mop:class-slots (class-of it)))))
+                     (sb-mop:class-slots (class-of i)))))
          (lst (mapcar
-                #'(lambda (s) (list s (slot-value it s)))
+                #'(lambda (s &aux (x (slot-value i s)))
+                    (if x (list s x) (list s)))
                 (sort slots  #'string<))))
-    (format nil "~a#<~a~{ ~a~}>#" pre (class-name (class-of it)) lst)))
+    (format str "#<~a~{ ~a~}>#"  (class-name (class-of i)) lst)))
 
 (defun symbol< (x y) (string< (symbol-name x) (symbol-name y)))
 
@@ -55,31 +60,20 @@
     (defun randf (&optional (n 1)) (* n (- 1.0d0 (park-miller))))
     (defun randi (n)(floor (* n (/ (randf 1000.0) 1000))))))
 
-; (defmacro with-csv ((lst file &optional out) &body body)
-;    `(progn (csv ,file #'(lambda (,lst) ,@body)) ,out))
-;
-; (defun csv (file fun)
-;   (with-open-file (str file)
-;     (let ((first t) prep width) ; memory across all lines
-;       (labels
-;         ((fromString (x) (cond(first         x)
-;                               ((is 'skip x)  x)
-;                               (t             (read-from-string x))))
-;          (cells (str &optional (lo 0) (hi (position #\, str :start (1+ lo))))
-;                 (cons (string-trim '(#\Space #\Tab #\Newline) (subseq str lo hi))
-;                       (and hi (cells str (1+ hi)))))
-;          (prep1 (x) (unless (is 'skip x)
-;                       (if (member (char x 0) '(#\< #\> #\$))
-;                         #'fromString #'identity))))
-;         (loop (let (vals tmp) ; memory of this time
-;                 (if (setf tmp (read-line str nil))
-;                   (when (> (length tmp) 0)
-;                     (setf tmp  (cells tmp)
-;                           prep  (or prep (mapcar #'prep1 tmp))
-;                           vals  (wanted tmp prep)
-;                           width (or width (length vals)))
-;                     (assert (eql width (length vals)))
-;                     (funcall fun vals)
-;                     (setf first nil))
-;                   (return-from csv))))))))
-;
+(defmacro with-csv ((lst file &optional out) &body body)
+  `(progn (csv ,file #'(lambda (,lst) ,@body)) ,out))
+
+(defun csv (file fun)
+  (labels ((cell (s) (let ((s (read-from-string s)))
+                       (if (numberp s) s 
+                         (string-trim '(#\newline #\tab #\space) s))))
+           (cells (s &optional (x 0) (y (position #\, s :start (1+ x))))
+                  (cons (cell (subseq s x y)) 
+                        (and y (cells s (1+ y))))))
+    (let ((*readtable* (copy-readtable nil)))
+      (setf (readtable-case *readtable*) :preserve)
+      (with-open-file (str file) 
+        (loop 
+          (funcall fun (cells (or (read-line str nil)
+                                  (return-from csv)))))))))
+
