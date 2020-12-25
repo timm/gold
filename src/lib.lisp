@@ -1,4 +1,5 @@
 ; vim: noai:ts=2:sw=2:et:
+
 (defmacro ? (obj f &rest fs)
   (if fs `(? (slot-value ,obj ',f) ,@fs) `(slot-value ,obj ',f)))
 
@@ -97,4 +98,4 @@
     (- n 1)
     (+ (fib (- n 1)) (fib (- n 2)))))
 
-(dolist (n '(5 10 20 40 80)) (format t "~5<~a~> = ~a~%" n (fib n)))
+;(dolist (n '(5 10 20 40 80)) (format t "~5<~a~> = ~a~%" n (fib n)))
