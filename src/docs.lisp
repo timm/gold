@@ -7,20 +7,22 @@
     (string (format mid "~%~a~%" x))
     (cons   (case (first x)
               (defklass 
-                (format mid "~%## ~(~S~)~%~%" (second x)))
+                (format top "- ~(~S~) " (second x))
+                (format mid "~%~%## ~(~S~)~%~%" (second x)))
               ((defun defmethod defmacro)
                (when (stringp (fourth x))
+                 (format top "- ~(~S~) " (second x))
                  (format 
-                   mid "~%### ~(~S~)~%~%`~(~S~)` _(~a)_ ~a~%~%" 
+                   mid "~%~%### ~(~S~)~%~%`~(~S~)` _(~a)_ ~a~%~%" 
                    (second x)
                    `(,(second x) ,@(third x))
                    (subseq (symbol-name (first x)) 2)
                    (fourth x))))))))
 
 (let (x)
-  (format t "~a" 
+  (format t "~%~a~%" 
     (with-output-to-string (mid)
-      (format t "~a"  
+      (format t "~%~a~%"  
         (with-output-to-string (top) 
           (loop 
             while (setf x (read-preserving-whitespace t nil))
