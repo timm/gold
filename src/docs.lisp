@@ -8,16 +8,15 @@
     (cons   (case (first x)
               (defklass 
                 (format top "- ~(~S~) " (second x))
-                (format mid "~%~%## ~(~S~)~%~%" (second x)))
+                (format mid "~%## ~(~S~)~%~%" (second x)))
               ((defun defmethod defmacro)
                (when (stringp (fourth x))
                  (format top "- ~(~S~) " (second x))
-                 (format 
-                   mid "~%~%### ~(~S~)~%~%`~(~S~)` _(~a)_ ~a~%~%" 
-                   (second x)
-                   `(,(second x) ,@(third x))
-                   (subseq (symbol-name (first x)) 2)
-                   (fourth x))))))))
+                 (format mid "~%### ~(~S~)~%~%`~(~S~)` _(~a)_ ~a~%" 
+                         (second x)
+                         `(,(second x) ,@(third x))
+                         (subseq (symbol-name (first x)) 2)
+                         (fourth x))))))))
 
 (let (x)
   (format t "~%~a~%" 
