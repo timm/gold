@@ -6,6 +6,8 @@
    `(let ((it ,test))
           (if it ,then ,else)))
 
+(defun one (lst) (nth (randi (length lst)) lst))
+
 (defmacro has (s &rest cs) 
   (let ((c (gensym)))
     `(dolist (,c ',cs)
@@ -77,3 +79,22 @@
           (funcall fun (cells (or (read-line str nil)
                                   (return-from csv)))))))))
 
+(defmacro defmemo (name params &rest code)
+  (let ((cache  (gensym "CACHE"))
+        (key    (first params))
+        (val    (gensym "VAL"))
+        (foundp (gensym "FOUNDP")))
+    `(let ((,cache (make-hash-table :test #'eql)))
+       (defun ,name ,params 
+         (multiple-value-bind (,val ,foundp)
+           (gethash ,key ,cache)
+           (if ,foundp ,val
+             (setf (gethash ,key ,cache) 
+                   (progn ,@code))))))))
+
+(defmemo fib (n)
+  (if (<= n 2)
+    (- n 1)
+    (+ (fib (- n 1)) (fib (- n 2)))))
+
+(dolist (n '(5 10 20 40 80)) (format t "~5<~a~> = ~a~%" n (fib n)))

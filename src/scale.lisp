@@ -7,6 +7,7 @@
                :more  #\>
                :num   #\:
                :klass #\!)
+    :tbl    (  :samples 128)
     :sample (  :max 128
                :step .5
                :cohen .3
