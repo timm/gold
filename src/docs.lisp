@@ -17,11 +17,11 @@
                    (subseq (symbol-name (first x)) 2)
                    (fourth x))))))))
 
-(let (thing)
-  (format  t "~a" 
+(let (x)
+  (format t "~a" 
     (with-output-to-string (mid)
       (format t "~a"  
         (with-output-to-string (top) 
           (loop 
-            while (setf thing (read-preserving-whitespace t nil))
-            do (worker mid top thing)))))))
+            while (setf x (read-preserving-whitespace t nil))
+            do (worker mid top x)))))))
