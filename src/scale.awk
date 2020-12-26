@@ -132,7 +132,7 @@ function _Bins(i,     eps,min,b,n,lo,hi,b4,len,merge) {
      _Ok(i)
     eps = Gold.scale.Some.div.epsilon
     min = Gold.scale.Some.div.min
-    eps =  _Sd(i)*eps
+    eps = _Sd(i)*eps
     len = length(i.all)
     n   = len^min
     while(n < 4 && n < len/2) n *= 1.2
@@ -156,6 +156,9 @@ function Row(i,a,t,     j) {
   i.dom = 0
   has(i,"cells") 
   for(j in a) i.cells[j] = add(t.cols[j], a[j]) }
+
+function _X(i,j) {return i.cells[j] }
+function _Y(i)   {return i.y}
 
 function _Dom(i,j,t,   
               n,e,c,w,x,y,sum1,sum2) {
@@ -207,23 +210,22 @@ function _Dom(i,  n,j,k,s) {
       i.rows[j].y = SomeDiscretize(s, i.rows[j].dom)  
    return length(s.bins)+1 }
 
-
 function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
 
-function Nb(i,cols,rows) {
+function Nb(i,cols,rows,     r) {
   has(i,"f")  # counts of symbols in each column for each class
   has(i,"h")  # frequency counts for each class
   has(i,"at") # reverse index, column, symbol to row
   i.n = 0 
-  _Adds(i,cols,rows) }
+  for(r in rows) _Adds(i,rows[r],cols) }
 
-function _Adds(i,cols,rows,    r,y,c,x) {
-  for(r in rows)  {
-    i.n++
-    y = rows[r].y
-    i.h[y]++
-    for(c in i.cols) 
-      if(x= discretize(i.cols[c], r.cells[c])) {
-        i.at[c][x][r]
-        i.f[y][c][x]++ }}}
 
+function _Adds(i,row,cols,    r,y,c,x) {
+  i.n++
+  y = RowY(row)
+  i.h[y]++
+  for(c in cols) 
+    if(x= discretize(cols[c], RowX(row,c))) {
+      i.at[c][x][row.id]
+      i.f[y][c][x]++ }}
+  

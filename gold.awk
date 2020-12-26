@@ -85,7 +85,7 @@ function copy(a,b,   j) {
       b[j] = a[j] }
 
 function append(a, x,k) { 
-   k = length(a) 
+   k = length(a) + 1
    new(a,k)
    copy(x, a[k]) }
 

@@ -20,7 +20,8 @@ function main(f,    c,i,j,n,s,order,len) {
   TabDom(i,order)
   SomeBins(i.cols[4])
   print o(i.cols[4].bins)
-  print(len)
+  Nb(n,i.cols, i.rows)
+  oo(n.at)
   #for(j in i.rows) { print i.rows[j].group  } # j } # i.rows[j].group }
 }
 
