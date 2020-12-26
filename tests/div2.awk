@@ -59,19 +59,18 @@ function div2split(lst2,lst3,eps,min,goal,
     y = goal=="" ? y : (y==goal ? goal : - goal) 
     lst3[all].y[ y ]++ }}
      
-function div2merge(b4,out,    shorter,n1,n2,j,now,tmp) {
-  n1= length(b4)
+function div2merge(b4,out,    shorter,n,j,now,tmp) {
+  n= length(b4)
   j= 1
-  while(j <= n1) {
-    new(tmp,++n2)
+  while(j <= n) {
     delete now
-    if (j < n1)
+    if (j < n)
       if(div2merge1(b4[j], b4[j+1], now)) {
-        copy(now, tmp[n2])
+        apppend(tmp, now)
         shorter++ 
         j += 2 
         continue }
-    copy(b4[j], tmp[n2])
+    append(tmp, b4[j])
     j += 1 }
   shorter ? div2merge(tmp,out) : copy(b4,out) }
 
