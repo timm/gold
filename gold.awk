@@ -50,21 +50,21 @@ function does(i,f,      s,k0,k) {
 ## add a nested list to `i` at `k` using constructor `f` (if supplied)
 ## the haS and hAS and HAS variants are the same, 
 ## but constructors have 1 or 2 or 3 args
-function has(i,k,     f)     {new(i,k); if(f) @f(i[k])        }
-function haS(i,k,f,x)        {new(i,k);       @f(i[k],x)      }
-function hAS(i,k,f,x,y)      {new(i,k);       @f(i[k],x,y)    }
-function HAS(i,k,f,x,y,z)    {new(i,k);       @f(i[k],x,y,z)  }
-function HASS(i,k,f,w,x,y,z) {new(i,k);       @f(i[k],w,x,y,z)}
+function has(i,k,     f)     {new(i,k); if(f) @f(i[k])        ;return k}
+function haS(i,k,f,x)        {new(i,k);       @f(i[k],x)      ;return k}
+function hAS(i,k,f,x,y)      {new(i,k);       @f(i[k],x,y)    ;return k}
+function HAS(i,k,f,x,y,z)    {new(i,k);       @f(i[k],x,y,z)  ;return k}
+function HASS(i,k,f,w,x,y,z) {new(i,k);       @f(i[k],w,x,y,z);return k}
 
 ## using constructor `f`, add to the end of nested list `i`
 # Note: `i` must already be a list.
 ## the morE and moRE and mORE variants are the same, 
 ## but constructors have 1 or 2 or 3 args
-function more(lst,f)         {has(lst,length(lst)+1,f)          }
-function morE(lst,f,x)       {haS(lst,length(lst)+1,f,x)        }
-function moRE(lst,f,x,y)     {hAS(lst,length(lst)+1,f,x,y)      }
-function mORE(lst,f,x,y,z)   {HAS(lst,length(lst)+1,f,x,y,z)    }
-function MORE(lst,f,w,x,y,z) {HASS(lst,length(lst)+1,f,w,x,y,z) }
+function more(i,f)         {return has(i,length(i)+1,f)          }
+function morE(i,f,x)       {return haS(i,length(i)+1,f,x)        }
+function moRE(i,f,x,y)     {return hAS(i,length(i)+1,f,x,y)      }
+function mORE(i,f,x,y,z)   {return HAS(i,length(i)+1,f,x,y,z)    }
+function MORE(i,f,w,x,y,z) {return HASS(i,length(i)+1,f,w,x,y,z) }
 
 ### math stuff
 function abs(x)   { return x<0? -1*x : x }
