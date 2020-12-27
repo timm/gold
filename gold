@@ -43,6 +43,7 @@ EOF
   tput sgr0; tput setaf 7; cat<<'EOF'
 Augments standard gawk with polymorphism, encapsulation, objects, 
 attributes, methods, iterators, unit tests, multi-line comments.
+All in under 30 lines of Gawk (a little awk goes a long way).
 
 INSTALL:
    chmod +x gold; ./gold -i

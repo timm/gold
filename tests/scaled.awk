@@ -21,7 +21,8 @@ function main(f,    c,i,j,n,s,order,len) {
   SomeBins(i.cols[4])
   print o(i.cols[4].bins)
   Nb(n,i.cols, i.rows)
-  oo(n.at)
+  NbRank(n) 
+  print n.best
   #for(j in i.rows) { print i.rows[j].group  } # j } # i.rows[j].group }
 }
 

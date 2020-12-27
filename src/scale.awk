@@ -124,8 +124,9 @@ function _Discretize(i,x,     j) {
   if (x!="?") {
     _Bins(i)
     for(j=1; j<=length(i.bins); j++) 
-      if( x<=i.bins[j] ) return j
-    return j }}
+      if( x<=i.bins[j] ) {x=j; break}
+    x=j }
+  return x}
      
 function _Bins(i,     eps,min,b,n,lo,hi,b4,len,merge) {
   if (!length(i.bins)) {
@@ -217,15 +218,57 @@ function Nb(i,cols,rows,     r) {
   has(i,"h")  # frequency counts for each class
   has(i,"at") # reverse index, column, symbol to row
   i.n = 0 
+  i.best = -1
+  has(i,"ranges")
   for(r in rows) _Adds(i,rows[r],cols) }
-
 
 function _Adds(i,row,cols,    r,y,c,x) {
   i.n++
   y = RowY(row)
   i.h[y]++
+  i.best = max(i.best,y)
   for(c in cols) 
     if(x= discretize(cols[c], RowX(row,c))) {
-      i.at[c][x][row.id]
+      i.at[h][c][x][row.id]
       i.f[y][c][x]++ }}
-  
+
+function _Rank(i, h) {
+  for(h in i.h) 
+   if (h!=i.best) 
+     _Rank1(i,h,i.best)
+#     _Try(i, i.ranges[h]) 
+}
+
+
+function _Rank1(i,rest,best,  tmp,b,r,c,x,j) {
+  split("",tmp,"")
+  for(c in i.f[best])  
+   for(x in i.f[best][c]) 
+     if(x != "?") {
+       b = i.f[best][c][x]
+       r = (x in i.f[rest][c]) ? i.f[rest][c][x]: 0
+       b = b  / i.h[best]
+       r = r  / i.h[rest]
+       if(b > 1.1*r)  {
+         j = more(tmp,"Rule")
+        oo(tmp[j])
+         RuleAdd(tmp[j],c,x,b,r,i.at[best][c][x], i.at[rest][c][x])
+      }}
+  keysort(tmp,"score") 
+  print "=========================="
+  for(x in tmp) {print "";oo(tmp[x])}
+}
+
+function Rule(i,c) { 
+  Obj(i); is(i,"Rule") 
+  has(i,"best")
+  has(i,"rest")
+}
+
+function _Add(i,c,x,b,r,best,rest,j) {
+  oo(best)
+  i.score =  b^2/(b+r)
+  i.rule[c]=x 
+  for(j in best) i.best[j]
+  for(j in rest) i.rest[j]
+}
