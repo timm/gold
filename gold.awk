@@ -1,5 +1,6 @@
 # vim: filetype=awk ts=2 sw=2 sts=2  et :
 
+#--------------------------------
 # built-ins for the Gold language
 # should be all "raw" gawk (no Gold extensions)
 
