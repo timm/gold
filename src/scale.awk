@@ -217,58 +217,98 @@ function Nb(i,cols,rows,     r) {
   has(i,"f")  # counts of symbols in each column for each class
   has(i,"h")  # frequency counts for each class
   has(i,"at") # reverse index, column, symbol to row
-  i.n = 0 
+  i.k=1
+  i.m=2
+  i.n = 0
+  i.top = 16
+  i.repeats=20 
   i.best = -1
   has(i,"ranges")
   for(r in rows) _Adds(i,rows[r],cols) }
 
-function _Adds(i,row,cols,    r,y,c,x) {
+function _Adds(i,row,cols,    r,h,c,x) {
   i.n++
-  y = RowY(row)
-  i.h[y]++
-  i.best = max(i.best,y)
+  h = RowY(row)
+  i.h[h]++
+  i.best = max(i.best,h)
   for(c in cols) 
-    if(x= discretize(cols[c], RowX(row,c))) {
-      i.at[h][c][x][row.id]
-      i.f[y][c][x]++ }}
+    if(x= discretize(cols[c], RowX(row,c))) 
+     if (x != "?") {
+       i.at[h][c][x][row.id]
+       i.f[h][c][x]++ }}
 
-function _Rank(i, h) {
+function _Ranks(i, h) {
   for(h in i.h) 
-   if (h!=i.best) 
-     _Rank1(i,h,i.best)
-#     _Try(i, i.ranges[h]) 
-}
+    if (h!=i.best) _Rank(i,h,i.best) }
 
+function _Rank(i,rest,best,  xs,m,n,a,c,x) {
+  split("",a,"")
+  for(c in i.f[best])  {
+   asort(i.f[best][c],xs)
+  _Rank1(i,c,rest,best,a,xs) }}
 
-function _Rank1(i,rest,best,  tmp,b,r,c,x,j) {
-  split("",tmp,"")
-  for(c in i.f[best])  
-   for(x in i.f[best][c]) 
-     if(x != "?") {
-       b = i.f[best][c][x]
-       r = (x in i.f[rest][c]) ? i.f[rest][c][x]: 0
-       b = b  / i.h[best]
-       r = r  / i.h[rest]
-       if(b > 1.1*r)  {
-         j = more(tmp,"Rule")
-        oo(tmp[j])
-         RuleAdd(tmp[j],c,x,b,r,i.at[best][c][x], i.at[rest][c][x])
-      }}
-  keysort(tmp,"score") 
-  print "=========================="
-  for(x in tmp) {print "";oo(tmp[x])}
-}
+function _Rank1(i,c,rest,best,a,xs,   n) {
+  n= length(xs)
+  j=1
+  while(j<=n) {
+    x = xs[j]
+    _Rank2(i,c,x,rest,best,a) }}
 
-function Rule(i,c) { 
+# combine
+
+function _Rank2(i,c,x,rest,best,out,    inc,tmp) {
+  if (Rule(tmp, i,rest,best,c,x)) append(out,tmp) }
+
+function _Like(i,a,h,   like,prior,inc,c,x,f) {
+  like = prior = (i.h[h] + i.k) / (i.n + i.k*length(i.h))
+  like = like
+  for(c in a) {
+    f = 0
+    for(x in a[c])
+      f += ((x in i.f[h][c]) ? i.f[h][c][x] : 0);
+    inc   = (f + i.m*prior)/(i.h[h] + i.m)
+    like *= inc
+  }
+  return like }
+
+function _Learn(i,a,       b4,sum,j,repeats) {
+  for(j=length(a)-i.top; j>=1;  j--) 
+    delete a[j]
+  for(j in a) sum += a[j].n 
+  repeats = i.repeats
+  while(repeats-- > 0) _Pick2(i,a,sum)
+  if(length(a) > i.top)
+    _Learn(i,a) }
+
+function _Pick2(i,a,sum,    new,diff,j,k) {
+  j = _Pick1(i,a,sum)
+  k = _Pick1(i,a,sum)
+  if (j != k && RuleMerge(a[j], a[k], new, i)) 
+    append(a, new) }
+
+function _Pick1(i,a,sum,   j,r) {
+  r = rand()
+  for(j=length(a); j>= 1; j--)
+    if ((r -= a[j].n/sum) <=0) break
+  return j }
+
+function Rule(i,nb,rest,best,c,x,    b,r) { 
   Obj(i); is(i,"Rule") 
-  has(i,"best")
-  has(i,"rest")
-}
+  has(i,"has")
+  i.has[c][x]
+  i.c = c
+  i.x = x
+  i.from   = rest 
+  i.to     = best 
+  b        = NbLike(nb, i.has, i.to) 
+  r        = NbLike(nb, i.has, i.from) 
+  i.n      = b^2/(b+r)
+  return b > r }
 
-function _Add(i,c,x,b,r,best,rest,j) {
-  oo(best)
-  i.score =  b^2/(b+r)
-  i.rule[c]=x 
-  for(j in best) i.best[j]
-  for(j in rest) i.rest[j]
-}
+function _Merge(i,j,k,nb,   c,b,r) {
+  copy(i,k)
+  for(c in j.has) k.has[c][j.has[c]]
+  b        = NbLike(nb, k.has, i.to) 
+  r        = NbLike(nb, k.has, i.from) 
+  k.n      = b^2/(b+r)
+  return (k.n > i.n || k.n > j.n) && b > r }
