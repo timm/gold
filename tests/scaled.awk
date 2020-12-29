@@ -14,6 +14,15 @@ function combo(i,j,k,x,   a,b) {
 }
 
 ### main
+function doming(f, i,n,rows,j) {
+  Tab(i)
+  TabRead(i,data(f ? f : "weather") )
+  TabDom(i)
+  n=keysorT(i.rows,rows,"y")
+  for(j=1;j<=10;j++) print RowShow(rows[j],i)
+  print ""
+  for(j=n-10;j<=n;j++) print RowShow(rows[j],i)
+}
 function main(f,    c,i,j,n,s,order,out,len) {
   Tab(i)
   TabRead(i,data(f ? f : "weather") )
@@ -29,6 +38,6 @@ function main(f,    c,i,j,n,s,order,out,len) {
 function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }
 
 BEGIN { srand(Gold.seed ? Gold.seed : 1) 
-        main("auto93")
+        doming("auto93")
         rogues()  }
 

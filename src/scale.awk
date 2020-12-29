@@ -27,6 +27,8 @@ BEGIN {
 }
 
 ### shortcuts
+function xx(i,z,  f) { f=does(i,"X"); return @f(i,z) }
+function yy(i,    f) { f=does(i,"Y"); return @f(i) }
 function add(i,x,  f) { f=does(i,"Add"); return @f(i,x) }
 function discretize(i,x,  f) { f=does(i,"Discretize"); return @f(i,x) }
 
@@ -150,6 +152,7 @@ function _Bins(i,     eps,min,b,n,lo,hi,b4,len,merge) {
               lo  = hi
               hi += n }}}}
 
+  
 ### rows of data
 function Row(i,a,t,     j) {
   Obj(i)
@@ -172,6 +175,13 @@ function _Dom(i,j,t,
     sum2 -= 2.71828 ^ ( w * (y - x)/n )
   }
  return sum1/n < sum2/n }
+
+function _Show(i,tab,   c,s,sep) { 
+  for(c in tab.ys) {
+   s= s sep tab.cols[c].txt"=" _X(i,c) 
+   sep =", "}
+  return s }
+
 
 ### tables store rows, summarized in columns
 function Tab(i) {
@@ -261,28 +271,36 @@ function _Ranges(i,out,    best,rest,c,x) {
 #  revsort(out,"n") 
 }
 
+function eat(a,  x) {
+  for(x in a) break
+  delete a[x]
+  return x }
+
 function _Rules(i,c,rest,out,    x,todo,one,n) {
-  print "\n==="
+  print "\n===|"c"|"
   for(x in i.f[i.best][c]) todo[x]=x
-  while(length(todo)) {
-    for(x in todo) break
-    delete todo[x]
-    Grow(     i,todo,rest,c,x,out) }} 
+  oo(i.f[rest])
+  exit
+  while(x=eat(todo)) 
+    Grow(     i,todo,rest,c,x,out) } 
 
 function Grow(i,todo,rest,c,x,out,    one) {
   Rule(one, rest, i.best, c,x,i)
   print("")
   oo(one)
+  print("b",i.best,"r",rest)
+  oo(i.f[i.best][c],"best "c)
+  oo(i.f[rest][c],"rest "c)
+  exit
   print(i.f[i.best][1][4])
   print(i.f[rest][1][4])
   print 1; oo(i.f[i.best][1])
   print 2; oo(i.f[rest][1])
-  exit
 #  _Extend(i,todo,one,out)
  }
 
 
-function _Extend(i,todo,one,out,   c,x1,x9,x,two) {
+function _Extend(i,todo,one,out,   c,x,x0,two) {
   c = one.c0
   for(x in todo) 
     for(x0 in one.has[c])

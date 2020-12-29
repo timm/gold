@@ -92,6 +92,7 @@ redgreen() { gawk '
             { print $0                 }
      END    { exit bad!=0 }'
 }
+here() { cd $1; basename `pwd`; }
 
 ####------------------------------------------------------------
 ## ensure base system exists
@@ -184,4 +185,5 @@ else
   alias reload='. $Gold/gold'             # reload these tools
   alias vims="vim +plugininstall +qall"    # install vim plugins 
   alias vi="vim -u $Gold/etc/.vimrc"        # run a configured vim
+  PROMPT_COMMAND='echo -ne "⭐️ $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'
 fi
