@@ -14,14 +14,16 @@ function combo(i,j,k,x,   a,b) {
 }
 
 ### main
-function main(f,    c,i,j,n,s,order,len) {
+function main(f,    c,i,j,n,s,order,out,len) {
   Tab(i)
   TabRead(i,data(f ? f : "weather") )
   TabDom(i,order)
   SomeBins(i.cols[4])
-  print o(i.cols[4].bins)
+  print length(i.cols[4].bins)
   Nb(n,i.cols, i.rows)
-  NbRanks(n) 
+  #oo(i.cols[4])
+  NbRanges(n, out)
+  #oo(out) 
 }
 
 function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }

@@ -98,12 +98,14 @@ function append(a, x,k) {
 ### sort a list on some named field `k`
 # `keysort` modifies the urinal list while `keysorT` returns
 # a sorted copy.
-function keysort(a,k)   {Gold["keysort"]=k; return asort(a,a,"keysrt")}
-function keysorT(a,b,k) {Gold["keysort"]=k; return asort(a,b,"keysrt")}
+function keysort(a,k)   { Gold["sort"]=k; return asort(a,a,"srt")  }
+function keysorT(a,b,k) { Gold["sort"]=k; return asort(a,b,"srt")  }
+function revsort(a,k)   { Gold["sort"]=k; return asort(a,a,"rsrt") }
+function revsorT(a,b,k) { Gold["sort"]=k; return asort(a,b,"rsrt") }
 
-function keysrt(i1,x,i2,y) {
-  return keysrtCompare(x[ Gold["keysort"] ] + 0,
-                     y[ Gold["keysort"] ] + 0) } 
+function rsrt(i1,x,i2,y) { return -1 * srt(i1,x,i2,y) }
+function srt(i1,x,i2,y) {
+  return keysrtCompare( x[Gold["sort"]] + 0, y[Gold["sort"]] + 0) } 
 
 function keysrtCompare(x,y) { return x<y ? -1 : (x==y?0:1) }
 

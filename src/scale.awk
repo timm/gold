@@ -237,39 +237,65 @@ function _Adds(i,row,cols,    r,h,c,x) {
        i.at[h][c][x][row.id]
        i.f[h][c][x]++ }}
 
-function _Ranks(i, h) {
-  for(h in i.h) 
-    if (h!=i.best) _Rank(i,h,i.best) }
-
-function _Rank(i,rest,best,  xs,m,n,a,c,x) {
-  split("",a,"")
-  for(c in i.f[best])  {
-   asort(i.f[best][c],xs)
-  _Rank1(i,c,rest,best,a,xs) }}
-
-function _Rank1(i,c,rest,best,a,xs,   n) {
-  n= length(xs)
-  j=1
-  while(j<=n) {
-    x = xs[j]
-    _Rank2(i,c,x,rest,best,a) }}
-
-# combine
-
-function _Rank2(i,c,x,rest,best,out,    inc,tmp) {
-  if (Rule(tmp, i,rest,best,c,x)) append(out,tmp) }
-
 function _Like(i,a,h,   like,prior,inc,c,x,f) {
   like = prior = (i.h[h] + i.k) / (i.n + i.k*length(i.h))
   like = like
   for(c in a) {
     f = 0
-    for(x in a[c])
-      f += ((x in i.f[h][c]) ? i.f[h][c][x] : 0);
-    inc   = (f + i.m*prior)/(i.h[h] + i.m)
+    print "======="
+    for(x in a[c]) print "::",c,x
+    for(x in a[c]) {
+      f += ((x in i.f[h][c]) ? i.f[h][c][x] : 0)
+    }
+    inc = (f + i.m*prior)/(i.h[h] + i.m)
     like *= inc
   }
   return like }
+
+function _Ranges(i,out,    best,rest,c,x) {
+  split("",out,"")
+  for(rest in i.h) 
+    if(rest != i.best) 
+      for(c in i.f[i.best]) 
+        _Rules(i,c,rest,out);
+#  revsort(out,"n") 
+}
+
+function _Rules(i,c,rest,out,    x,todo,one,n) {
+  print "\n==="
+  for(x in i.f[i.best][c]) todo[x]=x
+  while(length(todo)) {
+    for(x in todo) break
+    delete todo[x]
+    Grow(     i,todo,rest,c,x,out) }} 
+
+function Grow(i,todo,rest,c,x,out,    one) {
+  Rule(one, rest, i.best, c,x,i)
+  print("")
+  oo(one)
+  print(i.f[i.best][1][4])
+  print(i.f[rest][1][4])
+  print 1; oo(i.f[i.best][1])
+  print 2; oo(i.f[rest][1])
+  exit
+#  _Extend(i,todo,one,out)
+ }
+
+
+function _Extend(i,todo,one,out,   c,x1,x9,x,two) {
+  c = one.c0
+  for(x in todo) 
+    for(x0 in one.has[c])
+      if(! (x in one.has[c]))
+        if ((x==(x0+1) || x==(x0-1)) && _Better(one,two,c,x,i)) {
+          delete todo[x]
+          return _Extend(i,todo,two,out)  }
+  append(out,one) }
+
+# combine
+
+function _Rank2(i,c,x,rest,best,out,    inc,tmp) {
+  if (Rule(tmp, i,rest,best,c,x)) append(out,tmp) }
 
 function _Learn(i,a,       b4,sum,j,repeats) {
   for(j=length(a)-i.top; j>=1;  j--) 
@@ -292,23 +318,25 @@ function _Pick1(i,a,sum,   j,r) {
     if ((r -= a[j].n/sum) <=0) break
   return j }
 
-function Rule(i,nb,rest,best,c,x,    b,r) { 
+function Rule(i,rest,best,c0,x,nb) {
   Obj(i); is(i,"Rule") 
   has(i,"has")
-  i.has[c][x]
-  i.c = c
-  i.x = x
-  i.from   = rest 
-  i.to     = best 
-  b        = NbLike(nb, i.has, i.to) 
-  r        = NbLike(nb, i.has, i.from) 
-  i.n      = b^2/(b+r)
-  return b > r }
+  i.has[c0][x]
+  i.from = rest 
+  i.to   = best 
+  i.c0   = c0
+  _Score(i,nb) }
 
-function _Merge(i,j,k,nb,   c,b,r) {
-  copy(i,k)
-  for(c in j.has) k.has[c][j.has[c]]
-  b        = NbLike(nb, k.has, i.to) 
-  r        = NbLike(nb, k.has, i.from) 
-  k.n      = b^2/(b+r)
-  return (k.n > i.n || k.n > j.n) && b > r }
+function _Score(i,nb,  b,r,n) {
+  b = NbLike(nb, i.has, i.to) 
+  r = NbLike(nb, i.has, i.from) 
+  n = b^2/(b+r)
+  i.n2 = b > r+.01 ? n : 0 
+  return i.n2 }
+
+function _Better(i,j,c,x,nb) { 
+  copy(i,j)
+  j.has[c][x]
+  return _Score(j,nb) > i.n+.01 }
+
+   
