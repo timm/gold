@@ -247,73 +247,68 @@ function _Adds(i,row,cols,    r,h,c,x) {
        i.at[h][c][x][row.id]
        i.f[h][c][x]++ }}
 
-function _Like(i,a,h,   like,prior,inc,c,x,f) {
-  like = prior = (i.h[h] + i.k) / (i.n + i.k*length(i.h))
-  like = like
+function _Like(i,a,h,n,  like,prior,inc,c,x,f) {
+  like = prior = (i.h[h] + i.k) / (n + i.k*length(i.h))
+  like = log(like)
   for(c in a) {
     f = 0
-    print "======="
-    for(x in a[c]) print "::",c,x
     for(x in a[c]) {
       f += ((x in i.f[h][c]) ? i.f[h][c][x] : 0)
     }
     inc = (f + i.m*prior)/(i.h[h] + i.m)
-    like *= inc
+    like += log(inc)
   }
-  return like }
+  return Gold.e^like }
 
-function _Ranges(i,out,    best,rest,c,x) {
-  split("",out,"")
+# For everything that is not best,  find plans for getting to best.
+# First, since it simplest (a) grow plans within one attribute.
+# Then, (b) combine rules from multiple attributes
+function _Plans(i,plans,    best,rest,c,x) {
   for(rest in i.h) 
-    if(rest != i.best) 
+    if(rest != i.best)  {
+      new(plans, rest)
       for(c in i.f[i.best]) 
-        _Rules(i,c,rest,out);
-#  revsort(out,"n") 
-}
+        _OneAttributePlans(i,c,rest,plans[rest])  # ... (a)
+      #_MultiPlans(i,c,rest,plans[rest])          # ... (b)
+      }}
 
-function eat(a,  x) {
-  for(x in a) break
-  delete a[x]
-  return x }
+# (a) Make one plan for every range of column `c`.
+# (b) If ever we use a range, mark it `used` (so we never use it twice).
+# (c) Sort the resulting plans in defending order (so the best is first).
+function _OneAttributePlans(i,c,rest,plans,    used,x,todo,one,n) {
+  for(x in i.f[i.best][c]) # ... (a)
+    if(!(x in used))       # ... (b)
+      _OneAttributePlan(i,used,rest,c,x,plans);
+  revsort(plans,"n")}      # ... (c)
 
-function _Rules(i,c,rest,out,    x,todo,one,n) {
-  print "\n===|"c"|"
-  for(x in i.f[i.best][c]) todo[x]=x
-  oo(i.f[rest])
-  exit
-  while(x=eat(todo)) 
-    Grow(     i,todo,rest,c,x,out) } 
+# (a) Create a plan from this range,
+# (b) If we use a range then mark it as used.
+# (c) try to grow the plan using adjacent ranges from the 
+function _OneAttributePlan(i,used,rest,c,x,out,    current) {
+  Plan(current, rest, i.best, c,x,i)       # ....... (a)
+  used[x]      # ................................... (b)       
+  _GrowOneAttributePlan(i,c,used,current,out)} # ... (c)
 
-function Grow(i,todo,rest,c,x,out,    one) {
-  Rule(one, rest, i.best, c,x,i)
-  print("")
-  oo(one)
-  print("b",i.best,"r",rest)
-  oo(i.f[i.best][c],"best "c)
-  oo(i.f[rest][c],"rest "c)
-  exit
-  print(i.f[i.best][1][4])
-  print(i.f[rest][1][4])
-  print 1; oo(i.f[i.best][1])
-  print 2; oo(i.f[rest][1])
-#  _Extend(i,todo,one,out)
- }
-
-
-function _Extend(i,todo,one,out,   c,x,x0,two) {
-  c = one.c0
-  for(x in todo) 
-    for(x0 in one.has[c])
-      if(! (x in one.has[c]))
-        if ((x==(x0+1) || x==(x0-1)) && _Better(one,two,c,x,i)) {
-          delete todo[x]
-          return _Extend(i,todo,two,out)  }
-  append(out,one) }
-
-# combine
+# (a) From the space of  all possible ranges, then
+# (b) find current range that have not bee used yet,
+# (c) that are not mentioned by current plan, (d) that are
+# not in the current plan and which (e) are adjacent to something
+# already in rule. If (f) adding that range makes a better rule then
+# try to extend that better rule. Else (h) add the current rule to out.
+# Also, (i)  if we ever use a range, mark it as used.
+function _GrowOneAttributePlan(i,c,used,current,out,   x,x0,new) {
+  for(x in i.f[i.best][c])        # ... (a)
+    if(! (x in used))             # ... (b)
+      if(! (x in current.has[c])) # ... (c)
+        for(x0 in current.has[c]) # ... (d)
+          if ((x==(x0+1) || x==(x0-1)) && PlanBetter(current,new,c,x,i)) #..(e,f)
+          { used[x]               # ... (i)
+            return _GrowOneAttributePlan(i,c,used,new,out) }
+  if(current.n > 0) 
+    append(out,current) }  # .......... (g)
 
 function _Rank2(i,c,x,rest,best,out,    inc,tmp) {
-  if (Rule(tmp, i,rest,best,c,x)) append(out,tmp) }
+  if (Plan(tmp, i,rest,best,c,x)) append(out,tmp) }
 
 function _Learn(i,a,       b4,sum,j,repeats) {
   for(j=length(a)-i.top; j>=1;  j--) 
@@ -327,7 +322,7 @@ function _Learn(i,a,       b4,sum,j,repeats) {
 function _Pick2(i,a,sum,    new,diff,j,k) {
   j = _Pick1(i,a,sum)
   k = _Pick1(i,a,sum)
-  if (j != k && RuleMerge(a[j], a[k], new, i)) 
+  if (j != k && PlanMerge(a[j], a[k], new, i)) 
     append(a, new) }
 
 function _Pick1(i,a,sum,   j,r) {
@@ -336,25 +331,34 @@ function _Pick1(i,a,sum,   j,r) {
     if ((r -= a[j].n/sum) <=0) break
   return j }
 
-function Rule(i,rest,best,c0,x,nb) {
-  Obj(i); is(i,"Rule") 
+function Plan(i,rest,best,c0,x,nb) {
+  Obj(i); is(i,"Plan") 
   has(i,"has")
   i.has[c0][x]
+  i.n    = 0 
   i.from = rest 
   i.to   = best 
   i.c0   = c0
   _Score(i,nb) }
 
-function _Score(i,nb,  b,r,n) {
-  b = NbLike(nb, i.has, i.to) 
-  r = NbLike(nb, i.has, i.from) 
+function _Score(i,nb,  b,r,n,h) {
+  h = nb.h[i.to] + nb.h[i.from]
+  b = NbLike(nb, i.has, i.to,  h)
+  r = NbLike(nb, i.has, i.from,h) 
   n = b^2/(b+r)
-  i.n2 = b > r+.01 ? n : 0 
-  return i.n2 }
+  i.n = (b > r+.01) ? n : 0 
+  return i.n }
 
 function _Better(i,j,c,x,nb) { 
   copy(i,j)
   j.has[c][x]
+  print("::", _Score(j,nb), i.n, _Score(j,nb) > i.n+.01)
   return _Score(j,nb) > i.n+.01 }
 
-   
+function _Merge(i,j,k,nb,    c,x) {
+  copy(i,k)
+  for(c in j.has)
+    for(x in j.has[c]) k.has[c][x]
+  _Score(k,nb) 
+  return (k.n > i.n) || (k.n > j.n)
+}   
