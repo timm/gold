@@ -230,8 +230,9 @@ function Nb(i,cols,rows,     r) {
   i.k=1
   i.m=2
   i.n = 0
-  i.top = 16
-  i.repeats=20 
+  i.population = 20
+  i.generations= 40
+  i.samples    = 100 
   i.best = -1
   has(i,"ranges")
   for(r in rows) _Adds(i,rows[r],cols) }
@@ -247,104 +248,112 @@ function _Adds(i,row,cols,    r,h,c,x) {
        i.at[h][c][x][row.id]
        i.f[h][c][x]++ }}
 
-function _Like(i,a,h,n,  like,prior,inc,c,x,f) {
-  like = prior = (i.h[h] + i.k) / (n + i.k*length(i.h))
+function _Like(i,a,h,n,nh, like,prior,inc,c,x,f) {
+  like = prior = (i.h[h] + i.k) / (n + i.k*nh)
   like = log(like)
   for(c in a) {
     f = 0
-    for(x in a[c]) {
-      f += ((x in i.f[h][c]) ? i.f[h][c][x] : 0)
-    }
+    for(x in a[c]) f += ((x in i.f[h][c]) ? i.f[h][c][x] : 0);
     inc = (f + i.m*prior)/(i.h[h] + i.m)
     like += log(inc)
   }
   return Gold.e^like }
 
-# For everything that is not best,  find plans for getting to best.
-# First, since it simplest (a) grow plans within one attribute.
+# For everything that is not best,  find rules for getting to best.
+# First, since it simplest (a) grow rules within one attribute.
 # Then, (b) combine rules from multiple attributes
-function _Plans(i,plans,    best,rest,c,x) {
+function _Rules(i,rules,    best,rest,c,j) {
   for(rest in i.h) 
-    if(rest != i.best)  {
-      new(plans, rest)
+    if (rest != i.best) {
+      new(rules,rest)
       for(c in i.f[i.best]) 
-        _OneAttributePlans(i,c,rest,plans[rest])  # ... (a)
-      #_MultiPlans(i,c,rest,plans[rest])          # ... (b)
+        _OneAttributeRules(i,c,rest,rules[rest]);  # ... (a)
+      _Learn(i,rest,rules[rest], i.generations)
+        #oo(rules[rest]) 
+      print("\n====== "rest)
+      revsort(rules[rest],"n")
+      for(j in rules[rest]) print RuleSay(rules[rest][j])
       }}
 
-# (a) Make one plan for every range of column `c`.
+# (a) Make one rule for every range of column `c`.
 # (b) If ever we use a range, mark it `used` (so we never use it twice).
-# (c) Sort the resulting plans in defending order (so the best is first).
-function _OneAttributePlans(i,c,rest,plans,    used,x,todo,one,n) {
+function _OneAttributeRules(i,c,rest,rules,    used,x,one,n) {
   for(x in i.f[i.best][c]) # ... (a)
     if(!(x in used))       # ... (b)
-      _OneAttributePlan(i,used,rest,c,x,plans);
-  revsort(plans,"n")}      # ... (c)
+      _OneAttributeRule(i,used,rest,c,x,rules)  }
 
-# (a) Create a plan from this range,
+# (a) Create a rule from this range,
 # (b) If we use a range then mark it as used.
-# (c) try to grow the plan using adjacent ranges from the 
-function _OneAttributePlan(i,used,rest,c,x,out,    current) {
-  Plan(current, rest, i.best, c,x,i)       # ....... (a)
+# (c) try to grow the rule using adjacent ranges from the 
+function _OneAttributeRule(i,used,rest,c,x,rules,    current) {
+  Rule(current, rest, i.best, c,x,i)       # ....... (a)
   used[x]      # ................................... (b)       
-  _GrowOneAttributePlan(i,c,used,current,out)} # ... (c)
+  _GrowOneAttributeRule(i,c,used,current,rules)} # ... (c)
 
 # (a) From the space of  all possible ranges, then
 # (b) find current range that have not bee used yet,
-# (c) that are not mentioned by current plan, (d) that are
-# not in the current plan and which (e) are adjacent to something
+# (c) that are not mentioned by current rule, (d) that are
+# not in the current rule and which (e) are adjacent to something
 # already in rule. If (f) adding that range makes a better rule then
 # try to extend that better rule. Else (h) add the current rule to out.
 # Also, (i)  if we ever use a range, mark it as used.
-function _GrowOneAttributePlan(i,c,used,current,out,   x,x0,new) {
+function _GrowOneAttributeRule(i,c,used,current,rules,   x,x0,new) {
   for(x in i.f[i.best][c])        # ... (a)
     if(! (x in used))             # ... (b)
       if(! (x in current.has[c])) # ... (c)
         for(x0 in current.has[c]) # ... (d)
-          if ((x==(x0+1) || x==(x0-1)) && PlanBetter(current,new,c,x,i)) #..(e,f)
+          if ((x==(x0+1) || x==(x0-1)) \
+             && RuleBetter(current,new,c,x,i)) #..(e,f)
           { used[x]               # ... (i)
-            return _GrowOneAttributePlan(i,c,used,new,out) }
+            return _GrowOneAttributeRule(i,c,used,new,rules) }
   if(current.n > 0) 
-    append(out,current) }  # .......... (g)
+    append(rules,current) }  # .......... (g)
 
-function _Rank2(i,c,x,rest,best,out,    inc,tmp) {
-  if (Plan(tmp, i,rest,best,c,x)) append(out,tmp) }
+#------------------------------
+function _Learn(i,rest,rules,gen,     b4,sum,j,n) {
+  if(gen < 2           ) return
+  if(length(rules) < 2 ) return
+  revsort(rules,"n")
+  for(j=i.population+1;j<=length(rules); j++)
+    delete rules[j]
+  for(j in rules)  {
+    sum += rules[j].n 
+    #print("summing", rules[j].n, sum)
+  }
+  b4 = length(rules)
+  n = i.samples
+  while(--n > 0) _Pick2(i,rules,sum)
+  if(length(rules) > b4) {
+    _Learn(i,rest,rules, gen-1) }}
 
-function _Learn(i,a,       b4,sum,j,repeats) {
-  for(j=length(a)-i.top; j>=1;  j--) 
-    delete a[j]
-  for(j in a) sum += a[j].n 
-  repeats = i.repeats
-  while(repeats-- > 0) _Pick2(i,a,sum)
-  if(length(a) > i.top)
-    _Learn(i,a) }
+function _Pick2(i,rules,sum,    new,diff,j,k) {
+  j = _Pick1(i,rules,sum)
+  k = _Pick1(i,rules,sum)
+  if (j != k && RuleMerge(rules[j], rules[k], new, i))  { 
+    append(rules, new)  }}
 
-function _Pick2(i,a,sum,    new,diff,j,k) {
-  j = _Pick1(i,a,sum)
-  k = _Pick1(i,a,sum)
-  if (j != k && PlanMerge(a[j], a[k], new, i)) 
-    append(a, new) }
-
-function _Pick1(i,a,sum,   j,r) {
+function _Pick1(i,rules,sum,   j,r) {
   r = rand()
-  for(j=length(a); j>= 1; j--)
-    if ((r -= a[j].n/sum) <=0) break
-  return j }
+  for(j=1; j<=length(rules); j++) {
+    r= r - rules[j].n/sum
+    if (r<=0) return j }
+  return length(rules) }
 
-function Plan(i,rest,best,c0,x,nb) {
-  Obj(i); is(i,"Plan") 
+#------------------------------
+function Rule(i,rest,best,c,x,nb) {
+  Obj(i); is(i,"Rule") 
   has(i,"has")
-  i.has[c0][x]
+  i.has[c][x]
+  i.doubt    = 0 
   i.n    = 0 
   i.from = rest 
   i.to   = best 
-  i.c0   = c0
   _Score(i,nb) }
 
 function _Score(i,nb,  b,r,n,h) {
   h = nb.h[i.to] + nb.h[i.from]
-  b = NbLike(nb, i.has, i.to,  h)
-  r = NbLike(nb, i.has, i.from,h) 
+  b = NbLike(nb, i.has, i.to,  h,2)
+  r = NbLike(nb, i.has, i.from,h,2) 
   n = b^2/(b+r)
   i.n = (b > r+.01) ? n : 0 
   return i.n }
@@ -352,13 +361,23 @@ function _Score(i,nb,  b,r,n,h) {
 function _Better(i,j,c,x,nb) { 
   copy(i,j)
   j.has[c][x]
-  print("::", _Score(j,nb), i.n, _Score(j,nb) > i.n+.01)
   return _Score(j,nb) > i.n+.01 }
 
 function _Merge(i,j,k,nb,    c,x) {
   copy(i,k)
-  for(c in j.has)
-    for(x in j.has[c]) k.has[c][x]
+  copy(j,k)
+  #for(c in j.has) {
+   # for(x in j.has[c])  {
+    #  k.has[c][x] }}
   _Score(k,nb) 
-  return (k.n > i.n) || (k.n > j.n)
+  return (k.n > i.n) && (k.n > j.n)
 }   
+
+function _Say(i,     c,x,s,sep) {
+  print(">>>>"); oo(i)
+  for(c in i.has)  {
+    print(typeof(c))
+   for(x in i.has[c]) {
+     print(typeof(x)); s = s c"="x" "}}
+  return "["int(100*i.n)"] " s
+}

@@ -31,13 +31,14 @@ function ranging(f,    c,i,j,n,s,order,out,len) {
   #print(9)
   Nb(n,i.cols, i.rows)
   #oo(i.cols[4])
-  NbPlans(n, out)
-  oo(out)
+  NbRules(n, out)
+  #oo(out)
 }
 
 function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }
 
 BEGIN { srand(Gold.seed ? Gold.seed : 1) 
+        print(rand())
         ranging("auto93")
         rogues()  }
 
