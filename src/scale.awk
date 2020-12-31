@@ -272,7 +272,8 @@ function _Rules(i,rules,    best,rest,c,j) {
         #oo(rules[rest]) 
       print("\n====== "rest)
       revsort(rules[rest],"n")
-      for(j in rules[rest]) print RuleSay(rules[rest][j])
+     oo(rules[rest])
+      #for(j in rules[rest]) print RuleSay(rules[rest][j])
       }}
 
 # (a) Make one rule for every range of column `c`.
@@ -365,10 +366,9 @@ function _Better(i,j,c,x,nb) {
 
 function _Merge(i,j,k,nb,    c,x) {
   copy(i,k)
-  copy(j,k)
-  #for(c in j.has) {
-   # for(x in j.has[c])  {
-    #  k.has[c][x] }}
+  for(c in j.has) {
+    for(x in j.has[c])  {
+      k.has[c][x] }}
   _Score(k,nb) 
   return (k.n > i.n) && (k.n > j.n)
 }   
@@ -376,8 +376,7 @@ function _Merge(i,j,k,nb,    c,x) {
 function _Say(i,     c,x,s,sep) {
   print(">>>>"); oo(i)
   for(c in i.has)  {
-    print(typeof(c))
    for(x in i.has[c]) {
-     print(typeof(x)); s = s c"="x" "}}
+      s = s c"="x" "}}
   return "["int(100*i.n)"] " s
 }
