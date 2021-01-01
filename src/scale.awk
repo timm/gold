@@ -249,12 +249,12 @@ function _Adds(i,row,cols,    r,h,c,x) {
        i.f[h][c][x]++ }}
 
 
-function _Like(i,  # :Nb
-               a,  # :list of 
-                   #  asdasas
-               h,  # :str; 
-               n,  # :num;
-               nh, # :num
+function _Like(i,  # :Nb asdas
+               a,  # :list of  asda
+                   #  _asdasas asdas
+               h,  # :str asdasd
+               n,  # :num asdas
+               nh, # :num asdas
                like,prior,inc,c,x,f) {
   like = prior = (i.h[h] + i.k) / (n + i.k*nh)
   like = log(like)
