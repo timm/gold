@@ -231,8 +231,8 @@ function Nb(i,cols,rows,     r) {
   i.m=2
   i.n = 0
   i.population = 20
-  i.generations= 40
-  i.samples    = 100 
+  i.generations= 20
+  i.samples    = 20 
   i.best = -1
   has(i,"ranges")
   for(r in rows) _Adds(i,rows[r],cols) }

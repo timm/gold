@@ -32,7 +32,7 @@ function ranging(f,    c,i,j,n,s,order,out,len) {
   Nb(n,i.cols, i.rows)
   #oo(i.cols[4])
   NbRules(n, out)
-  #oo(out)
+  oo(out)
 }
 
 function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }
