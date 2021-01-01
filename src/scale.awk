@@ -269,12 +269,13 @@ function _Rules(i,rules,    best,rest,c,j) {
       for(c in i.f[i.best]) 
         _OneAttributeRules(i,c,rest,rules[rest]);  # ... (a)
       _Learn(i,rest,rules[rest], i.generations)
-        #oo(rules[rest]) 
-      print("\n====== "rest)
-      revsort(rules[rest],"n")
-     oo(rules[rest])
-      #for(j in rules[rest]) print RuleSay(rules[rest][j])
-      }}
+      _Best(i,rules[rest]) }}
+       
+function _Best(i,rules,    j) {
+  revsort(rules,"n")
+  for(j in rules) 
+    if(j+0 >i.population)
+      delete rules[j] }
 
 # (a) Make one rule for every range of column `c`.
 # (b) If ever we use a range, mark it `used` (so we never use it twice).
@@ -311,27 +312,23 @@ function _GrowOneAttributeRule(i,c,used,current,rules,   x,x0,new) {
     append(rules,current) }  # .......... (g)
 
 #------------------------------
-function _Learn(i,rest,rules,gen,     b4,sum,j,n) {
+function _Learn(i,rest,rules,gen,     zero,b4,sum,j,n) {
   if(gen < 2           ) return
   if(length(rules) < 2 ) return
-  revsort(rules,"n")
-  for(j=i.population+1;j<=length(rules); j++)
-    delete rules[j]
-  for(j in rules)  {
-    sum += rules[j].n 
-    #print("summing", rules[j].n, sum)
-  }
-  b4 = length(rules)
+  _Best(i,rules)
+  for(j in rules) 
+   sum += rules[j].n 
   n = i.samples
-  while(--n > 0) _Pick2(i,rules,sum)
-  if(length(rules) > b4) {
-    _Learn(i,rest,rules, gen-1) }}
+  while(--n > 0) 
+   _Pick2(i,rules,sum)
+  if(length(rules) > b4) 
+    _Learn(i,rest,rules, gen-1) }
 
 function _Pick2(i,rules,sum,    new,diff,j,k) {
   j = _Pick1(i,rules,sum)
   k = _Pick1(i,rules,sum)
-  if (j != k && RuleMerge(rules[j], rules[k], new, i))  { 
-    append(rules, new)  }}
+  if (j != k && RuleMerge(rules[j], rules[k], new, i))  
+    append(rules, new)  }
 
 function _Pick1(i,rules,sum,   j,r) {
   r = rand()

@@ -38,7 +38,9 @@ function is(i, new) {
   i["is"] = new }
 
 function new(i,k) { 
-  i[k]["\127"]; delete i[k]["\127"]; return k}
+  k = k ? k : length(i) + 1
+  i[k]["\127"]; delete i[k]["\127"]
+  return k }
 
 function does(i,f,      s,k0,k) {
   k = k0 = i["is"]
@@ -87,8 +89,7 @@ function last(a)  { return a[length(a)] }
 function copy(a,b,   j) { 
   for(j in a) 
     if(isarray(a[j]))  { new(b,j); copy(a[j], b[j]) }
-    else
-      b[j] = a[j] }
+    else               { b[j] = a[j]                }}
 
 function append(a, x,k) { 
    k = length(a) + 1
