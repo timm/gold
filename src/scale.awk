@@ -248,7 +248,14 @@ function _Adds(i,row,cols,    r,h,c,x) {
        i.at[h][c][x][row.id]
        i.f[h][c][x]++ }}
 
-function _Like(i,a,h,n,nh, like,prior,inc,c,x,f) {
+
+function _Like(i,  # :Nb
+               a,  # :list of 
+                   #  asdasas
+               h,  # :str; 
+               n,  # :num;
+               nh, # :num
+               like,prior,inc,c,x,f) {
   like = prior = (i.h[h] + i.k) / (n + i.k*nh)
   like = log(like)
   for(c in a) {
@@ -370,10 +377,11 @@ function _Merge(i,j,k,nb,    c,x) {
   return (k.n > i.n) && (k.n > j.n)
 }   
 
-function _Say(i,     c,x,s,sep) {
-  print(">>>>"); oo(i)
+function _Show(i,     c,x,s,sep) {
   for(c in i.has)  {
+   s= s c"=("; sep=""
    for(x in i.has[c]) {
-      s = s c"="x" "}}
+      s = s sep x; sep=","}
+   s=s") "}
   return "["int(100*i.n)"] " s
 }

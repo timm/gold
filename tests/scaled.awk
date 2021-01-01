@@ -23,7 +23,7 @@ function doming(f, i,n,rows,j) {
   print ""
   for(j=n-10;j<=n;j++) print RowShow(rows[j],i)
 }
-function ranging(f,    c,i,j,n,s,order,out,len) {
+function ranging(f,    c,i,j,n,s,order,out,len,rest,r) {
   Tab(i)
   TabRead(i,data(f ? f : "weather") )
   TabDom(i,order)
@@ -32,7 +32,10 @@ function ranging(f,    c,i,j,n,s,order,out,len) {
   Nb(n,i.cols, i.rows)
   #oo(i.cols[4])
   NbRules(n, out)
-  oo(out)
+  for(rest in out) {
+   print ""
+   for(r in out[rest])
+     print n.best,rest,r,RuleShow(out[rest][r]) }
 }
 
 function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }
