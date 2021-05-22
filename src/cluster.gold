@@ -23,14 +23,9 @@ function _Div(i,t,rows,the,up) {
     if (x<0) x = 0
     tmp[r]["id"]   = r
     tmp[r]["dist"] = x }
-  n= keysort(tmp,"dist")
-  mid = tmp[ int(n/2) ].dist
+  n= int( keysort(tmp,"dist")/2 )
+  mid = tmp[ n ].dist
   for(r in tmp)
     append(tmp[r].dist < mid ? lefts : rights,rows[r])
   if (length(lefts) > the.min) _Div(i,t,lefts,the)
   if (length(rights) > the.min) _Div(i,t,rights,the)}
-
-  
-
-  
-  
