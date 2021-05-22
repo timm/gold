@@ -1,0 +1,9 @@
+# vim: filetype=awk ts=2 sw=2 sts=2 et :
+
+@include "col"
+
+function Skip(i,pos,txt,w) {
+  Col(i,pos,txt,w)
+  i.is = "Skip" }
+
+function _Add(i,x) { return x }

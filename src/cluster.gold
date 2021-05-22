@@ -1,0 +1,13 @@
+# vim: filetype=awk ts=2 sw=2 sts=2 et :
+
+@include "tab"
+
+function Cluster(i,tab) {
+  Obj(i)
+  i.is = "Cluster"
+  i,min = length(tab.rows)^.5 }
+
+function _Div(i,tab) {
+  dist(tab.rows[anyi(tab.rows)]
+
+  

@@ -1,0 +1,394 @@
+	# gawk profile, created Sat May 22 16:28:04 2021
+
+	# BEGIN rule(s)
+
+	BEGIN {
+     1  	Gold["dot"] = sprintf("%c", 46)
+     1  	Gold["dots"] = Gold["dot"] Gold["dot"]
+     1  	Gold["seed"] = 1
+     1  	Gold["pi"] = 3.1415926535
+     1  	Gold["e"] = 2.7182818284
+     1  	Gold["id"] = 0
+	}
+
+
+	# Functions, listed alphabetically
+
+	function HAS(i, k, f, x, y, z)
+	{
+		new(i, k)
+		@f(i[k], x, y, z)
+		return k
+	}
+
+	function HASS(i, k, f, w, x, y, z)
+	{
+		new(i, k)
+		@f(i[k], w, x, y, z)
+		return k
+	}
+
+	function MORE(i, f, w, x, y, z)
+	{
+		return HASS(i, length(i) + 1, f, w, x, y, z)
+	}
+
+	function Obj(i)
+	{
+		i["id"] = ++Gold["id"]
+	}
+
+	function abs(x)
+	{
+		return (x < 0 ? -1 * x : x)
+	}
+
+	function any(a)
+	{
+		return a[anyi(a)]
+	}
+
+	function anyi(a)
+	{
+		return (1 + int(rand() * length(a)))
+	}
+
+	function append(a, x, k)
+	{
+		k = length(a) + 1
+		new(a, k)
+		copy(x, a[k])
+	}
+
+	function assert(x, s)
+	{
+		if (! x) {
+			print "FAIL " s
+		}
+		return 1
+	}
+
+	function copy(a, b, j)
+	{
+		for (j in a) {
+			if (isarray(a[j])) {
+				new(b, j)
+				copy(a[j], b[j])
+			} else {
+				b[j] = a[j]
+			}
+		}
+	}
+
+	function csv(a, f, b4, g, txt, i, old, new)
+	{
+		f = f ? f : "-"
+		g = getline < f
+		if (g < 0) {
+			print "#E> Missing file [" f "]"
+			exit 1
+		}
+		if (g == 0) {
+			close(f)
+			return 0
+		}
+		txt = b4 $0
+		gsub(/[ \t]+/, "", txt)
+		if (txt ~ /,$/) {
+			return csv(a, f, txt)
+		}
+		sub(/#.*/, "", txt)
+		if (! txt) {
+			return csv(a, f, txt)
+		}
+		split(txt, a, ",")
+		for (i in a) {
+			old = a[i]
+			new = a[i] + 0
+			a[i] = (old == new) ? new : old
+		}
+		return 1
+	}
+
+	function does(i, f, s, k0, k)
+	{
+		k = k0 = i["is"]
+		do {
+			s = k f
+			if (s in FUNCTAB) {
+				return s
+			}
+		} while (k = Gold["is"][k])
+		print "E> method not found " f " in " k0
+		exit 1
+	}
+
+	function ent(d, n, x, p, e)
+	{
+		for (x in d) {
+			if ((p = d[x] / n) > 0) {
+				e -= p * log(p) / log(2)
+			}
+		}
+		return e
+	}
+
+	function hAS(i, k, f, x, y)
+	{
+		new(i, k)
+		@f(i[k], x, y)
+		return k
+	}
+
+	function haS(i, k, f, x)
+	{
+		new(i, k)
+		@f(i[k], x)
+		return k
+	}
+
+	function has(i, k, f)
+	{
+		new(i, k)
+		if (f) {
+			@f(i[k])
+		}
+		return k
+	}
+
+	function is(i, new)
+	{
+		if ("is" in i) {
+			Gold["is"][new] = i["is"]
+		}
+		i["is"] = new
+	}
+
+	function it(i, f)
+	{
+		f = does(i, "It")
+		return @f(i)
+	}
+
+	function keysorT(a, b, k)
+	{
+		Gold["sort"] = k
+		return asort(a, b, "srt")
+	}
+
+	function keysort(a, k)
+	{
+		Gold["sort"] = k
+		return asort(a, a, "srt")
+	}
+
+	function keysrtCompare(x, y)
+	{
+		return (x < y ? -1 : (x == y ? 0 : 1))
+	}
+
+	function last(a)
+	{
+		return a[length(a)]
+	}
+
+	function mORE(i, f, x, y, z)
+	{
+		return HAS(i, length(i) + 1, f, x, y, z)
+	}
+
+	function max(x, y)
+	{
+		return (x < y ? y : x)
+	}
+
+	function min(x, y)
+	{
+		return (x > y ? y : x)
+	}
+
+	function moRE(i, f, x, y)
+	{
+		return hAS(i, length(i) + 1, f, x, y)
+	}
+
+	function morE(i, f, x)
+	{
+		return haS(i, length(i) + 1, f, x)
+	}
+
+	function more(i, f)
+	{
+		return has(i, length(i) + 1, f)
+	}
+
+	function new(i, k)
+	{
+		k = k ? k : length(i) + 1
+		i[k]["W"]
+		delete i[k]["W"]
+		return k
+	}
+
+	function o(a, prefix, i, sep, s)
+	{
+		for (i in a) {
+			s = s sep prefix a[i]
+			sep = ","
+		}
+		return s
+	}
+
+	function oo(a, prefix, indent, i, txt)
+	{
+		txt = indent ? indent : (prefix ? prefix Gold["dot"] : "")
+		if (! isarray(a)) {
+			print (a)
+			return a
+		}
+		ooSortOrder(a)
+		for (i in a) {
+			if (isarray(a[i])) {
+				print (txt i "")
+				oo(a[i], "", "|  " indent)
+			} else {
+				print (txt i (a[i] == "" ? "" : ": " a[i]))
+			}
+		}
+	}
+
+	function ooSortOrder(a, i)
+	{
+		for (i in a) {
+			return (PROCINFO["sorted_in"] = typeof(i + 1) == "number" ? "@ind_num_asc" : "@ind_str_asc")
+		}
+	}
+
+	function ooo(a, prefix, i, sep, s)
+	{
+		for (i in a) {
+			s = s sep prefix i "=" a[i]
+			sep = ", "
+		}
+		return s
+	}
+
+	function push(x, a)
+	{
+		a[length(a) + 1] = x
+		return x
+	}
+
+	function redGreen(bad)
+	{
+		while (getline) {
+			if (/^---/) {
+				$0 = "\033[01;36m" $0 "\033[0m"
+			}
+			if (/FAIL/) {
+				bad++
+				$0 = "\033[31m" $0 "\033[0m"
+			}
+			if (/PASS/) {
+				$0 = "\033[32m" $0 "\033[0m"
+			}
+			print $0
+		}
+		exit (bad != 0)
+	}
+
+	function revsorT(a, b, k)
+	{
+		Gold["sort"] = k
+		return asort(a, b, "rsrt")
+	}
+
+	function revsort(a, k)
+	{
+		Gold["sort"] = k
+		return asort(a, a, "rsrt")
+	}
+
+	function rogues(s, ignore)
+	{
+		for (s in SYMTAB) {
+			if (s ~ /^[_a-z]/) {
+				print("#W> Rogue: " s) > "/dev/stderr"
+			}
+		}
+	}
+
+	function rows(a, f, g, txt)
+	{
+		f = f ? f : "-"
+		g = getline < f
+		if (g < 0) {
+			print "#E> Missing file [" f "]"
+			exit 1
+		}
+		if (g == 0) {
+			close(f)
+			return 0
+		}
+		delete a
+		split($0, a, ",")
+		return 1
+	}
+
+	function rsrt(i1, x, i2, y)
+	{
+		return (-1 * srt(i1, x, i2, y))
+	}
+
+	function srt(i1, x, i2, y)
+	{
+		return keysrtCompare(x[Gold["sort"]] + 0, y[Gold["sort"]] + 0)
+	}
+
+	function toAwk(klass, codep, tmp)
+	{
+		OFS = FS = "\n"
+		RS = ""
+		while (getline) {
+			codep = (/}[ \t]*$/ || /^@include/)
+			if (! codep) {
+				for (i = 1; i <= NF; i++) {
+					$i = "# " $i
+				}
+				print $0 "\n"
+			} else {
+				if (/^func(tion)?[ \t]+[A-Z][^\(]*\(/) {
+					split($0, tmp, /[ \t\(]/)
+				}
+				klass = tmp[2]
+				gsub(/[ \t]_/, " " klass, $0)
+				$0 = gensub(/([A-Z][^\(]+)\(\(([A-Za-z0-9_]+)(.*)\)\)/, "((FUN=does(\\2,\"\\1\"))?@FUN(\\2\\3):1)", "g", $0)
+				print gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, "[\"\\1\\2\"]", "g", $0)
+				print ""
+			}
+		}
+	}
+
+	function toMd(pre, codep, codeb4)
+	{
+		FS = "\n"
+		RS = ""
+		print "\n# " ARGV[1] "\n"
+		while (getline) {
+			if (/^# vim: /) {
+				continue
+			}
+			codep = /}[ \t]*$/
+			if (codep && ! codeb4) {
+				print "\n```awk"
+			}
+			if (! codep && codeb4) {
+				print "```\n"
+			}
+			print $0
+			codeb4 = codep
+		}
+		if (codep) {
+			print "```"
+		}
+	}

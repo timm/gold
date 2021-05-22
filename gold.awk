@@ -13,11 +13,13 @@ BEGIN {
    Gold["e"]    = 2.7182818284
    Gold["id"]   = 0 }
 
+################################################
 ### transpile stuff
+
 function toAwk(  klass,codep,tmp) {
   OFS=FS="\n"; RS=""
   while (getline) {
-    codep = /}[ \t]*$/
+    codep= (/}[ \t]*$/ || /^@include/)
     if (! codep) {
       for(i=1;i<=NF;i++) $i="# " $i
       print $0  "\n"  
@@ -27,9 +29,10 @@ function toAwk(  klass,codep,tmp) {
         split($0,tmp,/[ \t\(]/); klass = tmp[2] 
       # expand " _" to the current class
       gsub(/[ \t]_/," " klass)
-      # method call shorthand. Genertes (FUN=does(obj,"f")?@FUN(obj):1)
-      $0=gensub(/([A-Z][^\(]+)\(\(([A-Za-z0-9_]+)(.*)\)\)/,
-                "((FUN=does(\\2,\"\\1\"))?@FUN(\\2\\3):1)","g",$0)
+      # method call shorthand. Generates (FUN=does(obj,"f")?@FUN(obj):1)
+      #if  (/@[A-Z][^\(]+\(/) print 11 ": " $0
+      #$0=gensub(/@([A-Z][^\(]+)\(\(([A-Za-z\.0-9_]+)(.*)\)\)/,
+      #          "((FUN=does(\\2,\"\\1\"))?@FUN(\\2\\3):1)","g",$0)
       # turn a.b.c[1] into a["b"]["c"][2]
       print  gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
                   "[\"\\1\\2\"]","g", $0) 
@@ -48,7 +51,18 @@ function toMd(   pre,codep,codeb4) {
   }
   if (codep) print "```" }
 
+function  redGreen(  bad) {
+  while(getline) {
+     if (/^---/) { $0="\033[01;36m"$0"\033[0m" }
+     if (/FAIL/) { bad++; $0="\033[31m"$0"\033[0m" }
+     if (/PASS/) { $0="\033[32m"$0"\033[0m" }
+     print $0  }                
+  exit(bad!=0)
+}
+
+################################################
 ### object creation stuff
+
 function Obj(i)   { i["id"] = ++Gold["id"] }
 
 function is(i, new) {
@@ -71,6 +85,7 @@ function does(i,f,      s,k0,k) {
 ## add a nested list to `i` at `k` using constructor `f` (if supplied)
 ## the haS and hAS and HAS variants are the same, 
 ## but constructors have 1 or 2 or 3 args
+
 function has(i,k,     f)     {new(i,k); if(f) @f(i[k])        ;return k}
 function haS(i,k,f,x)        {new(i,k);       @f(i[k],x)      ;return k}
 function hAS(i,k,f,x,y)      {new(i,k);       @f(i[k],x,y)    ;return k}
@@ -81,13 +96,18 @@ function HASS(i,k,f,w,x,y,z) {new(i,k);       @f(i[k],w,x,y,z);return k}
 # Note: `i` must already be a list.
 ## the morE and moRE and mORE variants are the same, 
 ## but constructors have 1 or 2 or 3 args
+
 function more(i,f)         {return has(i,length(i)+1,f)          }
 function morE(i,f,x)       {return haS(i,length(i)+1,f,x)        }
 function moRE(i,f,x,y)     {return hAS(i,length(i)+1,f,x,y)      }
 function mORE(i,f,x,y,z)   {return HAS(i,length(i)+1,f,x,y,z)    }
 function MORE(i,f,w,x,y,z) {return HASS(i,length(i)+1,f,w,x,y,z) }
 
+################################################
+### Support stuff
+
 ### math stuff
+
 function abs(x)   { return x<0? -1*x : x }
 function max(x,y) { return x<y? y : x }
 function min(x,y) { return x>y? y : x }
@@ -98,12 +118,15 @@ function ent(d,n,   x,p,e) {
   return e }
 
 ## push to end of list
+
 function push(x,a) { a[length(a)+1]=x; return x }
 
 ## return  end of list
+
 function last(a)  { return a[length(a)] }
 
 # recursive copy of `a` into `b`
+
 function copy(a,b,   j) { 
   for(j in a) 
     if(isarray(a[j]))  { new(b,j); copy(a[j], b[j]) }
@@ -114,9 +137,15 @@ function append(a, x,k) {
    new(a,k)
    copy(x, a[k]) }
 
+# any index in a lst
+
+function anyi(a) { return 1+ int(rand() * length(a)) }
+function any( a) { return a[ anyi(a) ] }
+
 ### sort a list on some named field `k`
 # `keysort` modifies the urinal list while `keysorT` returns
 # a sorted copy.
+
 function keysort(a,k)   { Gold["sort"]=k; return asort(a,a,"srt")  }
 function keysorT(a,b,k) { Gold["sort"]=k; return asort(a,b,"srt")  }
 function revsort(a,k)   { Gold["sort"]=k; return asort(a,a,"rsrt") }
@@ -129,16 +158,19 @@ function srt(i1,x,i2,y) {
 function keysrtCompare(x,y) { return x<y ? -1 : (x==y?0:1) }
 
 ## flat list to string. Optionally, show `prefix`
+
 function ooo(a, prefix,     i,sep,s) {
   for(i in a) {s = s sep prefix i"="a[i]; sep=", "}
   return  s }
 
 ## flat list to string. Optionally, show `prefix`
+
 function o(a, prefix,     i,sep,s) {
   for(i in a) {s = s sep prefix a[i]; sep=","}
   return  s }
 
 ## print nested array, keys shown in sorted order
+
 function oo(a,prefix,    indent,   i,txt) {
   txt = indent ? indent : (prefix ? prefix Gold["dot"] : "")
   if (!isarray(a)) {print(a); return a}
@@ -157,13 +189,19 @@ function ooSortOrder(a, i) {
 
 ### meta stuff
 ## hunt down rogue local variabes
+
 function rogues(   s,ignore) { 
   for(s in SYMTAB) 
     if (s ~ /^[_a-z]/) 
       print "#W> Rogue: "  s>"/dev/stderr" }
 
+function assert(x,s) {
+  if (!x) print "FAIL " s
+  return 1 }
+
 ### file stuff
 ## looping over files 
+
 function rows(a, f,       g,txt) {
   f = f ? f : "-"             
   g = getline < f
@@ -176,6 +214,7 @@ function rows(a, f,       g,txt) {
 function it(i,  f) { f=does(i,"It"); return @f(i) }
 
 ## looping over csvs
+
 function csv(a, f,       b4, g,txt,i,old,new) {
   f = f ? f : "-"             
   g = getline < f

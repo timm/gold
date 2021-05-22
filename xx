@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+main() { gawk '
+    /un/ {print}'  $*
+}
+if [ -t 0 ]
+then   
+   echo 1
+   main $*
+else 
+    echo 2
+    cat - | main
+fi

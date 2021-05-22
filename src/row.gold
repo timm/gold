@@ -1,0 +1,24 @@
+# vim: filetype=awk ts=2 sw=2 sts=2 et :
+
+function Row(i,a, tab) {
+  Obj(i)
+  i.is   =  "Row"
+  i.p    = 2
+  i.cols = "x"
+  i.far  = .8
+  for(j in a) add(tab.cols.all[j], a[j]) }
+
+function  _Dist(i,j,tab,cols,     k,n,d) {
+  if (!length(cols))  
+    return  _Dist(i,j,tab,tab.cols)
+  cols = cols ? cols : i.cols
+  for(k in cols) {
+    n+=1
+    d+= dist(tab.cols.all[k], i.cells[k], j.cells[k] )^i.p }
+  return (d/p)^(1/i.p) }
+
+function _Far(i, tab,cols,     tmp,n) {
+  for(j in tab.rows) {
+    tmp[j]["id"] = j
+    tmp[j]["dist"] = _Dist(i, tab.rows[j]) }
+  return = int( i.far * keysort(tmp,"dist") ) }

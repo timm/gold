@@ -1,0 +1,11 @@
+# vim: filetype=awk ts=2 sw=2 sts=2 et :
+
+How to recongize the different rols for the columns.
+  
+function isWhat(s)     { isSkip(s) ? "Skip" : (
+                         isNum(s)  ? "Num"  : "Sym") }
+function isWeighted(s) { return s ~ /-/ ? -1:1 }
+function isKlass(s)    { return s ~ /!/        }
+function isSkip(s)     { return s ~ /\?/       }
+function isNum(s)      { return s ~ /^[A-Z]/   }
+function isY(s)        { return s ~ /[\+-!]/   }
