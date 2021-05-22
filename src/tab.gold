@@ -18,6 +18,11 @@ function _Add(i, a) {
     else 
       length(i.cols) ?  moRE(i.rows, "Row", a,i) : haS(i,"Cols",a) }}
 
+function _Clone(i, j, rows) {
+  Tab(j, i.names)
+  for(r in rows)
+    add(j, rows[r]) }
+
 function Cols(i,a,    txt) {
   Obj(i)
   i.is = "Cols"
@@ -25,8 +30,10 @@ function Cols(i,a,    txt) {
   has(i,"x")
   has(i,"y")
   has(i,"all")
+  has(i,"names")
   for(at in a) {
     txt = a[at]
+    i.names[at] = txt
     hAS(i.all, at, isWhat(txt), at, txt)
     if (isSkip(txt)) return
     isY(txt) ? i.y[at] : i.x[at]

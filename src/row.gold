@@ -3,22 +3,18 @@
 function Row(i,a, tab) {
   Obj(i)
   i.is   =  "Row"
-  i.p    = 2
-  i.cols = "x"
-  i.far  = .8
   for(j in a) add(tab.cols.all[j], a[j]) }
 
-function  _Dist(i,j,tab,cols,     k,n,d) {
+function  _Dist(i,j,tab,the,     k,n,d) {
   if (!length(cols))  
-    return  _Dist(i,j,tab,tab.cols)
-  cols = cols ? cols : i.cols
-  for(k in cols) {
+    return  _Dist(i,j,tab,the)
+  for(k in the.cols) {
     n+=1
-    d+= dist(tab.cols.all[k], i.cells[k], j.cells[k] )^i.p }
-  return (d/p)^(1/i.p) }
+    d+= dist(tab.cols.all[k], i.cells[k], j.cells[k] )^the.p }
+  return (d/n)^(1/the.p) }
 
-function _Far(i, tab,cols,     tmp,n) {
+function _Far(i,tab,the,     tmp,n) {
   for(j in tab.rows) {
     tmp[j]["id"] = j
-    tmp[j]["dist"] = _Dist(i, tab.rows[j]) }
-  return = int( i.far * keysort(tmp,"dist") ) }
+    tmp[j]["dist"] = _Dist(i,tab.rows[j],tab,the) }
+  return = int( the.far * keysort(tmp,"dist") ) }
