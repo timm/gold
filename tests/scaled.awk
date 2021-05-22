@@ -29,13 +29,15 @@ function ranging(f,    c,i,j,n,s,order,out,len,rest,r) {
   TabDom(i,order)
   #SomeBins(i.cols[4])
   #print(9)
-  Nb(n,i.cols, i.rows)
+  Nb(n,i.xs, i.cols, i.rows)
   #oo(i.cols[4])
   NbRules(n, out)
+  for(c in i.xs)
+    print card(i.cols[c]) " values for "i.cols[c].txt
   for(rest in out) {
-   print ""
-   for(r in out[rest])
-     print n.best,rest,r,RuleShow(out[rest][r]) }
+   print "\n"n.best,rest
+   for(r in out[rest]) print "\t"RuleShow(out[rest][r],i) 
+}
 }
 
 function data(f) { return Gold.dots "/data/" f Gold.dot "csv" }

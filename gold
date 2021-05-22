@@ -1,90 +1,46 @@
 #!/usr/bin/env bash 
+GOLD=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
+GOLDlib=$HOME/opt/share/awk
+GOLDtest=$GOLD/tests
+GOLDdoc=$GOLD/docs
+AWKPATH="$GOLDlib:./:$AWKPATH"
 
-####------------------------------------------------------------
-## configuration
+help() { cat <<EOF
+gold: the Gawk object layer
 
-##  where to write the generated code
-Lib=$HOME/opt/share/awk
+usage: gold [OPTIONS]
 
-## Where to get missing files
-Repo="https://raw.githubusercontent.com/timm/gold/master"
-
-## install directory for gold. defaults to where the gold is
-Gold=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
-
-## where to find code to compile
-Golds="$Gold/src $Gold/tests"
-
-### end configuration
-
-####------------------------------------------------------------
-## help noted
-
-usage() {  tput bold; tput setaf 6; cat <<'EOF'
-GOLD: a preprocessor for AWK code
-(c) 2020 MIT License, Tim Menzies timm@ieee.org
-
-        _.-'~~`~~'-._
-     .'`  M   P   L  `'.
-    / I               E \
-  /`       .-'~"-.       `\
- ; S      / `-    \      R ;
-;        />  `.  -.|        ;
-|       /_     '-.__)       |
-|        |-  _.' \ |        |
-;        `~~;     \\        ;
- ; IN AWK  /      \\)P    ;
-  \WE TRUST'.___.-'`"     /
-   `\                   /`
-     '._   2 0 2 0   _.'
- jgs    `'-..,,,..-'`
-
+OPTIONS:
+  -c FILE  transpile FILE (or FILE.gold) to $GOLDlib/FILE.awk 
+  -d       write doc for all files in current directory to $GOLDdoc
+  -f FILE  run FILE (or FILE.gold) in current directory
+  -h       show help
+  -l PATH  Set GOLDlib (where the tranpiled code is stored)
+  -p FILE  run and profile file (or FILE.gold) in current directory
+  -s       list settings
+  -t PATH  Set GOLDtest (where the init tests are stored)
+  -u       run unit tests from all files in $GOLDtest
+  -u FILE  run unit tests from FILE in $GOLDtest
 EOF
-  tput sgr0; tput setaf 7; cat<<'EOF'
-Augments standard gawk with polymorphism, encapsulation, objects, 
-attributes, methods, iterators, unit tests, multi-line comments.
-All in under 30 lines of Gawk (a little awk goes a long way).
-
-INSTALL:
-   chmod +x gold; ./gold -i
-
-USAGE:
-  ./gold               convert .awk files in src and test to shared
-  ./gold -h            as above, also prints this help text
-  ./gold xx.awk        as above, then runs xx.awk
-  ./gold xx            ditto
-  Com | ./gold xx.awk  as above, taking input from Com
-  Com | ./gold xx      ditto
-  . gold               adds some bash tools to local enviroment
-
-Alternatively, to execute your source file directly using ./xx.awk,
-chmod +x xx.awk and add the top line:
-
-  #!/usr/bin/env path2gold
-
-If called via ". gold" then the following alias are defined:
-EOF
-  tput setaf 9; echo ""
-  gawk 'sub(/^[ \t]*alias/,"alias") {print $0}' $Gold/gold
-  tput sgr0
 }
+mkdir -p $GOLDlib $GOLDtest $GOLDdoc
 
-####------------------------------------------------------------
-## support code
-
-## ensure file exists, or get download it from $Repo
-exists() {
-  want=$Gold/$1
-  if [ -f "$want" ]; then
-     true
-  else
-    echo "Downloading $1..."
-    mkdir -p $(dirname $want) 
-    curl -s $Repo/$1 -o $want
-  fi
+gold2awks()  {
+  for f in "*.gold"; do
+    g=$GOLDlib/${g%.*}.awk
+    if [ "$g" -nt "$f" ]; then
+      $GOLD/gold.awk --source '{toAwk()}'  $f > $g
+    fi
+  done
 }
-
-## any line containing FAIL or PASS gets shown in RED or GREEN
+gold2docs()  {
+  for f in "*.gold"; do
+    g=$GOLDdoc/${g%.*}.md
+    if [ "$g" -nt "$f" ]; then
+      $GOLD/gold.awk --source '{toMd()}'  $f > $g
+    fi
+  done
+}
 redgreen() { gawk '
      /^---/ { $0="\033[01;36m"$0"\033[0m" }
      /FAIL/ { bad++; $0="\033[31m"$0"\033[0m" }
@@ -92,98 +48,71 @@ redgreen() { gawk '
             { print $0                 }
      END    { exit bad!=0 }'
 }
-here() { cd $1; basename `pwd`; }
 
-####------------------------------------------------------------
-## ensure base system exists
 
-mkdir -p $Lib
-
-exists gold.awk
-cp $Gold/gold.awk $Lib
-
-####------------------------------------------------------------
-## transpile all code in $Golds to $Lib
-
-for i in $(find $Golds -name "*.awk"); do
-  f=$i
-  g=$(basename $f)
-  g=$Lib/${g%.*}.awk
-  if [ "$f" -nt "$g" ]; then 
-     gawk -f $Lib/gold.awk --source 'BEGIN { gold2awk("'$f'")}' > $g 
-  fi
+while getopts ":f:p:u:c:lhus:d:t:L" options; do   
+  case "${options}" in                    # 
+    h)                                    # If the option is n,
+      help
+      ;;
+    s)                                    # If the option is t,
+      echo "GOLD     = $GOLD"
+      echo "GOLDlib  = $GOLDlib"
+      echo "GOLDtest = $GOLDtest"
+      echo "GOLDdoc  = $GOLDdoc"
+      echo "AWKPATH  = $AWKPATH"
+      ;;
+    d) 
+      GOLDdoc=${OPTARG}
+      ;;
+    t) 
+      GOLDtest=${OPTARG}
+      ;;
+    l) 
+      GOLDlib=${OPTARG}
+      ;;
+    u)                                    # If expected argument omitted:
+       cd $GOLDtest
+       $GOLD/gold -f ${OPTARG} | redgreen
+      ;;
+    U) 
+      cd $GOLDtest
+      for f in *.gold; do $GOLD/gold -t $f; done |  redgreen
+      ;;
+    p) 
+      f=${OPTARG}
+      g=$GOLDlib/${f%.*}
+      shift $((OPTIND -1))
+      COM="gawk -p -f $GOLD/gold.awk -f ${g}.awk"
+      if [ -t 0 ]
+        then         AWKPATH="$AWKPATH" $COM $@
+        else cat - | AWKPATH="$AWKPATH" $COM $@
+      fi
+      exit
+      ;;
+    f)
+      f=${OPTARG}
+      g=$GOLDlib/${f%.*}
+      shift $((OPTIND -1))
+      COM="gawk -f $GOLDlib/gold.awk -f ${g}.awk"
+      if [ -t 0 ]
+        then         AWKPATH="$AWKPATH" $COM $@
+        else cat - | AWKPATH="$AWKPATH" $COM $@
+      fi
+      exit
+     ;;
+    d)
+      f=${OPTARG}
+      g=$GOLDlib/${f%.*}
+      shift
+      COM="gawk -f $GOLDlib/gold.awk -f ${g}.awk"
+      if [ -t 0 ]
+        then         AWKPATH="$AWKPATH" $COM $*
+        else cat - | AWKPATH="$AWKPATH" $COM $*
+     fi
+     ;;
+    *)                                    
+      help
+      ;;
+  esac
 done
-
-####------------------------------------------------------------
-## process command line
-
-## show help test
-if [ "$1" == "-h" ]; then
-  usage
-
-## test one file in $Gold/tests
-elif [ "$1" == "-t" ]; then
-  cd $Gold/tests
-  $Gold/gold $2.awk | redgreen
-  exit $?
-
-## test all files in $Gold/tests, 
-elif [ "$1" == "-T" ]; then
-  cd $Gold/tests
-  $Gold/gold tests.awk | redgreen
-  exit $?
-
-## install lots of important files
-elif [ "$1" == "-i" ]; then
-  exists gold.awk
-  exists tests/tests.awk
-  exists src/happy.awk
-  exists src/happys.awk
-  exists data/happys.csv
-  exists .travis.yml
-  exists .gitignore
-  exists etc/.tmux.conf
-  exists etc/.vimrc
-  if [ ! -d "$HOME/.vim/bundle" ]; then
-     git clone https://github.com/VundleVim/Vundle.vim.git \
-           ~/.vim/bundle/Vundle.vim
-  fi
-  vim +PluginInstall +qall
-#----------------------------
-## gold -p : profile a .awk file 
-elif [ "$1" == "-p" ]; then
-  f=$2
-  g=$(basename $f)
-  g=$Lib/${g%.*}.awk
-  shift; shift
-  AWKPATH="$Lib:./:$AWKPATH"
-  COM="gawk -p -f $Lib/gold.awk -f $g $*"
-  if [ -t 0 ]
-    then         AWKPATH="$AWKPATH" $COM
-    else cat - | AWKPATH="$AWKPATH" $COM
-  fi
-
-## run a .awk file 
-elif [ -n "$1" ]; then
-  f=$1
-  g=$(basename $f)
-  g=$Lib/${g%.*}.awk
-  shift
-  AWKPATH="$Lib:./:$AWKPATH"
-  COM="gawk -f $Lib/gold.awk -f $g $*"
-  if [ -t 0 ]
-    then         AWKPATH="$AWKPATH" $COM
-    else cat - | AWKPATH="$AWKPATH" $COM
-  fi
-
-## if none of the above, install some cool Bash toys
-else
-  alias gold='$Gold/gold '                 # short cut to this code
-  alias gp='git add *;git commit -am save;git push;git status' # gh stuff
-  alias gs='git status'                    # status 
-  alias ls='ls -G'                         # ls
-  alias reload='. $Gold/gold'             # reload these tools
-  alias vims="vim +plugininstall +qall"    # install vim plugins 
-  alias vi="vim -u $Gold/etc/.vimrc"        # run a configured vim
-  PROMPT_COMMAND='echo -ne "⭐️ $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'
-fi

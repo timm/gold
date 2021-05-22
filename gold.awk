@@ -1,3 +1,4 @@
+#!/usr/bin/env gawk -f
 # vim: filetype=awk ts=2 sw=2 sts=2  et :
 
 #--------------------------------
@@ -13,22 +14,39 @@ BEGIN {
    Gold["id"]   = 0 }
 
 ### transpile stuff
-function gold2awk(f,  klass,tmp) {
-  while (getline <f) {
-    # multi line comments delimited with #< ... >#
-    if(/^#</) {do {print "# " $0} while((getline<f) && (! /^#>/));  print $0}
-    # grab class name so we can expand "_" to current class
-    if (/^func(tion)?[ \t]+[A-Z][^\(]*\(/) {  # new class name
-      split($0,tmp,/[ \t\(]/); klass = tmp[2] 
-    }
-    # expand " _" to the current class
-    gsub(/[ \t]_/," " klass)
-    # method call shorthand. Genertes (FUN=does(obj,"f")?@FUN(obj):1)
-    $0=gensub(/([A-Z][^\(]+)\(\(([A-Za-z0-9_]+)(.*)\)\)/,
-              "((FUN=does(\\2,\"\\1\"))?@FUN(\\2\\3):1)","g",$0)
-    # turn a.b.c[1] into a["b"]["c"][2]
-    print  gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
-                  "[\"\\1\\2\"]","g", $0) }}
+function toAwk(  klass,codep,tmp) {
+  OFS=FS="\n"; RS=""
+  while (getline) {
+    codep = /}[ \t]*$/
+    if (! codep) {
+      for(i=1;i<=NF;i++) $i="# " $i
+      print $0  "\n"  
+    } else {
+      # grab class name so we can expand "_" to current class
+      if (/^func(tion)?[ \t]+[A-Z][^\(]*\(/)   # new class name
+        split($0,tmp,/[ \t\(]/); klass = tmp[2] 
+      # expand " _" to the current class
+      gsub(/[ \t]_/," " klass)
+      # method call shorthand. Genertes (FUN=does(obj,"f")?@FUN(obj):1)
+      $0=gensub(/([A-Z][^\(]+)\(\(([A-Za-z0-9_]+)(.*)\)\)/,
+                "((FUN=does(\\2,\"\\1\"))?@FUN(\\2\\3):1)","g",$0)
+      # turn a.b.c[1] into a["b"]["c"][2]
+      print  gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
+                  "[\"\\1\\2\"]","g", $0) 
+      print "" }}}
+
+function toMd(   pre,codep,codeb4) {
+  FS="\n"; RS=""
+  print "\n# " ARGV[1] "\n"
+  while(getline) {
+    if(/^# vim: /) continue
+    codep = /}[ \t]*$/
+    if (codep  && !codeb4) print "\n```awk"
+    if (!codep &&  codeb4) {print "```\n"}
+    print  $0 
+    codeb4=codep
+  }
+  if (codep) print "```" }
 
 ### object creation stuff
 function Obj(i)   { i["id"] = ++Gold["id"] }

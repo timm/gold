@@ -29,6 +29,7 @@ BEGIN {
 ### shortcuts
 function xx(i,z,  f) { f=does(i,"X"); return @f(i,z) }
 function yy(i,    f) { f=does(i,"Y"); return @f(i) }
+function card(i,    f) { f=does(i,"Card"); return @f(i) }
 function add(i,x,  f) { f=does(i,"Add"); return @f(i,x) }
 function discretize(i,x,  f) { f=does(i,"Discretize"); return @f(i,x) }
 
@@ -45,6 +46,7 @@ function Col(i,pos,txt) {
 ## columns whose data we will ignore
 function Skip(i,pos,txt) { Col(i,pos,txt); is(i,"Skip") }
 function _Add(i,x)       { return x }
+function _Card(i) { return 0 }
 
 ## columns of symbols which we will summaries
 function Sym(i,pos,txt) {
@@ -54,6 +56,7 @@ function Sym(i,pos,txt) {
   has(i,"bins")
   i.mode=i.most="" }
 
+function _Card(i) { return length(i.seen) }
 function _Add(i,x,    d,n) {
   if (x!="?") {
     i.n++
@@ -87,6 +90,8 @@ function Some(i,pos,txt) {
   i.hi = -1E30
   has(i,"bins")
   has(i,"all") }
+
+function _Card(i) { return 1+length(i.bins) }
 
 function _Add(i,x,    len,pos) {
   if (x != "?") {
@@ -223,7 +228,7 @@ function _Dom(i,  n,j,k,s) {
 
 function _Read(i,f,  a) {  while(csv(a,f)) add(i,a) }  
 
-function Nb(i,cols,rows,     r) {
+function Nb(i,use, cols,rows,     r) {
   has(i,"f")  # counts of symbols in each column for each class
   has(i,"h")  # frequency counts for each class
   has(i,"at") # reverse index, column, symbol to row
@@ -232,17 +237,17 @@ function Nb(i,cols,rows,     r) {
   i.n = 0
   i.population = 20
   i.generations= 20
-  i.samples    = 20 
+  i.samples    = 50 
   i.best = -1
   has(i,"ranges")
-  for(r in rows) _Adds(i,rows[r],cols) }
+  for(r in rows) _Adds(i,use,rows[r],cols) }
 
-function _Adds(i,row,cols,    r,h,c,x) {
+function _Adds(i,use, row,cols,    r,h,c,x) {
   i.n++
   h = RowY(row)
   i.h[h]++
   i.best = max(i.best,h)
-  for(c in cols) 
+  for(c in use) 
     if(x= discretize(cols[c], RowX(row,c))) 
      if (x != "?") {
        i.at[h][c][x][row.id]
@@ -278,12 +283,18 @@ function _Rules(i,rules,    best,rest,c,j) {
       _Learn(i,rest,rules[rest], i.generations)
       _Best(i,rules[rest]) }}
        
-function _Best(i,rules,    j) {
+function _Best(i,rules,    j,k,doomed) {
   revsort(rules,"n")
   for(j in rules) 
     if(j+0 >i.population)
-      delete rules[j] }
-
+      doomed[j]
+  for(j=1;j<=length(rules);j++)
+    for(k=j+1;k<=length(rules);k++) {
+      print(length(rules)-j,length(rules)-k,length(rules))
+      if(rules[j].n == rules[k].n)
+            doomed[k] }
+  for(j in doomed) delete rules[j]
+}
 # (a) Make one rule for every range of column `c`.
 # (b) If ever we use a range, mark it `used` (so we never use it twice).
 function _OneAttributeRules(i,c,rest,rules,    used,x,one,n) {
@@ -331,10 +342,10 @@ function _Learn(i,rest,rules,gen,     zero,b4,sum,j,n) {
   if(length(rules) > b4) 
     _Learn(i,rest,rules, gen-1) }
 
-function _Pick2(i,rules,sum,    new,diff,j,k) {
+function _Pick2(i,rules,sum,      new,diff,j,k) {
   j = _Pick1(i,rules,sum)
   k = _Pick1(i,rules,sum)
-  if (j != k && RuleMerge(rules[j], rules[k], new, i))  
+  if (j != k &&  RuleMerge(rules[j], rules[k], new, i))   
     append(rules, new)  }
 
 function _Pick1(i,rules,sum,   j,r) {
@@ -377,11 +388,11 @@ function _Merge(i,j,k,nb,    c,x) {
   return (k.n > i.n) && (k.n > j.n)
 }   
 
-function _Show(i,     c,x,s,sep) {
+function _Show(i,tab,     c,x,s,sep) {
   for(c in i.has)  {
-   s= s c"=("; sep=""
+   s= s tab.cols[c].txt" = ("; sep=""
    for(x in i.has[c]) {
-      s = s sep x; sep=","}
+      s = s sep x; sep=" or "}
    s=s") "}
   return "["int(100*i.n)"] " s
 }

@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+# vim: ts=2 sw=2 sts=2  et :
+
+from lib import o,Thing
+
+### config
+it = o(
+    ch=o(less="<", more="<", skip="?", num=":")
+)
+
+
