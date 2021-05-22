@@ -258,7 +258,7 @@ EOF
 mkdir -p $GOLDsrc 
 [ -f "$GOLDlib" ] || (goldlib > "$GOLDlib" )
 
-while getopts "go:l:dh" options; do   
+while getopts "go:l:dhs" options; do   
  case "${options}" in          
   h) help 
      ;;
@@ -285,6 +285,11 @@ while getopts "go:l:dh" options; do
      for f in *.gold; do
        gawk -f $GOLDlib --source '{toMd()}' $f > $GOLDdoc/${f%.*}.md
      done
+     ;;
+  s) git add *
+     git commit -am saving
+     git push
+     git status
      ;;
   *) echo "Unknown argument"
      echo $usage 
