@@ -293,8 +293,7 @@ while getopts "go:l:dhs" options; do
      git push
      git status
      ;;
-  *) echo "Unknown argument"
-     echo $usage 
+  *) echo "Unknown argument. usage: $usage"
      ;;
  esac
 done

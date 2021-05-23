@@ -2,17 +2,14 @@
 
 function okmaths() {
   print("### -- okmaths")
-  assert(4 ==abs(-5),"abs")
+  assert(5 ==abs(-5),"abs")
   assert(10==max(1,10),"max")
   assert(1 ==min(1,10),"min") }
 
 function oklists(     a,b) {
   print("### -- oklists")
-  print(5)
-  new(a)
-  print(10)
+  empty(a)
   push(10,a)
-  return 1
   push(20,a)
   assert(2  == length(a),"push2")
   assert(20 == last(a),"last")
@@ -21,6 +18,35 @@ function oklists(     a,b) {
   b[2] = 30
   assert(10 == b[1],"copy")
   append(a,b)
-  oo(a) }
+  oo(a,"<") }
 
-BEGIN { rogues(); okmaths() ;oklists() }
+function okrand(    a,i,s) {
+  print("### -- rand")
+  srand(1)
+  split("a b c",a," ")
+  for(i=1;i<20;i++)
+    s=s any(a)
+  assert("cbabccbacacccbbccca" == s, "rand") }
+
+function oksort(     a,bu) {
+  print("### -- sort")
+  srand(1)
+  for(i=1;i<=5;i++) {
+    a[i]["id"] = i
+    a[i]["w"] = int(100*rand()) }
+  keysort(a,"w") #oo(a,">"); print "" 
+  revsorT(a,b,"w") #;oo(b,"<") 
+  assert( a[1].id ==  b[5].id,"sorting")
+  }
+
+function okfiles(  a,s) {
+  print("### -- files")
+  while(csv(a,"data/weather" Gold.dot "csv"))
+    s[a[1]]++
+  assert(1==s["outlook"], "reading file"1)
+  assert(4==s["rainy"],   "reading file"2)
+}
+
+BEGIN { okmaths() ;oklists(); okrand(); 
+        oksort(); okfiles(); rogues()
+      }

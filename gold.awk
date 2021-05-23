@@ -16,7 +16,7 @@ BEGIN {
 ################################################
 ### transpile stuff
 
-function toAwk(  klass,codep,tmp) {
+function toAwk(  i,klass,codep,tmp) {
   OFS=FS="\n"; RS=""
   while (getline) {
     codep= (/}[ \t]*$/ || /^@include/)
@@ -69,10 +69,12 @@ function is(i, new) {
   if ("is" in i) Gold["is"][new] = i["is"]
   i["is"] = new }
 
-function new(i,k) { 
+function empty(i) { split("",i,"") } 
+
+function has0(i,k) { 
   k = k ? k : length(i) + 1
-  i[k]["\127"]; delete i[k]["\127"]
-  print(k)
+  i[k]["\t"]
+  delete i[k]["\t"]
   return k }
 
 function does(i,f,      s,k0,k) {
@@ -87,11 +89,11 @@ function does(i,f,      s,k0,k) {
 ## the haS and hAS and HAS variants are the same, 
 ## but constructors have 1 or 2 or 3 args
 
-function has(i,k,     f)     {new(i,k); if(f) @f(i[k])        ;return k}
-function haS(i,k,f,x)        {new(i,k);       @f(i[k],x)      ;return k}
-function hAS(i,k,f,x,y)      {new(i,k);       @f(i[k],x,y)    ;return k}
-function HAS(i,k,f,x,y,z)    {new(i,k);       @f(i[k],x,y,z)  ;return k}
-function HASS(i,k,f,w,x,y,z) {new(i,k);       @f(i[k],w,x,y,z);return k}
+function has(i,k,     f)     {has0(i,k); if(f) @f(i[k])        ;return k}
+function haS(i,k,f,x)        {has0(i,k);       @f(i[k],x)      ;return k}
+function hAS(i,k,f,x,y)      {has0(i,k);       @f(i[k],x,y)    ;return k}
+function HAS(i,k,f,x,y,z)    {has0(i,k);       @f(i[k],x,y,z)  ;return k}
+function HASS(i,k,f,w,x,y,z) {has0(i,k);       @f(i[k],w,x,y,z);return k}
 
 ## using constructor `f`, add to the end of nested list `i`
 # Note: `i` must already be a list.
@@ -125,12 +127,12 @@ function last(a)  { return a[length(a)] }
 
 function copy(a,b,   j) { 
   for(j in a) 
-    if(isarray(a[j]))  { new(b,j); copy(a[j], b[j]) }
+    if(isarray(a[j]))  { has0(b,j); copy(a[j], b[j]) }
     else               { b[j] = a[j]                }}
 
 function append(a, x,k) { 
    k = length(a) + 1
-   new(a,k)
+   has0(a,k)
    copy(x, a[k]) }
 
 # any index in a lst
@@ -174,7 +176,7 @@ function oo(a,prefix,    indent,   i,txt) {
   for(i in a)  {
     if (isarray(a[i]))   {
       print(txt i"" )
-      oo(a[i],"","|  " indent)
+      oo(a[i],prefix,"|  " indent)
     } else
       print(txt i (a[i]==""?"": ": " a[i])) }}
 
