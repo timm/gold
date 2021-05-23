@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias gp="git add *;git commit -am save;git push;git status"
+alias ls="ls -G"
+alias tmux="tmux -f $Ell/etc/tmux-conf "
+alias vi="vim -u $Ell/etc/vimrc "
+alias vims="vim +PluginInstall +qall"         
+
+here()    { cd $1; basename `pwd`; }
+
+PROMPT_COMMAND='echo -ne "🐤 $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'
+
+tput bold; tput setaf 241
+echo "Short cuts:"
+alias | sed 's/alias /  /'
+tput sgr0

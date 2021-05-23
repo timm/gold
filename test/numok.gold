@@ -1,0 +1,23 @@
+# vim: filetype=awk ts=2 sw=2 sts=2  et :
+
+@include "num"
+
+BEGIN { oknum();  rogues() }
+
+function oknum(  n,a,e) {
+  print("### -- numbols")
+  Num(n)
+  split("9,2, 5, 4, 12, 7, 8, 11, 9, 3,"\
+              "7, 4, 12, 5, 4, 10, 9, 6,9,4",a,",")
+  adds(n,a)
+  assert(7==n.mu, "mean")
+  assert(3.06 < n.sd && n.sd < 3.061,"sd")
+  oo(n)
+}
+
+  n=Num!
+  for i=1,1
+  assert 7 == n.mu
+
+cli eg
+

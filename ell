@@ -1,0 +1,20 @@
+# http://patorjk.com/software/taag/#p=display&h=3&v=3&f=Shadow&t=lunatic
+clear
+tput bold; tput setaf 6; cat <<'EOF'
+
+          .--.      GOLD: the Gawk Object Layer
+         / ,~a`-,   v4 (c) Tim Menzies, 2021, MIT license
+         \ \_.-"`  
+          ) (       
+        ,/ ."\     "A little 
+       /  (  |      auk backspace backspace backspace
+      /   )  ;      awk goes a long way."
+ jgs /   /  /
+   ,/_."` /`
+    /_/\ |___
+       `~~~~~`
+EOF
+tput sgr0
+
+Ell=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
+Ell="$Ell" bash --init-file $Ell/etc/ellrc -i
