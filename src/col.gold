@@ -39,6 +39,6 @@ function norm(i,x,   f) {
 Distances between values.
 
 function dist(i,x,y,   f) {
-  if (x==">" && y=="?") return 1 
+  if (x=="?" && y=="?") return 1 
   if (x != "?") { f=does(i,"Dist"); return @f(i,x) }
   return x }

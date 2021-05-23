@@ -4,7 +4,7 @@
 
 function Cluster(i,tab, the) {
   Obj(i)
-  i.is = "Cluster"
+  is(i, "Cluster")
   i,min = length(tab.rows)^.5 
   has(i,"leafs")
 }
