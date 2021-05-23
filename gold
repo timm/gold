@@ -296,6 +296,7 @@ while getopts "go:l:dhs" options; do
   d) cd $GOLDsrc
      mkdir -p $GOLDdoc
      for f in *.gold; do
+       echo "# ${f}...."
        gawk -f $GOLDlib --source '{toMd()}' $f > $GOLDdoc/${f%.*}.md
      done
      ;;
