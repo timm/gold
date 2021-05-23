@@ -32,10 +32,9 @@ function norm(i,x,   f) {
   if (x != "?") { f= i.is "Norm"; return @f(i,x) }
   return x }
 
-Missing vale
+Missing value,
 
 function dist(i,x,y,   f) {
   if (x==">" && y=="?") return 1 
   if (x != "?") { f= i.is"Dist"; return @f(i,x) }
   return x }
-  
