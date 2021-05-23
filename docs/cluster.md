@@ -6,8 +6,9 @@
 ```awk
 function Cluster(i,tab, the) {
   Obj(i)
-  i.is = "Cluster"
-  i,min = length(tab.rows)^.5 
+  is(i, "Cluster")
+  i.min = length(tab.rows)^.5 
+  has(i,"clusters")
   has(i,"leafs")
 }
 function _Div(i,t,rows,the,up) {

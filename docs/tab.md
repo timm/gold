@@ -1,13 +1,13 @@
 
 # tab.gold
 
-Base class for columns.
+Holder for rows, summarized into cols.
 @include "ako"
 
 ```awk
 function Tab(i, a) {
   Obj(i)
-  i.is  = "Tab"
+  is(i, "Tab")
   has(i,"rows")
   has(i,"cols")
   for(j in a) add(i, a[j] }
@@ -23,7 +23,7 @@ function _Clone(i, j, rows) {
     add(j, rows[r]) }
 function Cols(i,a,    txt) {
   Obj(i)
-  i.is = "Cols"
+  is(i,"Cols")
   i.klass = ""
   has(i,"x")
   has(i,"y")
@@ -38,7 +38,7 @@ function Cols(i,a,    txt) {
     if isKlass(txt) i.klass = at } }
 function Row(i,a, tab) {
   Obj(i)
-  i.is="Row"
+  is(i,"Row")
   for(j in a) add(tab.cols.all[j], a[j]) }
 function  _Dist(i,j,tab,cols,p,     k,n,d) {
   if (!length(cols))  

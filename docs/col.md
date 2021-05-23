@@ -14,13 +14,19 @@ function Col(i,at,txt) {
 ```
 
 ## Generic protocols for all columns.
+Add things.
 
 ```awk
 function adds(i,a,    j) { for(j in a) add(i, a[j]) }
+```
+
+Adding one thing.
+
+```awk
 function add(i,x,   f) {
   if (x != "?") {
     i.n++
-    f= i.is "Add"
+    f= does(i,"Add")
     @f(i,x) }
   return x }
 ```
@@ -28,23 +34,23 @@ function add(i,x,   f) {
 Expected middle and spreads.
 
 ```awk
-function mid(i, f)    {f=i.is "Mid";    return @f(i) }
-function spread(i, f) {f=i.is "Spread"; return @f(i) }
+function mid(i, f)    {f=does(i,"Mid");    return @f(i) }
+function spread(i, f) {f=does(i,"Spread"); return @f(i) }
 ```
 
-Normalize non-empty cells.
+Normalizing non-empty values.
 
 ```awk
 function norm(i,x,   f) {
-  if (x != "?") { f= i.is "Norm"; return @f(i,x) }
+  if (x != "?") { f=does(i,"Norm"); return @f(i,x) }
   return x }
 ```
 
-Missing value,
+Distances between values.
 
 ```awk
 function dist(i,x,y,   f) {
-  if (x==">" && y=="?") return 1 
-  if (x != "?") { f= i.is"Dist"; return @f(i,x) }
+  if (x=="?" && y=="?") return 1 
+  if (x != "?") { f=does(i,"Dist"); return @f(i,x) }
   return x }
 ```

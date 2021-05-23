@@ -6,7 +6,7 @@
 ```awk
 function Num(i,at,txt) {
   Col(i,at,txt)
-  i.is = "Num"
+  is(i, "Num")
   i.mu = i.m2 = i.sd = 0
   i.lo = 10^32
   i.hi = -1*i.lo }

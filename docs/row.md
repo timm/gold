@@ -5,7 +5,7 @@
 ```awk
 function Row(i,a, tab) {
   Obj(i)
-  i.is   =  "Row"
+  is(i,"Row")
   for(j in a) add(tab.cols.all[j], a[j]) }
 function  _Dist(i,j,tab,the,     k,n,d) {
   if (!length(cols))  
