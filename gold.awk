@@ -53,9 +53,9 @@ function toMd(   pre,codep,codeb4) {
 
 function  redGreen(  bad) {
   while(getline) {
-     if (/^---/) { $0="\033[01;36m"$0"\033[0m" }
-     if (/FAIL/) { bad++; $0="\033[31m"$0"\033[0m" }
-     if (/PASS/) { $0="\033[32m"$0"\033[0m" }
+     if (/^### --/) { $0="\n\033[01;36m"$0"\033[0m" }
+     if (/FAIL/)    { bad++; $0="\033[31m"$0"\033[0m" }
+     if (/PASS/)    { $0="\033[32m"$0"\033[0m" }
      print $0  }                
   exit(bad!=0)
 }
@@ -72,6 +72,7 @@ function is(i, new) {
 function new(i,k) { 
   k = k ? k : length(i) + 1
   i[k]["\127"]; delete i[k]["\127"]
+  print(k)
   return k }
 
 function does(i,f,      s,k0,k) {
@@ -111,11 +112,6 @@ function MORE(i,f,w,x,y,z) {return HASS(i,length(i)+1,f,w,x,y,z) }
 function abs(x)   { return x<0? -1*x : x }
 function max(x,y) { return x<y? y : x }
 function min(x,y) { return x>y? y : x }
-function ent(d,n,   x,p,e) {
-  for(x in d) 
-    if((p = d[x]/n) > 0)
-       e  -= p*log(p)/log(2)
-  return e }
 
 ## push to end of list
 
@@ -195,9 +191,8 @@ function rogues(   s,ignore) {
     if (s ~ /^[_a-z]/) 
       print "#W> Rogue: "  s>"/dev/stderr" }
 
-function assert(x,s) {
-  if (!x) print "FAIL " s
-  return 1 }
+function assert(x,s) { 
+  print " - "(x ? "PASS " :  "FAIL ") s }
 
 ### file stuff
 ## looping over files 
