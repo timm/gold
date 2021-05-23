@@ -8,7 +8,9 @@ function okmaths() {
 
 function oklists(     a,b) {
   print("### -- oklists")
+  print(5)
   new(a)
+  print(10)
   push(10,a)
   return 1
   push(20,a)
