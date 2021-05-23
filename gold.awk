@@ -191,7 +191,7 @@ function ooSortOrder(a, i) {
 function rogues(   s,ignore) { 
   for(s in SYMTAB) 
     if (s ~ /^[_a-z]/) 
-      print "#W> Rogue: "  s>"/dev/stderr" }
+      print "#W> Rogue: "  s }
 
 function assert(x,s) { 
   print " - "(x ? "PASS " :  "FAIL ") s }

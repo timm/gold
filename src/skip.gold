@@ -2,8 +2,8 @@
 
 @include "col"
 
-function Skip(i,pos,txt,w) {
-  Col(i,pos,txt,w)
-  i.is = "Skip" }
+function Skip(i,at,txt) {
+  Col(i,at,txt)
+  is(i, "Skip") }
 
 function _Add(i,x) { return x }

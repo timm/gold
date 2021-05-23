@@ -1,10 +1,11 @@
 #!/usr/bin/env bash 
 GOLD=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
-GOLDsrc=${GOLDsrc:-$GOLD/.var}
+GOLDawk=${GOLDawk:-$GOLD/.var}
+GOLDsrc=${GOLDsrc:-$GOLD/src}
 GOLDtest=${GOLDtest:-$GOLD/test}
 GOLDdoc=${GOLDdoc:-$GOLD/docs}
 GOLDlib=${GOLDlib:-$GOLD/gold.awk}
-AWKPATH="$GOLDsrc:./:$AWKPATH"
+AWKPATH="$GOLDawk:./:$AWKPATH"
 
 usage="gold -[gold] [ARG]"
 
@@ -15,7 +16,7 @@ gold: the Gawk object layer
 usage: $usage
 
 Main options:
-  -g      transpile *.gold to .awk in $GOLDsrc
+  -g      transpile *.gold to .awk in $GOLDawk
   -o FILE run FILE (or FILE.gold) in current directory
   -l PAT  run all tests in $GOLDTest matching PAT
   -d      transpile *.gold to .md in  $GOLDdoc
@@ -257,7 +258,7 @@ function csv(a, f,       b4, g,txt,i,old,new) {
   return 1 } 
 EOF
 }
-mkdir -p $GOLDsrc 
+mkdir -p $GOLDawk 
 [ -f "$GOLDlib" ] || (goldlib > "$GOLDlib" )
 
 while getopts "go:l:dhs" options; do   
@@ -265,11 +266,11 @@ while getopts "go:l:dhs" options; do
   h) help 
      ;;
   g) for f in *.gold; do
-       gawk -f $GOLDlib --source '{toAwk()}' $f > $GOLDsrc/${f%.*}.awk
+       gawk -f $GOLDlib --source '{toAwk()}' $f > $GOLDawk/${f%.*}.awk
      done
      ;;
   o) f=${OPTARG}
-     g=$(basename $GOLDsrc/${f%.*})
+     g=$(basename $GOLDawk/${f%.*})
      shift $((OPTIND -1))
      COM="gawk -f $GOLDlib -f ${g}.awk"
      if [ -t 0 ]
@@ -279,6 +280,9 @@ while getopts "go:l:dhs" options; do
      exit
      ;;
   l) mkdir -p $GOLDtest
+     mkdir -p $GOLDsrc
+     cd $GOLDsrc
+     $GOLD/gold -g
      cd $GOLDtest
      for f in ${OPTARG}*.gold; do echo $f; $GOLD/gold -go $f; done |
      gawk -f $GOLDlib --source '{redGreen()}'

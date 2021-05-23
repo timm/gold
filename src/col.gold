@@ -2,32 +2,34 @@
 
 Base class for columns.
 
-function Col(i,pos,txt) {
+function Col(i,at,txt) {
   Obj(i)
-  i.is  = "Col"
-  i.pos = pos
+  is(i,"Col")
+  i.at = at
   i.txt = txt
   i.n   = 0
-  i.w   = w ~ /-/ ? -1 : 1 }
+  i.w   = txt ~ /-/ ? -1 : 1 }
 
 ## Generic protocols for all columns.
+
+function adds(i,a,    j) { for(j in a) add(i, a[j]) }
 
 function add(i,x,   f) {
   if (x != "?") {
     i.n++
-    f= i.is"Add"
+    f= i.is "Add"
     @f(i,x) }
   return x }
 
 Expected middle and spreads.
 
-function mid(i, f)    {f=i.is"Mid");    return @f(i) }
-function spread(i, f) {f=i.is"Spread"); return @f(i) }
+function mid(i, f)    {f=i.is "Mid";    return @f(i) }
+function spread(i, f) {f=i.is "Spread"; return @f(i) }
 
 Normalize non-empty cells.
 
 function norm(i,x,   f) {
-  if (x != "?") { f= i.is"Norm"; return @f(i,x) }
+  if (x != "?") { f= i.is "Norm"; return @f(i,x) }
   return x }
 
 Missing vale

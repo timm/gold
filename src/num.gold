@@ -2,8 +2,8 @@
 
 @include "col"
 
-function Num(i,pos,txt) {
-  Col(i,pos,txt)
+function Num(i,at,txt) {
+  Col(i,at,txt)
   i.is = "Num"
   i.mu = i.m2 = i.sd = 0
   i.lo = 10^32
@@ -14,8 +14,8 @@ function _Add(i,x,    d) {
   i.hi  = x > i.hi ? x : i.hi
   d     = x - i.mu
   i.mu += d/i.n
-  i.m2 += d*(v - i.mu)
-  i.sd  = i.m2<0 ? 0 : (i.n<2 ? 0 : (i.m2/(i.n-1))^0.5 }
+  i.m2 += d*(x - i.mu)
+  i.sd  = i.m2<0 ? 0 : (i.n<2 ? 0 : (i.m2/(i.n-1)))^0.5 }
 
 function _Spread(i) { return i.sd }
 function _Mid(i)    { return i.mu }
