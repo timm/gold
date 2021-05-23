@@ -287,11 +287,13 @@ while getopts "go:l:dhs" options; do
      mkdir -p $GOLDsrc
      cd $GOLDsrc
      $GOLD/gold -g
+     set -x
      cd $GOLDtest
      export TIMEFORMAT="RUNTIME: %Rs"
-     pat=$(OPTARG)
-     [ "*" == "$pat" ] && pat="" 
-     for f in ${pat}*.gold; do 
+     pat="${OPTARG}*.gold"
+     [ "*" == "$pat" ] && pat="*.gold" 
+     [ -f "$GOLD/etc/art" ] && $GOLD/etc/art
+     for f in `ls $pat`; do 
        echo "### -- $f -----------------------------------"
        time  $GOLD/gold -go $f; done |
      gawk -f $GOLDlib --source '{redGreen()}'
