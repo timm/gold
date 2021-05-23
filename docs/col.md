@@ -40,9 +40,11 @@ function norm(i,x,   f) {
   return x }
 ```
 
-Missing vale
+Missing value,
+
+```awk
 function dist(i,x,y,   f) {
   if (x==">" && y=="?") return 1 
   if (x != "?") { f= i.is"Dist"; return @f(i,x) }
   return x }
-  
+```

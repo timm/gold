@@ -16,15 +16,19 @@ gold: the Gawk object layer
 usage: $usage
 
 Main options:
-  -g      transpile *.gold to .awk in $GOLDawk
-  -o FILE run FILE (or FILE.gold) in current directory
-  -l PAT  run all tests in $GOLDTest matching PAT
-  -d      transpile *.gold to .md in  $GOLDdoc
+  -g         compile all *.gold files  to
+  -o FILE    run FILE (or FILE.gold) in current directory
+  -l PAT     run all tests matching PAT (and '*' means 'all')
+  -d         build doc from *.gold files in current directort
+
+Comiled files are kept in  GOLDawk="$GOLDawk"
+Test suites are stored in  GOLDtest="$GOLDtest"
+Documenation is written to GOLDdoc="$GOLDdoc"
 
 Other options:
-  -go FILE standard idiom: transpile then run
-  -h       show help
-  -s  TXT  shortcut for git add, commit, push, status     
+  -go FILE   standard idiom: transpile then run
+  -h         show help
+  -s  TXT    shortcut for git add, commit, push, status     
 EOF
 }
 
@@ -283,12 +287,21 @@ while getopts "go:l:dhs" options; do
      mkdir -p $GOLDsrc
      cd $GOLDsrc
      $GOLD/gold -g
+     set -x
      cd $GOLDtest
-     for f in ${OPTARG}*.gold; do echo $f; $GOLD/gold -go $f; done |
+     export TIMEFORMAT="RUNTIME: %Rs"
+     pat="${OPTARG}*.gold"
+     [ "*" == "$pat" ] && pat="*.gold" 
+     [ -f "$GOLD/etc/art" ] && $GOLD/etc/art
+     for f in `ls $pat`; do 
+       echo "### -- $f -----------------------------------"
+       time  $GOLD/gold -go $f; done |
      gawk -f $GOLDlib --source '{redGreen()}'
      ;;
-  d) mkdir -p $GOLDdoc
+  d) cd $GOLDsrc
+     mkdir -p $GOLDdoc
      for f in *.gold; do
+       echo "# ${f} ..."
        gawk -f $GOLDlib --source '{toMd()}' $f > $GOLDdoc/${f%.*}.md
      done
      ;;
