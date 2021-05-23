@@ -24,4 +24,11 @@ function _Dist(i,x,y) {
   else if (y=="?") { x = norm(i,x); y = x>0.5 ? 0 : 1 }
   else             { x = norm(i,x); y = norm(i,y)     }
   return abs(x-y) }
+function _Cut(i,j,       a,b,c,r1,r2) {
+  a  = 1/(2*i.sd^2) - 1/(2*j.sd^2)
+  b  = j.mu/(j.sd^2) - i.mu/(i.sd^2)
+  c  = i.mu^2 /(2*i.sd^2) - j.mu^2 / (2*j.sd^2) - log(j.sd/i.sd)
+  r1 = (-b + (b^2 - 4*a*c)^.5)/(2*a)
+  r2 = (-b - (b^2 - 4*a*c)^.5)/(2*a)
+  return  (r1>= i.mu && r1<=j.mu) ? r1 : r2  }
 ```

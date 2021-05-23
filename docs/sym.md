@@ -12,7 +12,7 @@ function Sym(i,at,txt) {
   i.mode = "" }
 function _Add(i,x) {
   i.seen[x] = (x in i.seen ? i.seen[x] : 0) + 1
-  if (i.seen[x] > i.seen[x]) {
+  if (i.seen[x] > i.most) {
     i.most = i.seen[x]
     i.mode = x } }
 function _Spread(i) { return _Entropy(i)  }
