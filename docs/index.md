@@ -4,7 +4,7 @@
 
 ![](https://raw.githubusercontent.com/timm/gold/master/etc/img/coins.png)
 
-# GOLD: the Gawk Object Layor
+# GOLD: the Gawk Object Layer
 
 Gold adds  the following goodies to standard Gawk:
 
