@@ -1,6 +1,7 @@
 
 # col.gold
 
+
 Base class for columns.
 
 ```awk
@@ -14,6 +15,7 @@ function Col(i,at,txt) {
 ```
 
 ## Generic protocols for all columns.
+
 Add things.
 
 ```awk

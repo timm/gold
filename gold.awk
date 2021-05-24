@@ -44,8 +44,10 @@ function toMd(   pre,codep,codeb4) {
   while(getline) {
     if(/^# vim: /) continue
     codep = /}[ \t]*$/
-    if (codep  && !codeb4) print "\n```awk"
-    if (!codep &&  codeb4) {print "```\n"}
+    if (codep  &&  !codeb4) print "\n```awk"
+    if (!codep &&  codeb4)  {print "```\n"}
+    if (!codep &&  !codeb4) {print ""}
+    if (codep  &&  codeb4)  {print ""}
     print  $0 
     codeb4=codep
   }
