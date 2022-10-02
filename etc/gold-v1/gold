@@ -1,0 +1,225 @@
+#!/usr/bin/env bash
+# vim: ft=sh ts=2 sw=2 et: 
+GOLD=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
+
+alias gold="$GOLD/gold "
+alias ls="ls -G"
+alias gp="git add *; git commit -am saving; git push; git status"
+alias bye="tmux kill-session"
+
+chmod +x $GOLD/gold
+mkdir -p $GOLD/docs
+mkdir -p $GOLD/src
+
+want=$GOLD/src/.gitignore
+[ -f "$want" ] || 
+cat<<EOF>$want
+*.awk
+EOF
+
+repo="https://raw.githubusercontent.com/timm/gold/master"
+
+want=$GOLD/src/lib.gold; [ -f "$want" ] || 
+curl -s $repo/src/lib.gold --output $want
+
+want=$GOLD/.travis.yml ; [ -f "$want" ] || 
+curl -s $repo/.travis.yml  --output $want
+
+transpile() { gawk  '
+  BEGIN             { RS=""; FS="\n"} 
+  /@include/        { print $0 "\n"; next}
+  $NF !~ /}[ \t]*$/ { for(i=1;i<=NF;i++) print "#" $i 
+                      print ""; next }
+  /^func(tion)?[ \t]+[A-Z][^\(]*\(/ {
+      split($1,a,/[ \t\(]/)
+      PREFIX = a[2]
+  }
+  { gsub(/ _/," " PREFIX,$0)
+    if ($1 ~ /{/) {
+        split($1,a,/{/)
+        gsub(/:[\?"A-Z0-9a-z\*:\|\.]*/,"", a[1])
+        $1 = a[1] "{" a[2] 
+    } else
+        gsub(/:[\?"A-Z0-9a-z\*:\|\.]*/,"");
+   for(i=1;i<=NF;i++)
+      print gensub(/\.([^0-9\\*\\$\\+])([a-zA-Z0-9_]*)/, 
+                   "[\"\\1\\2\"]","g", $i);
+   print ""
+   }
+'; }
+
+mytmux() {
+  if [ -z "$TMUX" ]; then
+    want=$HOME/.tmux.conf ; [ -f "$want" ] || 
+    curl -s $repo/etc/dottmux  --output $want
+    session=$RANDOM
+    tmux start-server
+    sleep 1
+    tmux new-session -d -s $session  
+    tmux send-keys ". $GOLD/gold" C-m clear C-m
+    tmux splitw -h -p 20
+    tmux selectp -t 1
+    tmux send-keys ". $GOLD/gold" C-m clear C-m
+    tmux splitw -v  -p 5
+    tmux selectp -t 2
+    tmux send-keys ". $GOLD/gold" C-m clear C-m
+    tmux selectp -t 0
+    tmux attach-session -t $session
+  fi
+}
+toc() { 
+
+
+gawk '
+    BEGIN       { print "\n<small>\n" }
+                { Body=Body "\n" $0 }
+    END         { print "\n</small>\n"
+                  print Body 
+                }
+    /^# /       { print "- ["title($0)"](#"link($0)")" help()}
+    /^## /      { print "  - ["title($0)"](#"link($0)")" help()}
+    /^### /     { print "    - ["title($0)"](#"link($0)")" help()}
+    /^#### /    { print "      - ["title($0)"](#"link($0)")" help()}
+    /^##### /   { print "        - ["title($0)"](#"link($0)")" help()}
+    /^###### /  { print "          - ["title($0)"](#"ink($0)")" help()}
+    /^####### / { print "           - ["title($0)"](#"ink($0)")" help()}
+    
+    function link(x)  { 
+      x=tolower(trim(x))
+      gsub(/[ \t]+/,"-",x)
+      gsub(/[^a-z0-9-]/,"",x); 
+      gsub(/^-/,"",x)
+      return x }
+    
+    function title(x) { 
+      gsub(/^#+[ \t]+/,"",x); 
+      return trim(x) }
+    
+    function help()   { 
+      getline; 
+      Body=Body"\n" $0; 
+      return $0 ~ /^[ \t]*$/ ? "" : " : " $0 }
+    
+    function trim(x)  { 
+      gsub(/^[ \t]*/,"",x); 
+      gsub(/[ \t]*$/,"",x); i
+      return x } 
+'; }
+body() { gawk '
+  BEGIN {
+    Code1= "\n\n<ul><details><summary><tt>"
+    Code2= "</tt></summary>\n\n```awk\n"
+    Code3= "\n```\n\n</details></ul>"
+    RS=""; FS="\n"
+  }
+  /^#-/    { next }
+  /^# /    { Pre="## " }
+  /^## /   { Pre="### " }
+  /^### /  { Pre="#### " }
+  /^#### / { Pre="##### " }
+           { print "\n" ($NF ~ /}[ \t]*$/ ? code($0) : $0) }
+  
+  function code(x,    i,src,txt,sig,a,n,b,sep,name) { 
+    name=src = $1
+    gsub(/(function[ \t]*|\(.*)/,"",name)
+    sig = name "("
+    for(i=2;i<=NF;i++) {
+      if(sub(/^[ \t]+##[ \t]*/,"",$i))
+         txt=txt"\n"$i 
+      else
+          src=src"\n"$i }
+    n = split($1,a, /[\(\)]/)
+    split(a[2],b,/[ ,\t]+/)
+    for(i=1;i<=length(b);i++) 
+      if (b[i] ~ /:/) {
+         sig = sig sep b[i]
+         sep = ", " }
+    return Pre name  txt Code1 sig ")" Code2 src Code3 }
+'; }
+
+for f in *.gold; do
+  g=${f%.*}.awk
+  if [ "$f" -nt "$g" ]; then 
+    cat $f | transpile> $g
+  fi
+done
+
+if [ "$1" == "-h" ]; then 
+  tput bold; tput setaf 180; cat <<-'EOF'
+
+         .-"-.       GOLD
+        /  ,~a\_     The Gawk Object Layer
+        \  \__))>    (ↄ) 2020 Tim Menzies, MIT licence
+        ,) ." \      
+       /  (    \     
+      /   )    ;     
+ jgs /   /     /     
+   ,/_."`  _.-`       do {
+    /_/`"\\___          rewrite
+          `~~~`       } while (! simple) 
+	EOF
+  #tput bold; tput setaf 32; cat <<-'EOF'
+  tput sgr0; cat <<-'EOF'
+
+	USAGE: gold [OPTIONS]
+	
+	Always update any *.gold files to *.awk. 
+	Also, handle any of the following optional arguments.
+	
+	 -d           Create doco files in /docs
+	 -h           show help
+	 -l           show license
+	 -p  [words]  Git add commit push status 
+	              (using "words" as the commit message)
+	 -t           Run /src/tests.gold
+	 -T           A three-screen tmux session 
+	 file[.ext]   Runs file.gold (extension is ignored, 
+	              need not be specified)
+	              
+	Also, if running under Bash,, then executing ". gold" 
+	defines the following aliases:
+	              
+	EOF
+  tput sgr0
+  tput bold; tput setaf 0
+  awk '/^alias/ {print $0}'   $GOLD/gold
+  echo ""
+  tput sgr0
+elif [ "$1" == "-l" ]; then
+  tput bold; tput setaf 0
+  echo
+  cat $GOLD/LICENSE.md
+  tput sgr0
+elif [ "$1" == "-d" ]; then
+   for f in *.gold; do
+     g=$GOLD/docs/${f%.*}.md
+     if [ "$f" -nt "$g" ]; then 
+       echo "# $f"
+       echo "# " $f > $g
+       cat $f | body  | toc /docs/$(basename $g) >> $g
+     fi
+   done
+elif [ "$1" == "-T" ]; then
+  mytmux
+elif [ "$1" == "-t" ]; then
+  if [ -f "$src/tests.gold" ]; then
+    cd $GOLD/src
+    $GOLD/gold tests.gold
+  fi
+elif [ "$1" == "-p" ]; then
+  shift
+  git config advice.addIgnoredFile false
+  git add *
+  git commit -a -m "$*"
+  git push
+  git status
+elif [[ -n "$1" ]] ; then
+  g=${1%.*}.awk
+  shift
+  if [ -t 0 ]
+  then         gawk -f $g $*
+  else cat - | gawk -f $g $*
+  fi
+elif [ -n "$1" ]; then
+  echo "?"
+fi

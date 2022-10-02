@@ -1,0 +1,20 @@
+reload() {
+  . $Sh/etc/bashrc
+}
+
+alias awk=" gold -T; AWKPATH='$Lib:$AWKPATH' gawk -f $Sh/etc/gold.awk  "
+alias gold="bash $Sh/gold.sh "
+alias ls="ls -G "
+alias gg="git pull"   
+alias gs="git status"   
+alias gp="git commit -am 'saving'; git push; git status"    
+
+matrix() { nice -20 cmatrix -b -C cyan;   }
+vims()   { vim -u $Sh/etc/vimrc +PluginInstall +qall; }
+
+alias vi="vim    -u $Sh/etc/vimrc"
+alias tmux="tmux -f $Sh/etc/tmuxrc"
+
+here()  { cd $1; basename `pwd`; }    
+
+PROMPT_COMMAND='echo -ne "🔆 79º $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'     
